@@ -1,0 +1,12 @@
+[submodule "Backend"]
+	path = Backend
+	url = git@github.com:laitingsheng/COMP-SCI-7412-Group-Project.git
+	branch = backend
+[submodule "Report"]
+	path = Report
+	url = git@github.com:laitingsheng/COMP-SCI-7412-Group-Project.git
+	branch = report
+[submodule "Web"]
+	path = Web
+	url = git@github.com:laitingsheng/COMP-SCI-7412-Group-Project.git
+	branch = web
