@@ -1,3 +1,9 @@
+__MACOSX
+.DS_Store
+package-lock.json
+
+
+
 # Logs
 logs
 *.log
@@ -77,12 +83,12 @@ web_modules/
 .parcel-cache
 
 # Next.js build output
-.next
-out
+# .next
+# out
 
 # Nuxt.js build / generate output
-.nuxt
-dist
+# .nuxt
+# dist
 
 # Gatsby files
 .cache/
@@ -114,5 +120,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-package-lock.json
