@@ -9,6 +9,7 @@ update_configs:
     default_reviewers:
       - laitingsheng
     default_labels:
+      - dependabot
       - enhancement
   - package_manager: javascript
     directory: Web
@@ -19,4 +20,5 @@ update_configs:
     default_reviewers:
       - laitingsheng
     default_labels:
+      - dependabot
       - enhancement
