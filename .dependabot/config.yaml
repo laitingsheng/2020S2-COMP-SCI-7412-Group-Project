@@ -3,6 +3,7 @@ update_configs:
   - package_manager: java:gradle
     directory: Backend
     update_schedule: daily
+    target_branch: dev/backend
     default_assignees:
       - laitingsheng
     default_reviewers:
@@ -12,6 +13,7 @@ update_configs:
   - package_manager: javascript
     directory: Web
     update_schedule: daily
+    target_branch: dev/web
     default_assignees:
       - laitingsheng
     default_reviewers:
