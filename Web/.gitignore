@@ -1,6 +1,7 @@
 __MACOSX
 .DS_Store
 package-lock.json
+/build
 
 
 

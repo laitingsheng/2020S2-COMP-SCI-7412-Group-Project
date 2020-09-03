@@ -1,0 +1,20 @@
+version: 1
+update_configs:
+  - package_manager: java:gradle
+    directory: Backend
+    update_schedule: daily
+    default_assignees:
+      - laitingsheng
+    default_reviewers:
+      - laitingsheng
+    default_labels:
+      - enhancement
+  - package_manager: javascript
+    directory: Web
+    update_schedule: daily
+    default_assignees:
+      - laitingsheng
+    default_reviewers:
+      - laitingsheng
+    default_labels:
+      - enhancement
