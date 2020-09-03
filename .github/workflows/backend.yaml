@@ -20,7 +20,7 @@ on:
       - 'Backend/settings.gradle'
 
 jobs:
-  unittest:
+  backend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
