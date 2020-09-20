@@ -11,3 +11,14 @@ update_configs:
     default_labels:
       - dependabot
       - enhancement
+  - package_manager: javascript
+    directory: backend/server
+    update_schedule: daily
+    target_branch: dev/backend
+    default_assignees:
+      - laitingsheng
+    default_reviewers:
+      - laitingsheng
+    default_labels:
+      - dependabot
+      - enhancement
