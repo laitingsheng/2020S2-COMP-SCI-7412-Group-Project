@@ -1,16 +1,5 @@
 version: 1
 update_configs:
-  - package_manager: java:gradle
-    directory: Backend
-    update_schedule: daily
-    target_branch: dev/backend
-    default_assignees:
-      - laitingsheng
-    default_reviewers:
-      - laitingsheng
-    default_labels:
-      - dependabot
-      - enhancement
   - package_manager: javascript
     directory: Web
     update_schedule: daily
