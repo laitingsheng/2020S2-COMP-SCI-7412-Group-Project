@@ -2,19 +2,22 @@ import cookie_parser from "cookie-parser"
 import csurf from "csurf"
 import express, { Request, Response } from "express"
 
-const _csrf = csurf({ cookie: { sameSite: true, secure: true } })
+import verifiers from "./verifiers"
 
-const _app = express()
+const csrf = csurf({ cookie: { sameSite: true, secure: true } })
 
-_app.use(express.json())
-_app.use(cookie_parser())
+const app = express()
 
-_app.get('/form', _csrf, (req: Request, res: Response) => {
+app.use(express.json())
+app.use(cookie_parser())
+
+app.get('/form', csrf, (req: Request, res: Response) => {
     // pass the csrfToken to the view
     res.render('send', { csrfToken: req.csrfToken() })
 })
 
-_app.post("/verify", (req: Request, res: Response) => {
+app.post("/verify", (req: Request, res: Response) => {
+    const body = req.body
 })
 
-_app.listen(80)
+app.listen(80)
