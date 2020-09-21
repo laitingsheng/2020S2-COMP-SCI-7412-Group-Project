@@ -1,6 +1,4 @@
-package-lock.json
-
-
+build/
 
 # Logs
 logs
@@ -81,12 +79,12 @@ web_modules/
 .parcel-cache
 
 # Next.js build output
-# .next
-# out
+.next
+out
 
 # Nuxt.js build / generate output
-# .nuxt
-# dist
+.nuxt
+dist
 
 # Gatsby files
 .cache/
