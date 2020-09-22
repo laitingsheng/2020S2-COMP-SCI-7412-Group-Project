@@ -1,1 +1,1 @@
-FROM node:10.22.1-slim
+FROM node:14.11.0-slim

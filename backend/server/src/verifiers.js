@@ -1,14 +1,11 @@
-const verifierDummy = (fields) => {
+function verifierDummy(fields) {
     return new Promise(() => { return true })
 }
 
-const verifierPassport = verifierDummy
-const verifierDriverLicence = verifierDummy
-
 const verifiers = {
     DUMMY: verifierDummy,
-    PASSPORT: verifierPassport,
-    DRIVER_LICENCE: verifierDriverLicence
+    PASSPORT: verifierDummy,
+    DRIVER_LICENCE: verifierDummy
 }
 
 export default verifiers

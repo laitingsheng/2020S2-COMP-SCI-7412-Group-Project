@@ -1,20 +1,22 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "esnext"
+    "module": "es6",
+    "target": "es6"
   },
   "typeAcquisition": {
     "include": [
+      "assert",
       "cookie-parser",
       "csurf",
-      "express"
+      "express",
+      "mocha",
+      "supertest"
     ]
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
-    "node_modules",
-    "**/node_modules/*"
+    "node_modules"
   ]
 }

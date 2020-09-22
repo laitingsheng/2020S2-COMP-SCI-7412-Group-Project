@@ -17,8 +17,12 @@ app.get('/form', csrf, (req, res) => {
 })
 
 app.post("/verify", (req, res) => {
-    const body = req.body
-    res.send(await verifiers[body.type](body.fields))
+    try {
+        const body = req.body
+        res.send(await verifiers[body.type](body.fields))
+    } catch(e) {
+        res.sendStatus(400)
+    }
 })
 
 app.listen(80)
