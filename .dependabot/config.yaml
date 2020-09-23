@@ -1,7 +1,7 @@
 version: 1
 update_configs:
   - package_manager: javascript
-    directory: Web
+    directory: web
     update_schedule: daily
     target_branch: dev/web
     default_assignees:
