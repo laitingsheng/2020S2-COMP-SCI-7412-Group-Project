@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "description": "Backend server for COMP SCI 7412 group project.",
+  "author": "Tinson Lai",
+  "license": "ISC",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "mocha",
+    "coverage": "nyc npm run test"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "csurf": "^1.11.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "mocha": "^8.1.3",
+    "nyc": "^15.1.0",
+    "supertest": "^4.0.2"
+  }
+}
