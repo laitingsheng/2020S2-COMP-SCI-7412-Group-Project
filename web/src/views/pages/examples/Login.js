@@ -35,6 +35,7 @@ import {
 } from "reactstrap";
 // core components
 import AuthHeader from "components/Headers/AuthHeader.js";
+import ReCAPTCHA from "react-google-recaptcha";
 
 class Login extends React.Component {
   state = {};
@@ -109,11 +110,16 @@ class Login extends React.Component {
                         <span className="text-muted">Remember me</span>
                       </label>
                     </div>
+                     {/* Test Google Recapcha */}
+                     <ReCAPTCHA theme="light" className="my-3 pl-3" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
+                     
                     <div className="text-center">
                       <Button className="my-4" color="info" type="button">
                         Sign in
                       </Button>
                     </div>
+
+                   
                   </Form>
                 </CardBody>
               </Card>
