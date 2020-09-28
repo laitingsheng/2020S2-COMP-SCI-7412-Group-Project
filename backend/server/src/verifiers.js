@@ -1,5 +1,5 @@
-function verifierDummy(fields) {
-    return new Promise(() => { return true })
+async function verifierDummy(fields) {
+    return true
 }
 
 const verifiers = {
@@ -7,5 +7,7 @@ const verifiers = {
     PASSPORT: verifierDummy,
     DRIVER_LICENCE: verifierDummy
 }
+
+Object.freeze(verifiers)
 
 export default verifiers
