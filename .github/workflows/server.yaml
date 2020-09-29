@@ -7,18 +7,18 @@ on:
       - dev/backend
     paths:
       - '.github/workflows/backend.yaml'
-      - 'Backend/src/**'
-      - 'Backend/build.gradle'
-      - 'Backend/settings.gradle'
+      - 'backend/src/**'
+      - 'backend/build.gradle'
+      - 'backend/settings.gradle'
   pull_request:
     branches:
       - master
       - dev/backend
     paths:
       - '.github/workflows/backend.yaml'
-      - 'Backend/src/**'
-      - 'Backend/build.gradle'
-      - 'Backend/settings.gradle'
+      - 'backend/src/**'
+      - 'backend/build.gradle'
+      - 'backend/settings.gradle'
 
 jobs:
   backend:
@@ -38,10 +38,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ github.ref }}-gradle-
       - name: Run unit testing and JaCoCo coverage report
-        run: gradle -p Backend test jacocoTestReport
+        run: gradle -p backend test jacocoTestReport
       - name: Upload JaCoCo coverage report to Codecov
         uses: codecov/codecov-action@v1
         with:
           file: Backend/build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: Backend
+          flags: backend
