@@ -33,7 +33,7 @@ class BackendApplication {
             }
             val oldScore = snapshot.get("score", Int::class.java)
             if (oldScore === null || oldScore != score)
-                user.update("score", score)
+                user.update("score", score).get()
         } else
             logger.info("$id not exists")
     }
