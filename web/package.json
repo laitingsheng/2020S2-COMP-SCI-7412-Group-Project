@@ -11,7 +11,7 @@
     "dropzone": "5.7.0",
     "fibers": "^5.0.0",
     "list.js": "1.5.0",
-    "moment": "2.24.0",
+    "moment": "2.29.0",
     "node-sass": "4.13.1",
     "nouislider": "14.1.1",
     "prop-types": "15.7.2",
