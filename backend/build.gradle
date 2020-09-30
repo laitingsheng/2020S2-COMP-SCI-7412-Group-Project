@@ -12,29 +12,27 @@ repositories {
     mavenCentral()
 }
 
-group = 'dev.tinson.uoa.sse.group-project'
+group = 'dev.tinson.uoa.sse.groupproject'
 version = '0.0'
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
+    implementation 'com.google.firebase:firebase-admin:7.0.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks.withType(KotlinCompile).configureEach {
     kotlinOptions {
         includeRuntime = true
-        jvmTarget = "11"
+        jvmTarget = "1.8"
         // https://github.com/JetBrains/kotlin/blob/master/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
         freeCompilerArgs = ["-Xno-call-assertions", "-Xno-receiver-assertions", "-Xno-param-assertions"]
     }
