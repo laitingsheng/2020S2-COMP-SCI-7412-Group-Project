@@ -14,6 +14,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+
 import React from "react";
 import ReactDOM from "react-dom";
 // react library for routing
@@ -38,6 +39,8 @@ import AdminLayout from "layouts/Admin.js";
 import RTLLayout from "layouts/RTL.js";
 import AuthLayout from "layouts/Auth.js";
 import IndexView from "views/Index.js";
+
+//firebase
 
 ReactDOM.render(
   <BrowserRouter>

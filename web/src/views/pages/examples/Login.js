@@ -33,9 +33,15 @@ import {
   Row,
   Col
 } from "reactstrap";
+
 // core components
 import AuthHeader from "components/Headers/AuthHeader.js";
+// recaptcha
 import ReCAPTCHA from "react-google-recaptcha";
+
+
+//firebase
+import fb from "config/firebaseConfig";
 
 class Login extends React.Component {
   state = {};
@@ -110,7 +116,9 @@ class Login extends React.Component {
                         <span className="text-muted">Remember me</span>
                       </label>
                     </div>
-                     {/* Test Google Recapcha */}
+
+
+                     {/* Google Recapcha */}
                      <ReCAPTCHA theme="light" className="my-3 pl-3" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
                      
                     <div className="text-center">
@@ -119,8 +127,8 @@ class Login extends React.Component {
                       </Button>
                     </div>
 
-                   
-                  </Form>
+
+                    </Form>
                 </CardBody>
               </Card>
               <Row className="mt-3">
