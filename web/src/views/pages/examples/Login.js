@@ -116,10 +116,8 @@ class Login extends React.Component {
                         <span className="text-muted">Remember me</span>
                       </label>
                     </div>
-
-
-                     {/* Google Recapcha */}
-                     <ReCAPTCHA theme="light" className="my-3 pl-3" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
+                     {/* Test Google Recapcha */}
+                     <ReCAPTCHA theme="light" className="my-3" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
                      
                     <div className="text-center">
                       <Button className="my-4" color="info" type="button">

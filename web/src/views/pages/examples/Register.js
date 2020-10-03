@@ -105,7 +105,7 @@ class Register extends React.Component {
                         </span>
                       </small>
                     </div>
-                    <ReCAPTCHA theme="light" className="my-3 pl-5" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
+                    <ReCAPTCHA theme="light" className="my-3" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
                     <div className="text-center">
                       <Button className="mt-4" color="info" type="button">
                         Create account
