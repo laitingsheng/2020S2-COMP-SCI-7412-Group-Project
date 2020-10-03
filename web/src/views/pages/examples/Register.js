@@ -31,11 +31,20 @@ import {
   InputGroup,
   Container,
   Row,
-  Col
+  Col,
+  NavLink
 } from "reactstrap";
 // core components
 import AuthHeader from "components/Headers/AuthHeader.js";
 import ReCAPTCHA from "react-google-recaptcha";
+
+
+// Router
+import { Link } from "react-router-dom";
+
+import Login from "./Login";
+// //firebase
+// import firebaseConfig from "config/firebaseConfig";
 
 class Register extends React.Component {
   state = {};
@@ -106,11 +115,16 @@ class Register extends React.Component {
                       </small>
                     </div>
                     <ReCAPTCHA theme="light" className="my-3" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
-                    <div className="text-center">
-                      <Button className="mt-4" color="info" type="button">
-                        Create account
-                      </Button>
-                    </div>
+                    
+                    {/* Not for use currently */}
+                    <NavLink to="/auth/login" tag={Link}>
+                      <div className="text-center">
+                        <Button className="mt-4" color="info" type="button">
+                          Create account
+                        </Button>
+                      </div>
+                  </NavLink>
+                    
                   </Form>
                 </CardBody>
               </Card>

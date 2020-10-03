@@ -24,4 +24,4 @@ const firebaseConfig = {
   firebase.firestore().settings({timestampsInSnapshots: true});
 
   //export and import firebase in other files
-  export default fb;
+  export default firebaseConfig;
