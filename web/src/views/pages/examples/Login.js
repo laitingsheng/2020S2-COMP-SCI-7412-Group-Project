@@ -41,7 +41,13 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 
 //firebase
-import fb from "config/firebaseConfig";
+const auth = firebase.auth();
+auth.signInWithEmailAndPassword(eamil,pass);
+auth.createUserWithEmailAndPassword(eamil,pass);
+auth.onAuthStateChanged(firebase =>{ });
+
+
+ 
 
 class Login extends React.Component {
   state = {};
@@ -72,12 +78,11 @@ class Login extends React.Component {
                             <i className="ni ni-email-83" />
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input
-                          placeholder="Email"
-                          type="email"
-                          onFocus={() => this.setState({ focusedEmail: true })}
-                          onBlur={() => this.setState({ focusedEmail: false })}
-                        />
+                        <Input 
+                        placeholder="Email" 
+                        type="email" 
+                        onFocus={() => this.setState({ focusedEmail: true })} 
+                        onBlur={() => this.setState({ focusedEmail: false })}/>
                       </InputGroup>
                     </FormGroup>
                     <FormGroup
@@ -120,10 +125,9 @@ class Login extends React.Component {
                      <ReCAPTCHA theme="light" className="my-3" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
                      
                     <div className="text-center">
-                      <Button className="my-4" color="info" type="button">
-                        Sign in
-                      </Button>
+                      <Button className="my-4" color="info" type="button">Sign in</Button>
                     </div>
+              
 
 
                     </Form>

@@ -37,6 +37,9 @@ import {
 import AuthHeader from "components/Headers/AuthHeader.js";
 import ReCAPTCHA from "react-google-recaptcha";
 
+//firebase
+//import fb from "config/firebaseConfig";
+
 class Register extends React.Component {
   state = {};
   render() {
