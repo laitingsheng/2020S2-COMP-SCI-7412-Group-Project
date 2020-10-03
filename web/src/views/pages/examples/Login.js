@@ -17,6 +17,8 @@
 import React from "react";
 // nodejs library that concatenates classes
 import classnames from "classnames";
+// Router
+import { Link } from "react-router-dom";
 // reactstrap components
 import {
   Button,
@@ -31,7 +33,8 @@ import {
   InputGroup,
   Container,
   Row,
-  Col
+  Col,
+  NavLink
 } from "reactstrap";
 
 // core components
@@ -39,15 +42,13 @@ import AuthHeader from "components/Headers/AuthHeader.js";
 // recaptcha
 import ReCAPTCHA from "react-google-recaptcha";
 
+import Register from "./Register";
 
 //firebase
 const auth = firebase.auth();
 auth.signInWithEmailAndPassword(eamil,pass);
 auth.createUserWithEmailAndPassword(eamil,pass);
 auth.onAuthStateChanged(firebase =>{ });
-
-
- 
 
 class Login extends React.Component {
   state = {};
@@ -143,15 +144,16 @@ class Login extends React.Component {
                     <small>Forgot password?</small>
                   </a>
                 </Col>
-                <Col className="text-right" xs="6">
-                  <a
-                    className="text-light"
-                    href="#pablo"
-                    onClick={e => e.preventDefault()}
-                  >
-                    <small>Create new account</small>
-                  </a>
-                </Col>
+
+
+                
+                    <Col className="text-right" xs="6">
+                      <NavLink className="text-light" to="/auth/register" tag={Link}>
+                          <small>Create new account</small>
+                        </NavLink>
+                    </Col>
+                
+                
               </Row>
             </Col>
           </Row>
