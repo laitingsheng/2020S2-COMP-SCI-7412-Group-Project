@@ -42,8 +42,6 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
 
 import Login from "./Login";
-// //firebase
-// import firebaseConfig from "config/firebaseConfig";
 
 class Register extends React.Component {
   state = {};
@@ -63,6 +61,63 @@ class Register extends React.Component {
                     <small>Sign up with credentials</small>
                   </div>
                   <Form role="form">
+                  <FormGroup
+                      className={classnames({
+                        focused: this.state.focusedName
+                      })}
+                    >
+                      <InputGroup className="input-group-merge input-group-alternative mb-3">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="ni ni-single-02" />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          placeholder="Name"
+                          type="name"
+                          onFocus={() => this.setState({ focusedName: true })}
+                          onBlur={() => this.setState({ focusedName: false })}
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup
+                      className={classnames({
+                        focused: this.state.focusedGender
+                      })}
+                    >
+                      <InputGroup className="input-group-merge input-group-alternative mb-3">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="ni ni-satisfied" />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          placeholder="Gender"
+                          type="gender"
+                          onFocus={() => this.setState({ focusedGender: true })}
+                          onBlur={() => this.setState({ focusedGender: false })}
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup
+                      className={classnames({
+                        focused: this.state.focusedDOB
+                      })}
+                    >
+                      <InputGroup className="input-group-merge input-group-alternative mb-3">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="ni ni-calendar-grid-58" />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          placeholder="Date of birth"
+                          type="DOB"
+                          onFocus={() => this.setState({ focusedDOB: true })}
+                          onBlur={() => this.setState({ focusedDOB: false })}
+                        />
+                      </InputGroup>
+                    </FormGroup>
                     <FormGroup
                       className={classnames({
                         focused: this.state.focusedEmail
@@ -82,6 +137,7 @@ class Register extends React.Component {
                         />
                       </InputGroup>
                     </FormGroup>
+                    
                     <FormGroup
                       className={classnames({
                         focused: this.state.focusedPassword
