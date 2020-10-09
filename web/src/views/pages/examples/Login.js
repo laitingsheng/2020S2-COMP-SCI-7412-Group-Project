@@ -35,6 +35,7 @@ import {
 } from "reactstrap";
 // core components
 import AuthHeader from "components/Headers/AuthHeader.js";
+import ReCAPTCHA from "react-google-recaptcha";
 
 class Login extends React.Component {
   state = {};
@@ -42,51 +43,16 @@ class Login extends React.Component {
     return (
       <>
         <AuthHeader
-          title="Welcome!"
-          lead="Use these awesome forms to login or create new account in your project for free."
+          title="Online voting System"
+          lead="Please sign in with your account OR sign up for a new account"
         />
         <Container className="mt--8 pb-5">
           <Row className="justify-content-center">
             <Col lg="5" md="7">
               <Card className="bg-secondary border-0 mb-0">
-                <CardHeader className="bg-transparent pb-5">
-                  <div className="text-muted text-center mt-2 mb-3">
-                    <small>Sign in with</small>
-                  </div>
-                  <div className="btn-wrapper text-center">
-                    <Button
-                      className="btn-neutral btn-icon"
-                      color="default"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                    >
-                      <span className="btn-inner--icon mr-1">
-                        <img
-                          alt="..."
-                          src={require("assets/img/icons/common/github.svg")}
-                        />
-                      </span>
-                      <span className="btn-inner--text">Github</span>
-                    </Button>
-                    <Button
-                      className="btn-neutral btn-icon"
-                      color="default"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                    >
-                      <span className="btn-inner--icon mr-1">
-                        <img
-                          alt="..."
-                          src={require("assets/img/icons/common/google.svg")}
-                        />
-                      </span>
-                      <span className="btn-inner--text">Google</span>
-                    </Button>
-                  </div>
-                </CardHeader>
                 <CardBody className="px-lg-5 py-lg-5">
                   <div className="text-center text-muted mb-4">
-                    <small>Or sign in with credentials</small>
+                    <small>Sign in with credentials</small>
                   </div>
                   <Form role="form">
                     <FormGroup
@@ -144,11 +110,16 @@ class Login extends React.Component {
                         <span className="text-muted">Remember me</span>
                       </label>
                     </div>
+                     {/* Test Google Recapcha */}
+                     <ReCAPTCHA theme="light" className="my-3 pl-3" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
+                     
                     <div className="text-center">
                       <Button className="my-4" color="info" type="button">
                         Sign in
                       </Button>
                     </div>
+
+                   
                   </Form>
                 </CardBody>
               </Card>

@@ -11,8 +11,8 @@ update_configs:
     default_labels:
       - dependabot
       - enhancement
-  - package_manager: javascript
-    directory: backend/server
+  - package_manager: java:gradle
+    directory: backend
     update_schedule: daily
     target_branch: dev/backend
     default_assignees:
@@ -23,7 +23,7 @@ update_configs:
       - dependabot
       - enhancement
   - package_manager: docker
-    directory: backend/server
+    directory: backend
     update_schedule: daily
     target_branch: dev/backend
     default_assignees:
