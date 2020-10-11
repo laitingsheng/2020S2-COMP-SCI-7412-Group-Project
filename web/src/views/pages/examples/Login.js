@@ -44,6 +44,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 import Register from "./Register";
 
+
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import * as firebase from "firebase/app";
 
@@ -208,7 +209,9 @@ class Login extends React.Component {
                      <ReCAPTCHA theme="light" className="my-3" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
  
                     <div className="text-center">
+                    <NavLink className="text-light" to="/admin/dashboard" tag={Link}>
                       <Button className="my-4" color="info" type="button">Sign in</Button>
+                      </NavLink>
                     </div>
                     </Form>
                 </CardBody>

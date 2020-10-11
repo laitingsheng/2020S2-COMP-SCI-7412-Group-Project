@@ -14,7 +14,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React , { useState } from "react";
 // nodejs library that concatenates classes
 import classnames from "classnames";
 // reactstrap components
@@ -23,6 +23,7 @@ import {
   Card,
   CardHeader,
   CardBody,
+  Collapse,
   FormGroup,
   Form,
   Input,
@@ -32,25 +33,118 @@ import {
   Container,
   Row,
   Col,
-  NavLink
+  NavLink,
+  UncontrolledCollapse
 } from "reactstrap";
 // core components
 import AuthHeader from "components/Headers/AuthHeader.js";
 import ReCAPTCHA from "react-google-recaptcha";
+
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
+
+import Select from 'react-select';
+import 'react-dropdown/style.css';
 
 // Router
 import { Link } from "react-router-dom";
 
 import Login from "./Login";
 
+const options = [
+  { value: 'Pt', label: 'Passport' },
+  { value: 'DL', label: 'Driver License' },
+];
+
+const AuStates = [
+  {value:'NSW' , label: 'New South Wales'},
+  {value:'QLD' , label: 'Queensland'},
+  {value:'NT' , label: 'Northern Territory'},
+  {value:'WA' , label: 'Western Australia'},
+  {value:'SA' , label: 'South Australia'},
+  {value:'VIC' , label: 'Victoria'},
+  {value:'ACT' , label: 'Australian Capital Territory'},
+  {value:'TAS' , label: 'Tasmania'}
+]
+
+
+
 class Register extends React.Component {
-  state = {};
+  state = {
+    selectedOption: '',
+    selectedState: '',
+  };
+  handleChange = selectedOption => {
+    this.setState({ selectedOption });
+  };
+  handleChangeState = selectedState => {
+    this.setState({ selectedState });
+  };
+
   render() {
+    const { selectedOption, selectedState } = this.state;
+    let details;
+    let inputField;
+
+    if(selectedOption.value === 'Pt'){
+      details = '';
+      
+      inputField = <FormGroup
+      className={classnames({
+        focused: this.state.focusedPT
+      })}
+    >
+      <InputGroup className="input-group-merge input-group-alternative mb-3">
+        <InputGroupAddon addonType="prepend">
+          <InputGroupText>
+            <i className="ni ni-collection" />
+          </InputGroupText>
+        </InputGroupAddon>
+        <Input
+          placeholder="Passport Number"
+          type="PT"
+          onFocus={() => this.setState({ focusedPT: true })}
+          onBlur={() => this.setState({ focusedPT: false })}
+        />
+      </InputGroup>
+    </FormGroup>;
+    }else if(selectedOption.value === "DL"){
+      details = 
+      <Select
+      value={selectedState}
+      onChange={this.handleChangeState}
+      options={AuStates}
+      />;
+      inputField = <FormGroup
+      className={classnames({
+        focused: this.state.focusedDL
+      })}
+    >
+      <InputGroup className="input-group-merge input-group-alternative mb-3">
+        <InputGroupAddon addonType="prepend">
+          <InputGroupText>
+            <i className="ni ni-bus-front-12" />
+          </InputGroupText>
+        </InputGroupAddon>
+        <Input
+          placeholder="Driver License Number"
+          type="DL"
+          onFocus={() => this.setState({ focusedDL: true })}
+          onBlur={() => this.setState({ focusedDL: false })}
+        />
+      </InputGroup>
+    </FormGroup>;
+    }else{
+      details = '';
+      
+    }
+
     return (
+      
       <>
         <AuthHeader
           title="Create an account"
-          lead="Use these awesome forms to login or create new account in your project for free."
+          lead="And start voting"
         />
         <Container className="mt--8 pb-5">
           <Row className="justify-content-center">
@@ -110,11 +204,19 @@ class Register extends React.Component {
                             <i className="ni ni-calendar-grid-58" />
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input
+                        {/* <Input
+                          disabled
                           placeholder="Date of birth"
                           type="DOB"
                           onFocus={() => this.setState({ focusedDOB: true })}
                           onBlur={() => this.setState({ focusedDOB: false })}
+                        /> */}
+                        <DayPickerInput
+                          dayPickerProps={{
+                            // month: new Date(2018, 10),
+                            showWeekNumbers: true,
+                            todayButton: 'Today',
+                          }}
                         />
                       </InputGroup>
                     </FormGroup>
@@ -161,6 +263,40 @@ class Register extends React.Component {
                         />
                       </InputGroup>
                     </FormGroup>
+                    <FormGroup>
+                    <div>
+                      <Button color="primary" id="toggler" style={{ marginBottom: '1rem' }}>
+                        Document Verification(Optional)
+                      </Button>
+                      <UncontrolledCollapse toggler="#toggler">
+                      
+                        <Card className="bg-secondary border-0">
+                         
+                          <CardBody className="px-lg-5 py-lg-5">
+                            
+                            <Form role="form">
+                              <FormGroup> Please fill in the following details: </FormGroup>
+                              <FormGroup>
+                                
+                              <Select
+                                value={selectedOption}
+                                onChange={this.handleChange}
+                                options={options}
+                              />
+                              </FormGroup>
+                              <FormGroup>
+                                {details}
+                              </FormGroup>
+                              <FormGroup>
+                                {inputField}
+                              </FormGroup>
+                              
+                            </Form>
+                          </CardBody>
+                        </Card>
+                      </UncontrolledCollapse>
+                    </div>
+                    </FormGroup>
                     <div className="text-muted font-italic">
                       <small>
                         password strength:{" "}
@@ -183,6 +319,16 @@ class Register extends React.Component {
                   </Form>
                 </CardBody>
               </Card>
+              <Row className="mt-3">
+                <Col xs="6">
+                 
+                </Col>
+                    <Col className="text-right" xs="6">
+                      <NavLink className="text-light" to="/auth/login" tag={Link}>
+                          <small>Already have an account</small>
+                        </NavLink>
+                    </Col>
+              </Row>
             </Col>
           </Row>
         </Container>
