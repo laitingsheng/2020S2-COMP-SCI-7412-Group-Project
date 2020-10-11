@@ -8,7 +8,7 @@
     "@fullcalendar/interaction": "4.4.0",
     "chart.js": "2.9.3",
     "classnames": "2.2.6",
-    "dropzone": "5.7.0",
+    "dropzone": "5.7.2",
     "fibers": "^5.0.0",
     "firebase": "^7.21.1",
     "firebaseui": "^4.6.1",
