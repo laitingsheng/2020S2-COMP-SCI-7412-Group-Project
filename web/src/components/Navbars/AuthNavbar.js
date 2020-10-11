@@ -42,12 +42,12 @@ class AdminNavbar extends React.Component {
           id="navbar-main"
         >
           <Container>
-            <NavbarBrand to="/" tag={Link}>
+            {/* <NavbarBrand to="/" tag={Link}>
               <img
                 alt="..."
                 src={require("assets/img/brand/argon-react-white.png")}
               />
-            </NavbarBrand>
+            </NavbarBrand> */}
             <button
               aria-controls="navbar-collapse"
               aria-expanded={false}
@@ -65,7 +65,7 @@ class AdminNavbar extends React.Component {
               navbar
               toggler="#navbar-collapse"
             >
-              <div className="navbar-collapse-header">
+              {/* <div className="navbar-collapse-header">
                 <Row>
                   <Col className="collapse-brand" xs="6">
                     <Link to="/admin/dashboard">
@@ -91,13 +91,13 @@ class AdminNavbar extends React.Component {
                     </button>
                   </Col>
                 </Row>
-              </div>
+              </div> */}
               <Nav className="mr-auto" navbar>
-                <NavItem>
+                {/* <NavItem>
                   <NavLink to="/admin/dashboard" tag={Link}>
                     <span className="nav-link-inner--text">Dashboard</span>
                   </NavLink>
-                </NavItem>
+                </NavItem> */}
                 <NavItem>
                   <NavLink to="/auth/login" tag={Link}>
                     <span className="nav-link-inner--text">Login</span>
@@ -108,14 +108,14 @@ class AdminNavbar extends React.Component {
                     <span className="nav-link-inner--text">Register</span>
                   </NavLink>
                 </NavItem>
-                <NavItem>
+                {/* <NavItem>
                   <NavLink to="/auth/lock" tag={Link}>
                     <span className="nav-link-inner--text">Lock</span>
                   </NavLink>
-                </NavItem>
+                </NavItem> */}
               </Nav>
               <hr className="d-lg-none" />
-              <Nav className="align-items-lg-center ml-lg-auto" navbar>
+              {/* <Nav className="align-items-lg-center ml-lg-auto" navbar>
                 <NavItem>
                   <NavLink
                     className="nav-link-icon"
@@ -132,7 +132,7 @@ class AdminNavbar extends React.Component {
                     Star us on Github
                   </UncontrolledTooltip>
                 </NavItem>
-              </Nav>
+              </Nav> */}
             </UncontrolledCollapse>
           </Container>
         </Navbar>
