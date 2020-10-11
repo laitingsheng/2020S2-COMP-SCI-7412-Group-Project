@@ -36,6 +36,10 @@ import {
 } from "reactstrap";
 // core components
 import AuthHeader from "components/Headers/AuthHeader.js";
+// Firebase App (the core Firebase SDK) is always required and must be listed first
+import * as firebase from "firebase";
+
+const db = firebase.firestore();
 
 class Lock extends React.Component {
 
@@ -154,8 +158,27 @@ class Lock extends React.Component {
             }
           }
         }
-        alert(this.state.preferences);
-      }
+
+        var uid = db.collection("elections").doc("2019").collection("ballots").doc();
+        
+        uid.set({preferences:[]});
+        let i = 0;
+        while (i < this.state.preferences.length){
+          for(let h = 0;h < this.state.preferences.length;h++){  
+            if(this.state.preferences[h] == i+1 ){
+              i++;
+              uid.update({
+                preferences: firebase.firestore.FieldValue.arrayUnion(this.state.candidateNames[h])
+            });
+            }
+            
+            
+          }
+        }
+        
+        
+
+    }
     } 
     else{
       let preferTemp = [];
@@ -178,7 +201,23 @@ class Lock extends React.Component {
         }
         }
         if( success == true){
-          alert(this.state.preferences);
+          var uid = db.collection("elections").doc("2019").collection("ballots").doc();
+        
+        uid.set({preferences:[]});
+        let i = 0;
+        while (i < this.state.preferences.length){
+          for(let h = 0;h < this.state.preferences.length;h++){  
+            if(this.state.preferences[h] == i+1 ){
+              i++;
+              uid.update({
+                preferences: firebase.firestore.FieldValue.arrayUnion(this.state.candidateNames[h])
+            });
+            }
+            
+            
+          }
+          }
+          
         }
     }
 
@@ -230,7 +269,7 @@ class Lock extends React.Component {
                       {party.members.map((member,j) =>
                         <div class="ballot-candidate-group">                
                           <div class="ballot-number">                  
-                              <label for="candidate-aa-below">{member}</label>
+                              <label htmlFor="candidate-aa-below">{member}</label>
                               <select id={member} class="below"  onChange = {(e) => this.candidateChange(member,e)}>
                                     {this.createCandidateSelectItems()}
                               </select>
