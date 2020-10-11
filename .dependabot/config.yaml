@@ -3,7 +3,7 @@ update_configs:
   - package_manager: javascript
     directory: web
     update_schedule: daily
-    target_branch: dev/web
+    target_branch: master
     default_assignees:
       - laitingsheng
     default_reviewers:
