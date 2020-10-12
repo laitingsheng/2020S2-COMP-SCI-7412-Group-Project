@@ -159,7 +159,7 @@ class Lock extends React.Component {
           }
         }
 
-        var uid = db.collection("elections").doc("2019").collection("ballots").doc();
+        var uid = db.collection("elections").doc("2019").collection("ballots").doc("UCpPMWT7pENY7j0kuTJn5WLLP4N2");
         
         uid.set({preferences:[]});
         let i = 0;
@@ -176,6 +176,7 @@ class Lock extends React.Component {
           }
         }
         
+        alert("Above:submit form successfully");
         
 
     }
@@ -201,7 +202,7 @@ class Lock extends React.Component {
         }
         }
         if( success == true){
-          var uid = db.collection("elections").doc("2019").collection("ballots").doc();
+          var uid = db.collection("elections").doc("2019").collection("ballots").doc("UCpPMWT7pENY7j0kuTJn5WLLP4N2");
         
         uid.set({preferences:[]});
         let i = 0;
@@ -217,6 +218,7 @@ class Lock extends React.Component {
             
           }
           }
+          alert("Bellow:submit form successfully");
           
         }
     }
