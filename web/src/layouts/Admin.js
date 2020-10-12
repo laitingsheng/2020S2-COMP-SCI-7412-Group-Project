@@ -8,6 +8,7 @@
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
 
 * Coded by Creative Tim
+* Edited by Tinson Lai
 
 =========================================================
 

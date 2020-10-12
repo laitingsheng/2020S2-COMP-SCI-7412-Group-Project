@@ -8,6 +8,7 @@
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
 
 * Coded by Creative Tim
+* Edited by Tinson Lai
 
 =========================================================
 
@@ -19,10 +20,10 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 // core components
-import AuthNavbar from "components/Navbars/AuthNavbar.js";
-import AuthFooter from "components/Footers/AuthFooter.js";
+import AuthNavbar from "../components/Navbars/AuthNavbar.js";
+import AuthFooter from "../components/Footers/AuthFooter.js";
 
-import routes from "routes.js";
+import routes from "../routes.js";
 
 class Auth extends React.Component {
   componentDidMount() {

@@ -19,7 +19,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 // react library for routing
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import "react-notification-alert/dist/animate.css";
 import "react-perfect-scrollbar/dist/css/styles.css";
@@ -72,7 +72,6 @@ ReactDOM.render(
         <Switch>
             <Route path="/admin" render={props => <AdminLayout {...props} />} />
             <Route path="/" render={props => <AuthLayout {...props} />} />
-            <Redirect from="*" to="/" />
         </Switch>
     </BrowserRouter>,
     document.getElementById("root")
