@@ -19,7 +19,7 @@ import React from "react";
 // reactstrap components
 import {Button, Container, Row, Col, Card} from "reactstrap";
 
-class ProfileHeader extends React.Component {
+class CandidateProfileHeader extends React.Component {
     render() {
         return (
             <>
@@ -33,7 +33,6 @@ class ProfileHeader extends React.Component {
                         backgroundPosition: "center top"
                     }}
                 >
-                    {/*<span className="mask bg-gradient-info opacity-8" />*/}
 
                     <Container className="d-flex align-items-center" fluid>
                         <Row>
@@ -52,4 +51,4 @@ class ProfileHeader extends React.Component {
     }
 }
 
-export default ProfileHeader;
+export default CandidateProfileHeader;
