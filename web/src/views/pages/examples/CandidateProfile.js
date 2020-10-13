@@ -44,7 +44,7 @@ class CandidateProfile extends React.Component {
                 <CandidateProfileHeader />
                 <Container className="mt--6" fluid>
                     <Row>
-                        <Col className="order-xl-1" xl="8">
+                        <Col className="order-xl-1" xl="12">
                             <Card>
                                 <CardHeader>
                                     <Row className="align-items-center">
@@ -56,7 +56,7 @@ class CandidateProfile extends React.Component {
                                                 color="primary"
                                                 href="#pablo"
                                                 onClick={e => e.preventDefault()}
-                                                size="sm"
+                                                size="md"
                                             >
                                                 Submit
                                             </Button>
