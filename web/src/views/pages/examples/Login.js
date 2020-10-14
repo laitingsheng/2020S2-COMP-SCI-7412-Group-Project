@@ -44,92 +44,35 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 import Register from "./Register";
 
-
-// Firebase App (the core Firebase SDK) is always required and must be listed first
-import * as firebase from "firebase/app";
-
-// If you enabled Analytics in your project, add the Firebase SDK for Analytics
-import "firebase/analytics";
-
-// Add the Firebase products that you want to use
-import "firebase/auth";
-import "firebase/firestore";
-import "firebase/messaging";
-
-// TODO: Replace the following with your app's Firebase project configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyBRn5Nf1_4JZggwEgF5ttKTePsAJg8qKe8",
-    authDomain: "comp-sci-7412-group-project.firebaseapp.com",
-    databaseURL: "https://comp-sci-7412-group-project.firebaseio.com",
-    projectId: "comp-sci-7412-group-project",
-    storageBucket: "comp-sci-7412-group-project.appspot.com",
-    messagingSenderId: "915849829476",
-    appId: "1:915849829476:web:6ef7b7b2b620d1cabf5371",
-    measurementId: "G-D9QL9W718S"
-  };
-  // Initialize Firebase
-  var defaultProject = firebase.initializeApp(firebaseConfig);
-  // console.log(defaultProject.name);  // "[DEFAULT]"
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-  // //update firebase libary
-  // firebase.firestore().settings({timestampsInSnapshots: true});
-var firebaseui = require('firebaseui');
-
-
-var ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-
-var uiConfig = {
-  callbacks: {
-    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-      // User successfully signed in.
-      // Return type determines whether we continue the redirect automatically
-      // or whether we leave that to developer to handle.
-      return true;
-    },
-    uiShown: function() {
-      // The widget is rendered.
-      // Hide the loader.
-      // document.getElementById('loader').style.display = 'none';
-    }
-  },
-  // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-  signInFlow: 'popup',
-  signInSuccessUrl: '<url-to-redirect-to-on-success>',
-  signInOptions: [
-    // Leave the lines as is for the providers you want to offer your users.
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-    firebase.auth.GithubAuthProvider.PROVIDER_ID,
-    firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    firebase.auth.PhoneAuthProvider.PROVIDER_ID
-  ],
-  // Terms of service url.
-  tosUrl: '<your-tos-url>',
-  // Privacy policy url.
-  privacyPolicyUrl: '<your-privacy-policy-url>'
-};
-
-ui.start('#firebaseui-auth-container', uiConfig);
-
+import fire from "./firebase";
 
 class Login extends React.Component {
-  state = {};
 
-  
+ 
+    login = this.login.bind(this);
+    handleChange = this.handleChange.bind(this);
+    state = {
+      email:"",
+      password:""
+    }
 
-//   componentDidMount(){
-//     fsDB.collection("newsletters").get().then((querySnapshot) => {
-//        querySnapshot.forEach((doc) => {
-//           console.log(`${doc.id} => ${doc.data()}`);
-//        });
-//     });
-//  }
+  handleChange(e){
+    // console.log(e.target.name+" " +e.target.value)
+    this.setState({
+      [e.target.name] : e.target.value
+    })
+  }
 
-
-
+  login(e){
+    console.log(this.state.email);
+    console.log(this.state.password);
+    e.preventDefault();
+    fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
+      console.log(u);
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
 
   render() {
     return (
@@ -148,7 +91,7 @@ class Login extends React.Component {
                     <small>Sign in with credentials</small>
                   </div>
                   
-                  <Form role="form" method="POST">
+                  <Form role="form">
                     <FormGroup
                       className={classnames("mb-3", {
                         focused: this.state.focusedEmail
@@ -161,11 +104,15 @@ class Login extends React.Component {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input 
-                        id='firebaseui-auth-container'
+                        name="email"
+                        id="email"
                         placeholder="Email" 
                         type="email"
+                        onChange={this.handleChange}
+                        value={this.state.email}
                         onFocus={() => this.setState({ focusedEmail: true })} 
-                        onBlur={() => this.setState({ focusedEmail: false })}/>
+                        onBlur={() => this.setState({ focusedEmail: false })}
+                        />
                       </InputGroup>
                     </FormGroup>
                     <FormGroup
@@ -180,9 +127,12 @@ class Login extends React.Component {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          id='upwd'
+                          name="password"
+                          id="password"
                           placeholder="Password"
                           type="password"
+                          onChange = {this.handleChange}
+                          value={this.state.password}
                           onFocus={() =>
                             this.setState({ focusedPassword: true })
                           }
@@ -210,7 +160,9 @@ class Login extends React.Component {
  
                     <div className="text-center">
                     <NavLink className="text-light" to="/admin/dashboard" tag={Link}>
-                      <Button className="my-4" color="info" type="button">Sign in</Button>
+                      <Button className="my-4" color="info" type="button" 
+                      onClick={this.login}
+                      >Sign in</Button>
                       </NavLink>
                     </div>
                     </Form>
