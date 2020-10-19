@@ -29,14 +29,14 @@ import "select2/dist/css/select2.min.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
+import firebase from "firebase/app";
+
 import "assets/vendor/nucleo/css/nucleo.css";
 
 import "assets/scss/argon-dashboard-pro-react.scss";
 
 import AdminLayout from "./layouts/Admin.js";
 import AuthLayout from "./layouts/Auth.js";
-
-import firebase from "firebase/app";
 
 firebase.initializeApp({
     apiKey: "AIzaSyBRn5Nf1_4JZggwEgF5ttKTePsAJg8qKe8",
