@@ -3,7 +3,6 @@ update_configs:
   - package_manager: javascript
     directory: web
     update_schedule: daily
-    target_branch: main
     default_assignees:
       - laitingsheng
     default_reviewers:
@@ -14,7 +13,6 @@ update_configs:
   - package_manager: docker
     directory: web
     update_schedule: daily
-    target_branch: main
     default_assignees:
       - laitingsheng
     default_reviewers:

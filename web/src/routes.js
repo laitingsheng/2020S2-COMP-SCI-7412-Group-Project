@@ -118,13 +118,6 @@ const routes = [
                 miniName: "CP",
                 component: CandidateProfile,
                 layout: "/admin"
-            },
-            {
-                path: "/rtl-support",
-                name: "RTL Support",
-                miniName: "RS",
-                component: RTLSupport,
-                layout: "/rtl"
             }
         ]
     },
