@@ -11,3 +11,14 @@ update_configs:
     default_labels:
       - dependabot
       - enhancement
+  - package_manager: docker
+    directory: web
+    update_schedule: daily
+    target_branch: master
+    default_assignees:
+      - laitingsheng
+    default_reviewers:
+      - laitingsheng
+    default_labels:
+      - dependabot
+      - enhancement

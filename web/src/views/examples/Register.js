@@ -88,7 +88,7 @@ class Register extends React.Component {
 
     if(selectedOption.value === 'Pt'){
       details = '';
-      
+
       inputField = <FormGroup
       className={classnames({
         focused: this.state.focusedPT
@@ -109,7 +109,7 @@ class Register extends React.Component {
       </InputGroup>
     </FormGroup>;
     }else if(selectedOption.value === "DL"){
-      details = 
+      details =
       <Select
       value={selectedState}
       onChange={this.handleChangeState}
@@ -136,11 +136,11 @@ class Register extends React.Component {
     </FormGroup>;
     }else{
       details = '';
-      
+
     }
 
     return (
-      
+
       <>
         <AuthHeader
           title="Create an account"
@@ -239,7 +239,7 @@ class Register extends React.Component {
                         />
                       </InputGroup>
                     </FormGroup>
-                    
+
                     <FormGroup
                       className={classnames({
                         focused: this.state.focusedPassword
@@ -269,15 +269,15 @@ class Register extends React.Component {
                         Document Verification(Optional)
                       </Button>
                       <UncontrolledCollapse toggler="#toggler">
-                      
+
                         <Card className="bg-secondary border-0">
-                         
+
                           <CardBody className="px-lg-5 py-lg-5">
-                            
+
                             <Form role="form">
                               <FormGroup> Please fill in the following details: </FormGroup>
                               <FormGroup>
-                                
+
                               <Select
                                 value={selectedOption}
                                 onChange={this.handleChange}
@@ -290,7 +290,7 @@ class Register extends React.Component {
                               <FormGroup>
                                 {inputField}
                               </FormGroup>
-                              
+
                             </Form>
                           </CardBody>
                         </Card>
@@ -306,7 +306,7 @@ class Register extends React.Component {
                       </small>
                     </div>
                     <ReCAPTCHA theme="light" className="my-3" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
-                    
+
                     {/* Not for use currently */}
                     <NavLink to="/auth/login" tag={Link}>
                       <div className="text-center">
@@ -315,13 +315,13 @@ class Register extends React.Component {
                         </Button>
                       </div>
                   </NavLink>
-                    
+
                   </Form>
                 </CardBody>
               </Card>
               <Row className="mt-3">
                 <Col xs="6">
-                 
+
                 </Col>
                     <Col className="text-right" xs="6">
                       <NavLink className="text-light" to="/auth/login" tag={Link}>

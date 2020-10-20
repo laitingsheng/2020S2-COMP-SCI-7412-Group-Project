@@ -118,7 +118,7 @@ ui.start('#firebaseui-auth-container', uiConfig);
 class Login extends React.Component {
   state = {};
 
-  
+
 
 //   componentDidMount(){
 //     fsDB.collection("newsletters").get().then((querySnapshot) => {
@@ -133,7 +133,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      
+
       <>
         <AuthHeader
           title="Online voting System"
@@ -147,7 +147,7 @@ class Login extends React.Component {
                   <div className="text-center text-muted mb-4">
                     <small>Sign in with credentials</small>
                   </div>
-                  
+
                   <Form role="form" method="POST">
                     <FormGroup
                       className={classnames("mb-3", {
@@ -160,11 +160,11 @@ class Login extends React.Component {
                             <i className="ni ni-email-83" />
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input 
+                        <Input
                         id='firebaseui-auth-container'
-                        placeholder="Email" 
+                        placeholder="Email"
                         type="email"
-                        onFocus={() => this.setState({ focusedEmail: true })} 
+                        onFocus={() => this.setState({ focusedEmail: true })}
                         onBlur={() => this.setState({ focusedEmail: false })}/>
                       </InputGroup>
                     </FormGroup>
@@ -207,7 +207,7 @@ class Login extends React.Component {
                     </div>
                      {/* Test Google Recapcha */}
                      <ReCAPTCHA theme="light" className="my-3" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
- 
+
                     <div className="text-center">
                     <NavLink className="text-light" to="/admin/dashboard" tag={Link}>
                       <Button className="my-4" color="info" type="button">Sign in</Button>
@@ -238,9 +238,9 @@ class Login extends React.Component {
       </>
     );
 
-    
+
   }
-  
+
 }
 
 export default Login;
