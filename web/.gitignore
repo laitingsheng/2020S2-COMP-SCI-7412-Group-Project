@@ -1,9 +1,3 @@
-__MACOSX
-.DS_Store
-/build
-
-
-
 # Logs
 logs
 *.log
