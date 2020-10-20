@@ -15,24 +15,19 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+
 import React from "react";
-// react library for routing
 import { Route, Switch, Redirect } from "react-router-dom";
 
-// core components
 import AuthNavbar from "./component/navbar/AuthNavbar.js";
 import Login from "./component/Login.js";
-// import Register from "./component/Register.js";
+import Register from "./component/Register.js";
 
 class Auth extends React.Component {
-    constructor(props) {
-        super(props);
-
-        /**
-         * @type {React.RefObject<HTMLDivElement>}
-         */
-        this.mainContent = React.createRef();
-    }
+    /**
+     * @type {React.RefObject<HTMLDivElement>}
+     */
+    mainContent = React.createRef();
 
     componentDidMount() {
         this.resetScroll()
@@ -60,9 +55,7 @@ class Auth extends React.Component {
                 <AuthNavbar />
                 <Switch>
                     <Route path="/login" component={Login} key={0} />
-                    {
-                        // <Route path="/register" component={Register} key={1} />
-                    }
+                    <Route path="/register" component={Register} key={1} />
                     <Redirect from="/" to="/login" />
                 </Switch>
             </div>

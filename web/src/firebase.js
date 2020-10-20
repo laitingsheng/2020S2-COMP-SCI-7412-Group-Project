@@ -1,5 +1,23 @@
+/*!
+
+=========================================================
+* Argon Dashboard PRO React - v1.1.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-dashboard-pro-react
+* Copyright 2020 Creative Tim (https://www.creative-tim.com)
+
+* Coded by Tinson Lai
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+
 import firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/firestore";
 
 firebase.initializeApp({
     apiKey: "AIzaSyBRn5Nf1_4JZggwEgF5ttKTePsAJg8qKe8",
@@ -14,4 +32,6 @@ firebase.initializeApp({
 
 export const auth = firebase.auth();
 
-export default firebase;
+export const firestore = firebase.firestore();
+
+export default { auth, firestore };

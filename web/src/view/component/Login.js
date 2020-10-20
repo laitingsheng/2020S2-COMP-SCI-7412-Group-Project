@@ -15,8 +15,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 // nodejs library that concatenates classes
 import classnames from "classnames";
 // reactstrap components
@@ -42,34 +43,27 @@ import { auth } from "../../firebase.js";
 import AuthHeader from "./header/AuthHeader.js";
 
 class Login extends React.Component {
-    constructor(props) {
-        super(props);
-
-        /**
-         * @type {React.RefObject<ReCAPTCHA>}
-         */
-        this.recaptcha = React.createRef();
-    }
-
     /**
-     * @type {Object<string, any>}
+     * @type {React.RefObject<ReCAPTCHA>}
      */
-    state = { user: auth.currentUser };
+    recaptcha = React.createRef();
+
+    state = {};
 
     /**
      *
      * @param {React.MouseEvent<any, MouseEvent>} e
      */
-    login(e) {
+    login = (e) => {
         e.preventDefault();
 
         this.setState({ captcha: false });
 
-        auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(c => this.setState({ user: c.user })).catch(() => this.recaptcha.current.reset());
+        auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(console.log).catch(() => this.recaptcha.current.reset());
     }
 
     render() {
-        return this.state.user ? <Redirect to="/panel" /> : <>
+        return <>
             <AuthHeader title="Online Voting System" lead="Please sign in with your account" />
             <Container className="mt--8 pb-5">
                 <Row className="justify-content-center">
@@ -99,7 +93,7 @@ class Login extends React.Component {
                                     </FormGroup>
                                     <ReCAPTCHA theme="light" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" onChange={ () => this.setState({ captcha: true }) } onExpired={() => this.setState({ captcha: false })} ref={this.recaptcha} />
                                     <div className="text-center">
-                                        <Button className="my-4" color="info" type="button" onClick={e => this.login(e)} disabled={!(this.state.email?.length && this.state.password?.length && this.state.captcha)}>
+                                        <Button className="my-4" color="info" type="button" onClick={this.login} disabled={!(this.state.email?.length && this.state.password?.length && this.state.captcha)}>
                                             Sign in
                                         </Button>
                                     </div>
