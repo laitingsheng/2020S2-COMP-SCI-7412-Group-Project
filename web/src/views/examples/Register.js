@@ -45,7 +45,7 @@ import 'react-day-picker/lib/style.css';
 
 import Select from 'react-select';
 import 'react-dropdown/style.css';
-
+import fire from './firebase'
 // Router
 import { Link } from "react-router-dom";
 
@@ -73,16 +73,41 @@ class Register extends React.Component {
   state = {
     selectedOption: '',
     selectedState: '',
+    name:'',
+    email:'',
+    password:'',
   };
+
+  
+
   handleChange = selectedOption => {
     this.setState({ selectedOption });
   };
+
   handleChangeState = selectedState => {
     this.setState({ selectedState });
   };
 
+  handleChanges(e){
+    // console.log(e.target.name+" " +e.target.value)
+    this.setState({
+      [e.target.name] : e.target.value
+    })
+  }
+
+  signup(e){
+    e.preventDefault();
+    fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
+      console.log(u);
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
+  handleChanges = this.handleChanges.bind(this);
+  signup = this.signup.bind(this);
+
   render() {
-    const { selectedOption, selectedState } = this.state;
+    const { selectedOption, selectedState} = this.state;
     let details;
     let inputField;
 
@@ -169,9 +194,13 @@ class Register extends React.Component {
                         <Input
                           placeholder="Name"
                           type="name"
+                          name="name"
+                          // value={this.state.name}
+                          onChange={this.handleChanges}
                           onFocus={() => this.setState({ focusedName: true })}
                           onBlur={() => this.setState({ focusedName: false })}
                         />
+                        
                       </InputGroup>
                     </FormGroup>
                     <FormGroup
@@ -234,6 +263,8 @@ class Register extends React.Component {
                         <Input
                           placeholder="Email"
                           type="email"
+                          name ="email"
+                          onChange={this.handleChanges}
                           onFocus={() => this.setState({ focusedEmail: true })}
                           onBlur={() => this.setState({ focusedEmail: false })}
                         />
@@ -254,6 +285,8 @@ class Register extends React.Component {
                         <Input
                           placeholder="Password"
                           type="password"
+                          name ="password"
+                          onChange={this.handleChanges}
                           onFocus={() =>
                             this.setState({ focusedPassword: true })
                           }
@@ -310,7 +343,7 @@ class Register extends React.Component {
                     {/* Not for use currently */}
                     <NavLink to="/auth/login" tag={Link}>
                       <div className="text-center">
-                        <Button className="mt-4" color="info" type="button">
+                        <Button className="mt-4" color="info" type="button" onClick={this.signup}>
                           Create account
                         </Button>
                       </div>
