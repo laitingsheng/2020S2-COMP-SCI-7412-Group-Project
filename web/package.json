@@ -45,7 +45,7 @@
     "reactstrap": "8.6.0",
     "sass": "^1.27.0",
     "select2": "^4.0.13",
-    "sweetalert2": "^10.6.1"
+    "sweetalert2": "^10.7.0"
   },
   "scripts": {
     "start": "react-scripts start",
