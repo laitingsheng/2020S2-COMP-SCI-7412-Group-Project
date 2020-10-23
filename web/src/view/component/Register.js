@@ -16,8 +16,9 @@
 
 */
 
-import React from "react";
 import classnames from "classnames";
+import React from "react";
+import Select from "react-select";
 import {
     Button,
     Card,
@@ -33,11 +34,10 @@ import {
     Col
 } from "reactstrap";
 
-// import owasp from "owasp-password-strength-test";
+import owasp from "owasp-password-strength-test";
 
-// core components
-// import { auth } from "../../firebase.js";
-import AuthHeader from "./header/AuthHeader.js";
+import { auth } from "../../firebase.js";
+import AuthHeader from "./header/AuthHeader";
 
 class Register extends React.Component {
     state = {};

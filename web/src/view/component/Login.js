@@ -16,31 +16,28 @@
 
 */
 
-import React from "react";
-import { Link } from "react-router-dom";
-// nodejs library that concatenates classes
 import classnames from "classnames";
-// reactstrap components
+import React from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { Link } from "react-router-dom";
 import {
     Button,
     Card,
     CardBody,
-    FormGroup,
+    Col,
+    Container,
     Form,
+    FormGroup,
     Input,
+    InputGroup,
     InputGroupAddon,
     InputGroupText,
-    InputGroup,
-    Container,
-    Row,
-    Col,
-    NavLink
+    NavLink,
+    Row
 } from "reactstrap";
-import ReCAPTCHA from "react-google-recaptcha";
 
-// core components
-import { auth } from "../../firebase.js";
-import AuthHeader from "./header/AuthHeader.js";
+import { auth } from "../../firebase";
+import AuthHeader from "./header/AuthHeader";
 
 class Login extends React.Component {
     /**

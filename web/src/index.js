@@ -31,8 +31,8 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "./assets/vendor/nucleo/css/nucleo.css";
 import "./assets/scss/argon-dashboard-pro-react.scss";
 
-import AdminLayout from "./view/Admin.js";
-import AuthLayout from "./view/Auth.js";
+import AdminLayout from "./view/Admin";
+import AuthLayout from "./view/Auth";
 
 ReactDOM.render(
     <BrowserRouter>

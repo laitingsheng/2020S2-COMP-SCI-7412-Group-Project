@@ -17,11 +17,11 @@
 */
 
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
-import AuthNavbar from "./component/navbar/AuthNavbar.js";
-import Login from "./component/Login.js";
-import Register from "./component/Register.js";
+import AuthNavbar from "./component/navbar/AuthNavbar";
+import Login from "./component/Login";
+import Register from "./component/Register";
 
 class Auth extends React.Component {
     /**

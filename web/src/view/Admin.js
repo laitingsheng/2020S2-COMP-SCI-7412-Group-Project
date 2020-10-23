@@ -43,7 +43,7 @@ class Admin extends React.Component {
 
     closeSidenav = () => {
         if (window.innerWidth < 1200) {
-            this.props.toggleSidenav();
+            this.toggleSidenav();
         }
     };
 
