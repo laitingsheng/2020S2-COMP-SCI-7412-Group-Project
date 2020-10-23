@@ -64,7 +64,7 @@ class Sidebar extends React.Component {
                     </div>
                 </div>
             </div>);
-        return <Navbar className={"sidenav navbar-vertical navbar-expand-xs navbar-light bg-white " + (this.props.rtlActive ? "" : "fixed-left")} onMouseEnter={this.onMouseEnterSidenav} onMouseLeave={this.onMouseLeaveSidenav}>
+        return <Navbar className="sidenav navbar-vertical navbar-expand-xs navbar-light bg-white fixed-left" onMouseEnter={this.onMouseEnterSidenav} onMouseLeave={this.onMouseLeaveSidenav}>
             {navigator.platform.indexOf("Win") > -1 ? (<PerfectScrollbar>{scrollBarInner}</PerfectScrollbar>) : (scrollBarInner)}
         </Navbar>;
     }

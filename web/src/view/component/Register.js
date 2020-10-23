@@ -17,6 +17,7 @@
 */
 
 import classnames from "classnames";
+import owasp from "owasp-password-strength-test";
 import React from "react";
 import Select from "react-select";
 import {
@@ -34,10 +35,9 @@ import {
     Col
 } from "reactstrap";
 
-import owasp from "owasp-password-strength-test";
-
 import { auth } from "../../firebase.js";
 import AuthHeader from "./header/AuthHeader";
+
 
 class Register extends React.Component {
     state = {};

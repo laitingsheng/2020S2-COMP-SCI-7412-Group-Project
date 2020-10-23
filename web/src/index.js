@@ -28,7 +28,7 @@ import "select2/dist/css/select2.min.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
-import "./assets/vendor/nucleo/css/nucleo.css";
+import "./assets/css/nucleo.css";
 import "./assets/scss/argon-dashboard-pro-react.scss";
 
 import AdminLayout from "./view/Admin";
