@@ -19,6 +19,7 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
+import { auth } from "../firebase";
 import AuthNavbar from "./component/navbar/AuthNavbar";
 import Login from "./component/Login";
 import Register from "./component/Register";
@@ -50,12 +51,13 @@ class Auth extends React.Component {
     }
 
     render() {
+        const { user } = auth;
         return <>
             <div className="main-content" ref={this.mainContent}>
                 <AuthNavbar />
                 <Switch>
-                    <Route path="/login" component={Login} key={0} />
-                    <Route path="/register" component={Register} key={1} />
+                    <Route path="/login" render={props => user?.emailVerified ? <Redirect to="/dashboard" /> : <Login {...props}/>} key={0} />
+                    <Route path="/register" render={props => user ? user.emailVerified ? <Redirect to="/dashboard" /> : <Redirect to="/login" /> : <Register {...props}/>} key={1} />
                     <Redirect from="/" to="/login" />
                 </Switch>
             </div>

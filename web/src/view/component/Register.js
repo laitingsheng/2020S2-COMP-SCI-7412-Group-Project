@@ -17,9 +17,9 @@
 */
 
 import classnames from "classnames";
+import moment from "moment";
 import owasp from "owasp-password-strength-test";
 import React from "react";
-import Select from "react-select";
 import {
     Button,
     Card,
@@ -37,6 +37,11 @@ import {
 
 import { auth } from "../../firebase.js";
 import AuthHeader from "./header/AuthHeader";
+
+const options = [
+    { value: "female", label: "Female" },
+    { value: "male", label: "Male" }
+]
 
 
 class Register extends React.Component {
@@ -58,7 +63,31 @@ class Register extends React.Component {
                                                     <i className="ni ni-hat-3" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Name" type="text" onFocus={() => this.setState({ focusedName: true })} onBlur={() => this.setState({ focusedName: false })} />
+                                            <Input placeholder="Name" type="text" required onFocus={() => this.setState({ focusedName: true })} onBlur={() => this.setState({ focusedName: false })} />
+                                        </InputGroup>
+                                    </FormGroup>
+                                    <FormGroup className={classnames({ focused: this.state.focusedGender })}>
+                                        <InputGroup className="input-group-merge input-group-alternative mb-3">
+                                            <InputGroupAddon addonType="prepend">
+                                                <InputGroupText>
+                                                    <i className="ni ni-single-02" />
+                                                </InputGroupText>
+                                            </InputGroupAddon>
+                                            <Input type="select" defaultValue="" required onFocus={() => this.setState({ focusedGender: true })} onBlur={() => this.setState( { focusedGender: false })}>
+                                                <option value="" disabled hidden>Gender</option>
+                                                <option value="FEMALE">Female</option>
+                                                <option value="MALE">Male</option>
+                                            </Input>
+                                        </InputGroup>
+                                    </FormGroup>
+                                    <FormGroup className={classnames({ focused: this.state.focusedBirthday })}>
+                                        <InputGroup className="input-group-merge input-group-alternative mb-3">
+                                            <InputGroupAddon addonType="prepend">
+                                                <InputGroupText>
+                                                    <i className="ni ni-world" />
+                                                </InputGroupText>
+                                            </InputGroupAddon>
+                                            <Input type="date" required onFocus={() => this.setState({ focusedBirthday: true })} onBlur={() => this.setState( { focusedBirthday: false })} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className={classnames({ focused: this.state.focusedEmail })}>
@@ -68,7 +97,7 @@ class Register extends React.Component {
                                                     <i className="ni ni-email-83" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Email" type="email" onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} />
+                                            <Input placeholder="Email" type="email" required onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className={classnames({ focused: this.state.focusedPassword })}>
@@ -78,7 +107,7 @@ class Register extends React.Component {
                                                     <i className="ni ni-lock-circle-open" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Password" type="password" onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } />
+                                            <Input placeholder="Password" type="password" required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } />
                                         </InputGroup>
                                     </FormGroup>
                                         <div className="text-muted font-italic">
@@ -87,7 +116,7 @@ class Register extends React.Component {
                                         </small>
                                     </div>
                                     <div className="text-center">
-                                        <Button className="mt-4" color="info" type="button">Create account</Button>
+                                        <Button className="mt-4" color="info" type="submit">Create account</Button>
                                     </div>
                                 </Form>
                             </CardBody>

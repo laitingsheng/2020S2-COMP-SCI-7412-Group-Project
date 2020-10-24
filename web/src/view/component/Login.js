@@ -19,7 +19,7 @@
 import classnames from "classnames";
 import React from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import {
     Button,
     Card,
@@ -48,15 +48,16 @@ class Login extends React.Component {
     state = {};
 
     /**
-     *
-     * @param {React.MouseEvent<any, MouseEvent>} e
+     * @param {FormEvent} e
      */
     login = (e) => {
         e.preventDefault();
+        this.recaptcha.current.execute();
+        console.log("test");
 
-        this.setState({ captcha: false });
-
-        auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(console.log).catch(() => this.recaptcha.current.reset());
+        auth.signInWithEmailAndPassword(this.state.email, this.state.password).catch(e => {
+            this.recaptcha.current.reset()
+        });
     }
 
     render() {
@@ -67,7 +68,7 @@ class Login extends React.Component {
                     <Col lg="5" md="7">
                         <Card className="bg-secondary border-0 mb-0">
                             <CardBody className="px-lg-5 py-lg-5">
-                                <Form role="form">
+                                <Form role="form" onSubmit={this.login}>
                                     <FormGroup className={classnames("mb-3", { focused: this.state.focusedEmail })}>
                                         <InputGroup className="input-group-merge input-group-alternative">
                                             <InputGroupAddon addonType="prepend">
@@ -75,7 +76,7 @@ class Login extends React.Component {
                                                     <i className="ni ni-email-83" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Email" type="email" onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} onChange={e => this.setState({ email: e.target.value })} />
+                                            <Input placeholder="Email" type="email" required onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} onChange={e => this.setState({ email: e.target.value })} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className={classnames({ focused: this.state.focusedPassword })}>
@@ -85,14 +86,12 @@ class Login extends React.Component {
                                                     <i className="ni ni-lock-circle-open" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Password" type="password" onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } onChange={e => this.setState({ password: e.target.value })} />
+                                            <Input placeholder="Password" type="password" required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } onChange={e => this.setState({ password: e.target.value })} />
                                         </InputGroup>
                                     </FormGroup>
-                                    <ReCAPTCHA theme="light" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" onChange={ () => this.setState({ captcha: true }) } onExpired={() => this.setState({ captcha: false })} ref={this.recaptcha} />
+                                    <ReCAPTCHA size="invisible" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" ref={this.recaptcha} />
                                     <div className="text-center">
-                                        <Button className="my-4" color="info" type="button" onClick={this.login} disabled={!(this.state.email?.length && this.state.password?.length && this.state.captcha)}>
-                                            Sign in
-                                        </Button>
+                                        <Button className="my-4" color="info" type="submit">Sign in</Button>
                                     </div>
                                 </Form>
                             </CardBody>
