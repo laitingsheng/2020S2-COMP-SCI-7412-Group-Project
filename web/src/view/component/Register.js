@@ -44,7 +44,7 @@ const options = [
 ]
 
 
-class Register extends React.Component {
+export default class Register extends React.Component {
     state = {};
 
     render() {
@@ -127,5 +127,3 @@ class Register extends React.Component {
         </>;
     }
 }
-
-export default Register;

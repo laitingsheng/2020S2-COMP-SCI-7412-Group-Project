@@ -19,7 +19,7 @@
 import classnames from "classnames";
 import React from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
     Button,
     Card,
@@ -37,27 +37,26 @@ import {
 } from "reactstrap";
 
 import { auth } from "../../firebase";
+import { ReCAPTCHA_key } from "../../constants"
+import UserComponent from "../../UserComponent";
 import AuthHeader from "./header/AuthHeader";
 
-class Login extends React.Component {
+export default class Login extends UserComponent {
     /**
-     * @type {React.RefObject<ReCAPTCHA>}
+     * @type {React.RefObject<ReCAPTCHA>>}
      */
     recaptcha = React.createRef();
-
-    state = {};
 
     /**
      * @param {FormEvent} e
      */
-    login = (e) => {
+    login = e => {
         e.preventDefault();
-        this.recaptcha.current.execute();
-        console.log("test");
 
-        auth.signInWithEmailAndPassword(this.state.email, this.state.password).catch(e => {
-            this.recaptcha.current.reset()
-        });
+        auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(
+            () => this.recaptcha.current.reset(),
+            console.log
+        );
     }
 
     render() {
@@ -89,9 +88,9 @@ class Login extends React.Component {
                                             <Input placeholder="Password" type="password" required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } onChange={e => this.setState({ password: e.target.value })} />
                                         </InputGroup>
                                     </FormGroup>
-                                    <ReCAPTCHA size="invisible" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" ref={this.recaptcha} />
+                                    <ReCAPTCHA className="text-center" sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
                                     <div className="text-center">
-                                        <Button className="my-4" color="info" type="submit">Sign in</Button>
+                                        <Button className="my-4" color="info" type="submit" disabled={!this.state.checked}>Sign in</Button>
                                     </div>
                                 </Form>
                             </CardBody>
@@ -110,5 +109,3 @@ class Login extends React.Component {
         </>;
     }
 }
-
-export default Login;
