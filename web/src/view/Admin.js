@@ -18,7 +18,7 @@
 
 import React from "react";
 // react library for routing
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Switch, Redirect } from "react-router-dom";
 // core components
 import AdminNavbar from "./component/navbar/AdminNavbar.js";
 import Sidebar from "./component/Sidebar.js";

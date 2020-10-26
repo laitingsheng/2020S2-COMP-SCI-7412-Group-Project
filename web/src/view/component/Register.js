@@ -18,7 +18,6 @@
 */
 
 import classnames from "classnames";
-import moment from "moment";
 import owasp from "owasp-password-strength-test";
 import React from "react";
 import {
@@ -39,20 +38,13 @@ import {
 import { auth } from "../../firebase.js";
 import AuthHeader from "./header/AuthHeader";
 
-const options = [
-    { value: "female", label: "Female" },
-    { value: "male", label: "Male" }
-]
+export default class Register extends React.Component {
+    state = {};
 
-
-
-class Register extends React.Component {
     handleChanges(e){
         // console.log(e.target.name+" " +e.target.value)
-        this.setState({
-          [e.target.name] : e.target.value
-        })
-      }
+        this.setState({ [e.target.name] : e.target.value })
+    }
 
     // handleChange = this.handleChanges.bind(this);
 
@@ -75,12 +67,6 @@ class Register extends React.Component {
         this.pwdTest(this.state.password);
     }
     pwdOnChange = this.pwdOnChanges.bind(this);
-    state = {
-        password: '',
-        strength: false,
-        notification: '',
-        passPharse: false,
-    };
 
     render() {
         const isStrong = this.state.strength;
@@ -101,11 +87,11 @@ class Register extends React.Component {
                     password strength: <span className="text-danger font-weight-700">weak<br /></span>
                     <span className="text-danger font-weight-700">{this.state.notification}</span>
                 </small>
-                
+
             </div>
 
 
-            ;       
+            ;
           }
         return <>
             <AuthHeader title="Create an account" lead="Create a new account for voting." />
@@ -183,5 +169,3 @@ class Register extends React.Component {
         </>;
     }
 }
-
-export default Register;
