@@ -8,7 +8,7 @@
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
 
 * Coded by Creative Tim
-* Edited by Tinson Lai
+* Edited by Tinson Lai, Minhao Zhu
 
 =========================================================
 
@@ -19,7 +19,7 @@
 import classnames from "classnames";
 import React from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
     Button,
     Card,
@@ -36,28 +36,33 @@ import {
     Row
 } from "reactstrap";
 
+import { ReCAPTCHA_key } from "../../constants"
 import { auth } from "../../firebase";
 import AuthHeader from "./header/AuthHeader";
 
-class Login extends React.Component {
+export default class Login extends React.Component {
+    state = {};
+
     /**
      * @type {React.RefObject<ReCAPTCHA>}
      */
     recaptcha = React.createRef();
 
-    state = {};
+    /**
+     * @param {ChangeEvent} e
+     */
+    onchange = e => this.setState({ [e.target.name]: e.target.value })
 
     /**
      * @param {FormEvent} e
      */
-    login = (e) => {
+    login = e => {
         e.preventDefault();
-        this.recaptcha.current.execute();
-        console.log("test");
 
-        auth.signInWithEmailAndPassword(this.state.email, this.state.password).catch(e => {
-            this.recaptcha.current.reset()
-        });
+        auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(
+            () => this.recaptcha.current.reset(),
+            e => this.recaptcha.current.reset()
+        );
     }
 
     render() {
@@ -76,7 +81,7 @@ class Login extends React.Component {
                                                     <i className="ni ni-email-83" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Email" type="email" required onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} onChange={e => this.setState({ email: e.target.value })} />
+                                            <Input placeholder="Email" type="email" name="email" required onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} onChange={this.onchange} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className={classnames({ focused: this.state.focusedPassword })}>
@@ -86,12 +91,12 @@ class Login extends React.Component {
                                                     <i className="ni ni-lock-circle-open" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Password" type="password" required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } onChange={e => this.setState({ password: e.target.value })} />
+                                            <Input placeholder="Password" type="password" name="password" required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } onChange={this.onchange} />
                                         </InputGroup>
                                     </FormGroup>
-                                    <ReCAPTCHA size="invisible" sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" ref={this.recaptcha} />
+                                    <ReCAPTCHA className="text-center" sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
                                     <div className="text-center">
-                                        <Button className="my-4" color="info" type="submit">Sign in</Button>
+                                        <Button className="my-4" color="info" type="submit" disabled={!this.state.checked}>Sign In</Button>
                                     </div>
                                 </Form>
                             </CardBody>
@@ -110,5 +115,3 @@ class Login extends React.Component {
         </>;
     }
 }
-
-export default Login;

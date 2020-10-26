@@ -19,19 +19,18 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import { auth } from "../firebase";
-import AuthNavbar from "./component/navbar/AuthNavbar";
 import Login from "./component/Login";
 import Register from "./component/Register";
+import AuthNavbar from "./component/navbar/AuthNavbar";
 
-class Auth extends React.Component {
+export default class Auth extends React.Component {
     /**
      * @type {React.RefObject<HTMLDivElement>}
      */
     mainContent = React.createRef();
 
     componentDidMount() {
-        this.resetScroll()
+        this.resetScroll();
         document.body.classList.add("bg-default");
     }
 
@@ -39,9 +38,9 @@ class Auth extends React.Component {
         document.body.classList.remove("bg-default");
     }
 
-    componentDidUpdate(e) {
-        if (e.history.pathname !== e.location.pathname)
-            this.resetScroll()
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.history.pathname !== prevProps.location.pathname)
+            this.resetScroll();
     }
 
     resetScroll() {
@@ -51,18 +50,15 @@ class Auth extends React.Component {
     }
 
     render() {
-        const { user } = auth;
         return <>
             <div className="main-content" ref={this.mainContent}>
                 <AuthNavbar />
                 <Switch>
-                    <Route path="/login" render={props => user?.emailVerified ? <Redirect to="/dashboard" /> : <Login {...props}/>} key={0} />
-                    <Route path="/register" render={props => user ? user.emailVerified ? <Redirect to="/dashboard" /> : <Redirect to="/login" /> : <Register {...props}/>} key={1} />
+                    <Route path="/login" component={Login} key={0} />
+                    <Route path="/register" component={Register} key={1} />
                     <Redirect from="/" to="/login" />
                 </Switch>
             </div>
         </>;
     }
 }
-
-export default Auth;
