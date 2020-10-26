@@ -47,6 +47,30 @@ const options = [
 
 
 class Register extends React.Component {
+
+    state = {
+        email: '',
+        password: '',
+        strength: false,
+        notification: '',
+        passPharse: false,
+    };
+
+    signup(e){
+        e.preventDefault();
+        auth.createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
+        //   console.log(u);
+        }).catch((err)=>{
+        //   console.log(err);
+        })
+      }
+      
+      signUp = this.signup.bind(this);
+    
+    /**
+     * 
+     * @param {*} e 
+     */
     handleChanges(e){
         // console.log(e.target.name+" " +e.target.value)
         this.setState({
@@ -54,8 +78,12 @@ class Register extends React.Component {
         })
       }
 
-    // handleChange = this.handleChanges.bind(this);
+    handleChange = this.handleChanges.bind(this);
 
+    /**
+     * 
+     * @param {*} pwd 
+     */
     pwdTest(pwd){
         var result = owasp.test(pwd);
         this.setState({strength : result['strong']});
@@ -70,17 +98,14 @@ class Register extends React.Component {
         // return result;
     }
 
+
     pwdOnChanges(e){
         this.handleChanges(e);
         this.pwdTest(this.state.password);
     }
+
     pwdOnChange = this.pwdOnChanges.bind(this);
-    state = {
-        password: '',
-        strength: false,
-        notification: '',
-        passPharse: false,
-    };
+   
 
     render() {
         const isStrong = this.state.strength;
@@ -122,7 +147,7 @@ class Register extends React.Component {
                                                     <i className="ni ni-hat-3" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Name" type="text" required onFocus={() => this.setState({ focusedName: true })} onBlur={() => this.setState({ focusedName: false })} />
+                                            <Input placeholder="Name" type="text" required onChange={this.handleChange} onFocus={() => this.setState({ focusedName: true })} onBlur={() => this.setState({ focusedName: false })} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className={classnames({ focused: this.state.focusedGender })}>
@@ -132,7 +157,7 @@ class Register extends React.Component {
                                                     <i className="ni ni-single-02" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input type="select" defaultValue="" required onFocus={() => this.setState({ focusedGender: true })} onBlur={() => this.setState( { focusedGender: false })}>
+                                            <Input type="select" defaultValue="" onChange={this.handleChange} equired onFocus={() => this.setState({ focusedGender: true })} onBlur={() => this.setState( { focusedGender: false })}>
                                                 <option value="" disabled hidden>Gender</option>
                                                 <option value="FEMALE">Female</option>
                                                 <option value="MALE">Male</option>
@@ -146,7 +171,7 @@ class Register extends React.Component {
                                                     <i className="ni ni-world" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input type="date" required onFocus={() => this.setState({ focusedBirthday: true })} onBlur={() => this.setState( { focusedBirthday: false })} />
+                                            <Input type="date" required onFocus={() => this.setState({ focusedBirthday: true })} onChange={this.handleChange} onBlur={() => this.setState( { focusedBirthday: false })} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className={classnames({ focused: this.state.focusedEmail })}>
@@ -156,7 +181,7 @@ class Register extends React.Component {
                                                     <i className="ni ni-email-83" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Email" type="email" required onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} />
+                                            <Input placeholder="Email" type="email" name="email" required onChange={this.handleChange} onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className={classnames({ focused: this.state.focusedPassword })}>
@@ -172,7 +197,7 @@ class Register extends React.Component {
                                     {strengthTxt}
 
                                     <div className="text-center">
-                                        <Button className="mt-4" color="info" type="submit">Create account</Button>
+                                        <Button className="mt-4" color="info" type="submit" onClick={this.signUp}>Create account</Button>
                                     </div>
                                 </Form>
                             </CardBody>
