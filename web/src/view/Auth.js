@@ -19,9 +19,9 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import AuthNavbar from "./component/navbar/AuthNavbar";
 import Login from "./component/Login";
 import Register from "./component/Register";
+import AuthNavbar from "./component/navbar/AuthNavbar";
 
 export default class Auth extends React.Component {
     /**
@@ -30,7 +30,7 @@ export default class Auth extends React.Component {
     mainContent = React.createRef();
 
     componentDidMount() {
-        this.resetScroll()
+        this.resetScroll();
         document.body.classList.add("bg-default");
     }
 
@@ -40,7 +40,7 @@ export default class Auth extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.history.pathname !== prevProps.location.pathname)
-            this.resetScroll()
+            this.resetScroll();
     }
 
     resetScroll() {

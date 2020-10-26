@@ -8,7 +8,7 @@
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
 
 * Coded by Creative Tim
-* Edited by Tinson Lai
+* Edited by Tinson Lai, Minhao Zhu
 
 =========================================================
 
@@ -36,16 +36,22 @@ import {
     Row
 } from "reactstrap";
 
-import { auth } from "../../firebase";
 import { ReCAPTCHA_key } from "../../constants"
-import UserComponent from "../../UserComponent";
+import { auth } from "../../firebase";
 import AuthHeader from "./header/AuthHeader";
 
-export default class Login extends UserComponent {
+export default class Login extends React.Component {
+    state = {};
+
     /**
-     * @type {React.RefObject<ReCAPTCHA>>}
+     * @type {React.RefObject<ReCAPTCHA>}
      */
     recaptcha = React.createRef();
+
+    /**
+     * @param {ChangeEvent} e
+     */
+    onchange = e => this.setState({ [e.target.name]: e.target.value })
 
     /**
      * @param {FormEvent} e
@@ -55,7 +61,7 @@ export default class Login extends UserComponent {
 
         auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(
             () => this.recaptcha.current.reset(),
-            console.log
+            e => this.recaptcha.current.reset()
         );
     }
 
@@ -75,7 +81,7 @@ export default class Login extends UserComponent {
                                                     <i className="ni ni-email-83" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Email" type="email" required onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} onChange={e => this.setState({ email: e.target.value })} />
+                                            <Input placeholder="Email" type="email" name="email" required onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} onChange={this.onchange} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className={classnames({ focused: this.state.focusedPassword })}>
@@ -85,12 +91,12 @@ export default class Login extends UserComponent {
                                                     <i className="ni ni-lock-circle-open" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Password" type="password" required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } onChange={e => this.setState({ password: e.target.value })} />
+                                            <Input placeholder="Password" type="password" name="password" required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } onChange={this.onchange} />
                                         </InputGroup>
                                     </FormGroup>
                                     <ReCAPTCHA className="text-center" sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
                                     <div className="text-center">
-                                        <Button className="my-4" color="info" type="submit" disabled={!this.state.checked}>Sign in</Button>
+                                        <Button className="my-4" color="info" type="submit" disabled={!this.state.checked}>Sign In</Button>
                                     </div>
                                 </Form>
                             </CardBody>
