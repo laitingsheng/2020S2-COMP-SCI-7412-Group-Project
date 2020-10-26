@@ -58,13 +58,13 @@ class Register extends React.Component {
 
     pwdTest(pwd){
         var result = owasp.test(pwd);
-        this.state.strength = result['strong'];
-        this.state.passPharse = result['isPassphrase'];
+        this.setState({strength : result['strong']});
+        this.setState({passPharse : result['isPassphrase']});
         var requirement = result['errors'];
         if(requirement.length!=0){
-            this.state.notification = requirement[0];
+            this.setState({notification : requirement[0]});
         }else{
-            this.state.notification = '';
+            this.setState({notification : ''});
         }
         // console.log(result);
         // return result;
