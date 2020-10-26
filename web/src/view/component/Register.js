@@ -58,8 +58,16 @@ class Register extends React.Component {
 
     pwdTest(pwd){
         var result = owasp.test(pwd);
-        console.log(result);
-        return result;
+        this.state.strength = result['strong'];
+        this.state.passPharse = result['isPassphrase'];
+        var requirement = result['errors'];
+        if(requirement.length!=0){
+            this.state.notification = requirement[0];
+        }else{
+            this.state.notification = '';
+        }
+        // console.log(result);
+        // return result;
     }
 
     pwdOnChanges(e){
@@ -68,11 +76,37 @@ class Register extends React.Component {
     }
     pwdOnChange = this.pwdOnChanges.bind(this);
     state = {
-        password:'',
+        password: '',
+        strength: false,
+        notification: '',
+        passPharse: false,
     };
 
     render() {
-        
+        const isStrong = this.state.strength;
+        const isPassPharse = this.state.passPharse;
+        let strengthTxt;
+        if (isStrong || isPassPharse) {
+            strengthTxt =
+            <div className="text-muted font-italic">
+                <small>
+                    password strength: <span className="text-success font-weight-700">strong</span>
+                </small>
+            </div>
+            ;
+          } else {
+            strengthTxt =
+            <div className="text-muted font-italic">
+                <small>
+                    password strength: <span className="text-danger font-weight-700">weak<br /></span>
+                    <span className="text-danger font-weight-700">{this.state.notification}</span>
+                </small>
+                
+            </div>
+
+
+            ;       
+          }
         return <>
             <AuthHeader title="Create an account" lead="Create a new account for voting." />
             <Container className="mt--8 pb-5">
@@ -135,11 +169,8 @@ class Register extends React.Component {
                                             <Input placeholder="Password" type="password" name="password" onChange={this.pwdOnChange} required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } />
                                         </InputGroup>
                                     </FormGroup>
-                                        <div className="text-muted font-italic">
-                                        <small>
-                                            password strength: <span className="text-success font-weight-700">strong</span>
-                                        </small>
-                                    </div>
+                                    {strengthTxt}
+
                                     <div className="text-center">
                                         <Button className="mt-4" color="info" type="submit">Create account</Button>
                                     </div>
