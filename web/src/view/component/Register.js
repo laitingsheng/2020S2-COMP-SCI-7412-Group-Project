@@ -9,6 +9,7 @@
 
 * Coded by Creative Tim
 * Edited by Tinson Lai
+* Edited by Minhao Zhu
 
 =========================================================
 
@@ -44,10 +45,34 @@ const options = [
 ]
 
 
+
 class Register extends React.Component {
-    state = {};
+    handleChanges(e){
+        // console.log(e.target.name+" " +e.target.value)
+        this.setState({
+          [e.target.name] : e.target.value
+        })
+      }
+
+    // handleChange = this.handleChanges.bind(this);
+
+    pwdTest(pwd){
+        var result = owasp.test(pwd);
+        console.log(result);
+        return result;
+    }
+
+    pwdOnChanges(e){
+        this.handleChanges(e);
+        this.pwdTest(this.state.password);
+    }
+    pwdOnChange = this.pwdOnChanges.bind(this);
+    state = {
+        password:'',
+    };
 
     render() {
+        
         return <>
             <AuthHeader title="Create an account" lead="Create a new account for voting." />
             <Container className="mt--8 pb-5">
@@ -107,7 +132,7 @@ class Register extends React.Component {
                                                     <i className="ni ni-lock-circle-open" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Password" type="password" required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } />
+                                            <Input placeholder="Password" type="password" name="password" onChange={this.pwdOnChange} required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } />
                                         </InputGroup>
                                     </FormGroup>
                                         <div className="text-muted font-italic">
