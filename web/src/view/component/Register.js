@@ -19,25 +19,14 @@
 import classnames from "classnames";
 import owasp from "owasp-password-strength-test";
 import React from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import {
-    Button,
-    Card,
-    CardBody,
-    FormGroup,
-    Form,
-    Input,
-    InputGroupAddon,
-    InputGroupText,
-    InputGroup,
-    Container,
-    Row,
-    Col
+    Button, Card, CardBody, Col, Container, Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText, Row
 } from "reactstrap";
 
-import { ReCAPTCHA_key } from "../../constants"
-import { auth, firestore } from "../../firebase.js";
-import AuthHeader from "./header/AuthHeader";
-import ReCAPTCHA from "react-google-recaptcha";
+import { ReCAPTCHA_key } from "Keys";
+import { auth, firestore } from "FirebaseClient.js";
+import AuthHeader from "view/component/header/AuthHeader";
 
 export default class Register extends React.Component {
     state = {};

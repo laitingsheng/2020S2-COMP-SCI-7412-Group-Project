@@ -19,10 +19,9 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import UserComponent from "../UserComponent";
-import Login from "./component/Login";
-import Register from "./component/Register";
-import AuthNavbar from "./component/navbar/AuthNavbar";
+import UserComponent from "UserComponent";
+import routes from "routing/Auth"
+import AuthNavbar from "view/component/navbar/AuthNavbar";
 
 export default class Auth extends UserComponent {
     /**
@@ -47,8 +46,7 @@ export default class Auth extends UserComponent {
             <div className="main-content" ref={this.mainContent}>
                 <AuthNavbar />
                 <Switch>
-                    <Route path="/auth/login" component={Login} key={0} />
-                    <Route path="/auth/register" component={Register} key={1} />
+                    {routes.map(({ path, component }, key) => <Route path={`/auth/${path}`} component={component} key={key} />)}
                     <Redirect from="*" to="/auth/login" />
                 </Switch>
             </div>

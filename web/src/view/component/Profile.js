@@ -16,15 +16,12 @@
 
 */
 
-import Profile from "view/component/Profile"
+import UserComponent from "../../UserComponent";
 
-const routes = [
-    {
-        path: "/profile",
-        name: "Profile",
-        icon: "ni ni-archive-2 text-info",
-        component: Profile
+export default class Profile extends UserComponent {
+    render() {
+        const { user } = this.state;
+        if (user)
+            return <></>;
     }
-];
-
-export default routes;
+}
