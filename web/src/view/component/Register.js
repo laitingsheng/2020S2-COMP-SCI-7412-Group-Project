@@ -8,7 +8,7 @@
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
 
 * Coded by Creative Tim
-* Edited by Tinson Lai
+* Edited by Tinson Lai, Minhao Zhu
 
 =========================================================
 
@@ -17,7 +17,6 @@
 */
 
 import classnames from "classnames";
-import moment from "moment";
 import owasp from "owasp-password-strength-test";
 import React from "react";
 import {
@@ -35,17 +34,78 @@ import {
     Col
 } from "reactstrap";
 
-import { auth } from "../../firebase.js";
+import { ReCAPTCHA_key } from "../../constants"
+import { auth, firestore } from "../../firebase.js";
 import AuthHeader from "./header/AuthHeader";
+import ReCAPTCHA from "react-google-recaptcha";
 
-const options = [
-    { value: "female", label: "Female" },
-    { value: "male", label: "Male" }
-]
-
-
-class Register extends React.Component {
+export default class Register extends React.Component {
     state = {};
+
+    /**
+     * @type {React.RefObject<ReCAPTCHA>}
+     */
+    recaptcha = React.createRef();
+
+<<<<<<<<< Temporary merge branch 1
+export default class Register extends React.Component {
+    state = {};
+=========
+    /**
+     * @param {ChangeEvent} e
+     */
+    onchange = e => this.setState({ [e.target.name]: e.target.value })
+
+    /**
+     * @param {ChangeEvent} e
+     */
+    check = e => {
+        const password = e.target.value;
+        const result = owasp.test(password);
+        this.setState({
+            password,
+            strength: result.strong ? 2 : result.requiredTestErrors.length <= result.optionalTestsPassed ? 1 : 0
+        });
+    }
+
+    /**
+     *
+     * @param {firebase.User} user
+     */
+    postRegister = ({ user }) => {
+        this.recaptcha.current.reset();
+
+        user.updateProfile({ displayName: this.state.name }).catch(console.log);
+
+        firestore.collection("users").doc(user.uid).set({ name: this.state.name }).catch(console.log);
+    }
+
+    /**
+     * @param {FormEvent} e
+     */
+    register = e => {
+        e.preventDefault();
+
+        auth.createUserWithEmailAndPassword(this.state.email, this.state.password).then(
+            this.postRegister,
+            () => this.recaptcha.current.reset()
+        )
+    }
+
+    /**
+     * @returns {JSX.Element}
+     */
+    renderStrength() {
+        switch (this.state.strength) {
+            default:
+                return <span className={classnames("text-danger", "font-weight-700")}>Weak</span>;
+            case 1:
+                return <span className={classnames("text-warning", "font-weight-700")}>Medium</span>;
+            case 2:
+                return <span className={classnames("text-success", "font-weight-700")}>Strong</span>;
+        }
+    }
+>>>>>>>>> Temporary merge branch 2
 
     render() {
         return <>
@@ -55,7 +115,7 @@ class Register extends React.Component {
                     <Col lg="6" md="8">
                         <Card className="bg-secondary border-0">
                             <CardBody className="px-lg-5 py-lg-5">
-                                <Form role="form">
+                                <Form role="form" onSubmit={this.register}>
                                     <FormGroup className={classnames({ focused: this.state.focusedName })}>
                                         <InputGroup className="input-group-merge input-group-alternative mb-3">
                                             <InputGroupAddon addonType="prepend">
@@ -63,31 +123,7 @@ class Register extends React.Component {
                                                     <i className="ni ni-hat-3" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Name" type="text" required onFocus={() => this.setState({ focusedName: true })} onBlur={() => this.setState({ focusedName: false })} />
-                                        </InputGroup>
-                                    </FormGroup>
-                                    <FormGroup className={classnames({ focused: this.state.focusedGender })}>
-                                        <InputGroup className="input-group-merge input-group-alternative mb-3">
-                                            <InputGroupAddon addonType="prepend">
-                                                <InputGroupText>
-                                                    <i className="ni ni-single-02" />
-                                                </InputGroupText>
-                                            </InputGroupAddon>
-                                            <Input type="select" defaultValue="" required onFocus={() => this.setState({ focusedGender: true })} onBlur={() => this.setState( { focusedGender: false })}>
-                                                <option value="" disabled hidden>Gender</option>
-                                                <option value="FEMALE">Female</option>
-                                                <option value="MALE">Male</option>
-                                            </Input>
-                                        </InputGroup>
-                                    </FormGroup>
-                                    <FormGroup className={classnames({ focused: this.state.focusedBirthday })}>
-                                        <InputGroup className="input-group-merge input-group-alternative mb-3">
-                                            <InputGroupAddon addonType="prepend">
-                                                <InputGroupText>
-                                                    <i className="ni ni-world" />
-                                                </InputGroupText>
-                                            </InputGroupAddon>
-                                            <Input type="date" required onFocus={() => this.setState({ focusedBirthday: true })} onBlur={() => this.setState( { focusedBirthday: false })} />
+                                            <Input placeholder="Name" type="text" name="name" required onFocus={() => this.setState({ focusedName: true })} onBlur={() => this.setState({ focusedName: false })} onChange={this.onchange} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className={classnames({ focused: this.state.focusedEmail })}>
@@ -97,7 +133,7 @@ class Register extends React.Component {
                                                     <i className="ni ni-email-83" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Email" type="email" required onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} />
+                                            <Input placeholder="Email" type="email" name="email" required onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} onChange={this.onchange} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className={classnames({ focused: this.state.focusedPassword })}>
@@ -107,16 +143,17 @@ class Register extends React.Component {
                                                     <i className="ni ni-lock-circle-open" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Password" type="password" required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } />
+                                            <Input placeholder="Password" type="password" name="password" required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } onChange={this.check} />
                                         </InputGroup>
                                     </FormGroup>
-                                        <div className="text-muted font-italic">
+                                    <div className="text-muted font-italic">
                                         <small>
-                                            password strength: <span className="text-success font-weight-700">strong</span>
+                                            Password Strength: {this.renderStrength()}
                                         </small>
                                     </div>
+                                    <ReCAPTCHA className="text-center" sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
                                     <div className="text-center">
-                                        <Button className="mt-4" color="info" type="submit">Create account</Button>
+                                        <Button className="mt-4" color="info" type="submit" disabled={!this.state.strength || !this.state.checked}>Create Account</Button>
                                     </div>
                                 </Form>
                             </CardBody>
@@ -127,5 +164,3 @@ class Register extends React.Component {
         </>;
     }
 }
-
-export default Register;

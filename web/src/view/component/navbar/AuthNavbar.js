@@ -8,6 +8,7 @@
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
 
 * Coded by Creative Tim
+* Edited by Tinson Lai
 
 =========================================================
 
@@ -29,6 +30,8 @@ import {
     Col
 } from "reactstrap";
 
+import routes from "routing/Auth";
+
 class AuthNavbar extends React.Component {
     render() {
         return <>
@@ -49,16 +52,11 @@ class AuthNavbar extends React.Component {
                             </Row>
                         </div>
                         <Nav className="mr-auto" navbar>
-                            <NavItem>
-                                <NavLink to="/login" tag={Link}>
-                                    <span className="nav-link-inner--text">Login</span>
+                            {routes.map(({ path, name }, key) => <NavItem>
+                                <NavLink to={`/auth/${path}`} tag={Link} key={key}>
+                                    <span className="nav-link-inner--text">{name}</span>
                                 </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink to="/register" tag={Link}>
-                                    <span className="nav-link-inner--text">Register</span>
-                                </NavLink>
-                            </NavItem>
+                            </NavItem>)}
                         </Nav>
                     </UncontrolledCollapse>
                 </Container>

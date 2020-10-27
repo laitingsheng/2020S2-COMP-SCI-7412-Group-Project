@@ -19,6 +19,10 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
+<<<<<<<<< Temporary merge branch 1
+import AuthNavbar from "./component/navbar/AuthNavbar";
+=========
+>>>>>>>>> Temporary merge branch 2
 import Login from "./component/Login";
 import Register from "./component/Register";
 import AuthNavbar from "./component/navbar/AuthNavbar";
@@ -40,7 +44,11 @@ export default class Auth extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.history.pathname !== prevProps.location.pathname)
+<<<<<<<<< Temporary merge branch 1
+            this.resetScroll()
+=========
             this.resetScroll();
+>>>>>>>>> Temporary merge branch 2
     }
 
     resetScroll() {

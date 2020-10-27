@@ -38,21 +38,30 @@ import {
 
 import { ReCAPTCHA_key } from "../../constants"
 import { auth } from "../../firebase";
+import { ReCAPTCHA_key } from "../../constants"
+import UserComponent from "../../UserComponent";
 import AuthHeader from "./header/AuthHeader";
 
+<<<<<<<<< Temporary merge branch 1
+export default class Login extends UserComponent {
+=========
 export default class Login extends React.Component {
     state = {};
 
+>>>>>>>>> Temporary merge branch 2
     /**
-     * @type {React.RefObject<ReCAPTCHA>}
+     * @type {React.RefObject<ReCAPTCHA>>}
      */
     recaptcha = React.createRef();
 
+<<<<<<<<< Temporary merge branch 1
+=========
     /**
      * @param {ChangeEvent} e
      */
     onchange = e => this.setState({ [e.target.name]: e.target.value })
 
+>>>>>>>>> Temporary merge branch 2
     /**
      * @param {FormEvent} e
      */
@@ -61,7 +70,11 @@ export default class Login extends React.Component {
 
         auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(
             () => this.recaptcha.current.reset(),
+<<<<<<<<< Temporary merge branch 1
+            console.log
+=========
             e => this.recaptcha.current.reset()
+>>>>>>>>> Temporary merge branch 2
         );
     }
 
@@ -96,7 +109,11 @@ export default class Login extends React.Component {
                                     </FormGroup>
                                     <ReCAPTCHA className="text-center" sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
                                     <div className="text-center">
+<<<<<<<<< Temporary merge branch 1
+                                        <Button className="my-4" color="info" type="submit" disabled={!this.state.checked}>Sign in</Button>
+=========
                                         <Button className="my-4" color="info" type="submit" disabled={!this.state.checked}>Sign In</Button>
+>>>>>>>>> Temporary merge branch 2
                                     </div>
                                 </Form>
                             </CardBody>

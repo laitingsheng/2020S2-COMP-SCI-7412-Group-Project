@@ -16,10 +16,11 @@
 */
 
 import React from "react";
-import { auth } from "./firebase";
+
+import { auth } from "FirebaseClient";
 
 export default class UserComponent extends React.Component {
-    state = {};
+    state = { user: auth.currentUser };
 
     /**
      * @param {firebase.User | null} user

@@ -32,6 +32,6 @@ firebase.initializeApp({
 
 export const auth = firebase.auth();
 
-export const firestore = firebase.firestore();
+auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).catch(console.log);
 
-export default { auth, firestore };
+export const firestore = firebase.firestore();

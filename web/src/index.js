@@ -27,9 +27,20 @@ import "select2/dist/css/select2.min.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
-import App from "./App";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import AdminLayout from "layout/Admin";
+import AuthLayout from "layout/Auth";
 
-import "./assets/css/nucleo.css";
-import "./assets/scss/argon-dashboard-pro-react.scss";
+import "assets/css/nucleo.css";
+import "assets/scss/argon-dashboard-pro-react.scss";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+    <BrowserRouter>
+        <Switch>
+            <Route path="/dashboard" component={AdminLayout} />
+            <Route path="/auth" component={AuthLayout} />
+            <Redirect from="*" to="/auth" />
+        </Switch>
+    </BrowserRouter>,
+    document.getElementById("root")
+);

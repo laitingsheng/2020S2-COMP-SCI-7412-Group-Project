@@ -7,7 +7,8 @@
 * Product Page: https://www.creative-tim.com/product/argon-dashboard-pro-react
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
 
-* Coded by Tinson Lai
+* Coded by Creative Tim
+* Edited by Tinson Lai
 
 =========================================================
 
@@ -15,4 +16,20 @@
 
 */
 
-export const ReCAPTCHA_key = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
+import Login from "view/component/Login";
+import Register from "view/component/Register";
+
+const routes = [
+    {
+        path: "login",
+        name: "Login",
+        component: Login
+    },
+    {
+        path: "register",
+        name: "Register",
+        component: Register
+    }
+];
+
+export default routes;

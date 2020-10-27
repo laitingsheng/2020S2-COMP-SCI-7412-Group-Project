@@ -17,29 +17,18 @@
 */
 
 import React from "react";
-// react library for routing
-import { Switch, Redirect } from "react-router-dom";
-// core components
-import AdminNavbar from "./component/navbar/AdminNavbar.js";
-import Sidebar from "./component/Sidebar.js";
+import { Switch, Redirect, Route } from "react-router-dom";
 
-class Admin extends React.Component {
+import UserComponent from "UserComponent";
+import AdminNavbar from "view/component/navbar/AdminNavbar.js";
+import Sidebar from "view/component/Sidebar.js";
+import routes from "routing/Admin";
+
+class Admin extends UserComponent {
     /**
      * @type {React.RefObject<HTMLDivElement>}
      */
     mainContent = React.createRef();
-
-    state = {
-        sidenavOpen: true
-    };
-
-    componentDidUpdate(e) {
-        if (e.history.pathname !== e.location.pathname) {
-            document.documentElement.scrollTop = 0;
-            document.scrollingElement.scrollTop = 0;
-            this.mainContent.current.scrollTop = 0;
-        }
-    }
 
     closeSidenav = () => {
         if (window.innerWidth < 1200) {
@@ -62,16 +51,17 @@ class Admin extends React.Component {
     };
 
     render() {
-        return <>
+        return this.state.user ? <>
             <Sidebar {...this.props} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
             <div className="main-content" ref={this.mainContent} onClick={this.closeSidenav}>
                 <AdminNavbar {...this.props} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
                 <Switch>
-                    <Redirect from="/dashboard/" to="/dashboard" />
+                    {routes.map(({ path, component }, key) => <Route path={`/dashboard/${path}`} component={component} key={key} />)}
+                    <Redirect from="*" to="/dashboard" />
                 </Switch>
             </div>
             {this.state.sidenavOpen ? <div className="backdrop d-xl-none" onClick={this.toggleSidenav} /> : null}
-        </>;
+        </> : <Redirect to="/" />;
     }
 }
 

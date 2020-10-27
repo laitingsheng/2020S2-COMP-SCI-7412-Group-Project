@@ -8,64 +8,69 @@
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
 
 * Coded by Creative Tim
+* Edited by Tinson Lai
 
 =========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-// react library for routing
-import {NavLink as NavLinkRRD, Link} from "react-router-dom";
-// nodejs library that concatenates classes
+
 import classnames from "classnames";
-// nodejs library to set properties for components
-import {PropTypes} from "prop-types";
-// react library that creates nice scrollbar on windows devices
+import PropTypes from "prop-types";
+import React from "react";
+import { NavLink as NavLinkRDD } from "react-router-dom";
 import PerfectScrollbar from "react-perfect-scrollbar";
-// reactstrap components
-import {
-    Collapse, NavbarBrand, Navbar, NavItem, NavLink, Nav
-} from "reactstrap";
+import { Collapse, Nav, Navbar, NavItem, NavLink } from "reactstrap";
+
+import routes from "routing/Admin";
 
 class Sidebar extends React.Component {
+    state = { active: 0 };
+
     onMouseEnterSidenav = () => {
-        if (!document.body.classList.contains("g-sidenav-pinned")) {
+        if (!document.body.classList.contains("g-sidenav-pinned"))
             document.body.classList.add("g-sidenav-show");
-        }
     };
 
     onMouseLeaveSidenav = () => {
-        if (!document.body.classList.contains("g-sidenav-pinned")) {
+        if (!document.body.classList.contains("g-sidenav-pinned"))
             document.body.classList.remove("g-sidenav-show");
-        }
     };
 
     closeSidenav = () => {
-        if (window.innerWidth < 1200) {
+        if (window.innerWidth < 1200)
             this.props.toggleSidenav();
-        }
     };
 
     render() {
-        const scrollBarInner = (<div className="scrollbar-inner">
-                <div className="sidenav-header d-flex align-items-center">
-                    <div className="ml-auto">
-                        <div
-                            className={classnames("sidenav-toggler d-none d-xl-block", { active: this.props.sidenavOpen })}
-                            onClick={this.props.toggleSidenav}
-                        >
-                            <div className="sidenav-toggler-inner">
-                                <i className="sidenav-toggler-line"/>
-                                <i className="sidenav-toggler-line"/>
-                                <i className="sidenav-toggler-line"/>
-                            </div>
+        const scrollBarInner = <div className="scrollbar-inner">
+            <div className="sidenav-header d-flex align-items-center">
+                <div className="ml-auto">
+                    <div className={classnames("sidenav-toggler d-none d-xl-block", { active: this.props.sidenavOpen })} onClick={this.props.toggleSidenav}>
+                        <div className="sidenav-toggler-inner">
+                            <i className="sidenav-toggler-line"/>
+                            <i className="sidenav-toggler-line"/>
+                            <i className="sidenav-toggler-line"/>
                         </div>
                     </div>
                 </div>
-            </div>);
+            </div>
+            <div className="navbar-inner">
+                <Collapse navbar isOpen={true}>
+                    <Nav navbar>
+                        {routes.map(({ path, icon, name }, key) => <NavItem className={classnames({ active: this.state.active === key })} key={key}>
+                            <NavLink to={`/dashboard/${path}`} activeClassName="" onClick={this.closeSidenav} tag={NavLinkRDD}>
+                                <i className={icon} />
+                                <span className={"nav-link-text"}>{name}</span>
+                            </NavLink>
+                        </NavItem>)}
+                    </Nav>
+                </Collapse>
+            </div>
+        </div>;
         return <Navbar className="sidenav navbar-vertical navbar-expand-xs navbar-light bg-white fixed-left" onMouseEnter={this.onMouseEnterSidenav} onMouseLeave={this.onMouseLeaveSidenav}>
-            {navigator.platform.indexOf("Win") > -1 ? (<PerfectScrollbar>{scrollBarInner}</PerfectScrollbar>) : (scrollBarInner)}
+            {navigator.platform.indexOf("Win") > -1 ? <PerfectScrollbar>{scrollBarInner}</PerfectScrollbar> : scrollBarInner}
         </Navbar>;
     }
 }
