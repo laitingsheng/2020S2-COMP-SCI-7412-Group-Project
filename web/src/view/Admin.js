@@ -67,7 +67,7 @@ class Admin extends React.Component {
             <div className="main-content" ref={this.mainContent} onClick={this.closeSidenav}>
                 <AdminNavbar {...this.props} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
                 <Switch>
-                    <Redirect from="/dashboard/" to="/dashboard" />
+                    <Redirect from="*" to="/dashboard" />
                 </Switch>
             </div>
             {this.state.sidenavOpen ? <div className="backdrop d-xl-none" onClick={this.toggleSidenav} /> : null}

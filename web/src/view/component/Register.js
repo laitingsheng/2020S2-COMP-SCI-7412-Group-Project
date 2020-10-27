@@ -70,6 +70,7 @@ export default class Register extends React.Component {
      */
     postRegister = ({ user }) => {
         this.recaptcha.current.reset();
+        this.setState({ checked: false });
 
         user.updateProfile({ displayName: this.state.name }).catch(console.log);
 
@@ -84,7 +85,10 @@ export default class Register extends React.Component {
 
         auth.createUserWithEmailAndPassword(this.state.email, this.state.password).then(
             this.postRegister,
-            () => this.recaptcha.current.reset()
+            () => {
+                this.recaptcha.current.reset();
+                this.setState({ checked: false });
+            }
         )
     }
 
@@ -146,9 +150,9 @@ export default class Register extends React.Component {
                                             Password Strength: {this.renderStrength()}
                                         </small>
                                     </div>
-                                    <ReCAPTCHA className="text-center" sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
+                                    <ReCAPTCHA sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
                                     <div className="text-center">
-                                        <Button className="mt-4" color="info" type="submit" disabled={!this.state.strength || !this.state.checked}>Create Account</Button>
+                                        <Button className="mt-4" color="info" type="submit" disabled={this.state.strength < 2 || !this.state.checked}>Create Account</Button>
                                     </div>
                                 </Form>
                             </CardBody>

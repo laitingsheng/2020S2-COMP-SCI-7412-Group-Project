@@ -26,8 +26,8 @@ export default class App extends UserComponent {
     render() {
         return <BrowserRouter>
             <Switch>
-                <Route path="/dashboard" render={props => this.state.user ? <AdminLayout {...props} /> : <Redirect to="/login" /> } />
-                <Route path="/" render={props => this.state.user ? <Redirect to="/dashboard" /> : <AuthLayout {...props} /> } />
+                <Route path="/dashboard" component={AdminLayout} />
+                <Route path="/" component={AuthLayout} />
             </Switch>
         </BrowserRouter>;
     }

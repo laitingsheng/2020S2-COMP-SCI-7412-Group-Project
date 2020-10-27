@@ -60,8 +60,14 @@ export default class Login extends React.Component {
         e.preventDefault();
 
         auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(
-            () => this.recaptcha.current.reset(),
-            e => this.recaptcha.current.reset()
+            () => {
+                this.recaptcha.current.reset();
+                this.setState({ checked: false });
+            },
+            () => {
+                this.recaptcha.current.reset();
+                this.setState({ checked: false });
+            }
         );
     }
 
@@ -94,7 +100,7 @@ export default class Login extends React.Component {
                                             <Input placeholder="Password" type="password" name="password" required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } onChange={this.onchange} />
                                         </InputGroup>
                                     </FormGroup>
-                                    <ReCAPTCHA className="text-center" sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
+                                    <ReCAPTCHA sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
                                     <div className="text-center">
                                         <Button className="my-4" color="info" type="submit" disabled={!this.state.checked}>Sign In</Button>
                                     </div>
