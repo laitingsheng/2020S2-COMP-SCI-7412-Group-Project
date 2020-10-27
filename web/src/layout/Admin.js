@@ -17,11 +17,12 @@
 */
 
 import React from "react";
-import { Switch, Redirect } from "react-router-dom";
+import { Switch, Redirect, Route } from "react-router-dom";
 
 import UserComponent from "UserComponent";
 import AdminNavbar from "view/component/navbar/AdminNavbar.js";
 import Sidebar from "view/component/Sidebar.js";
+import routes from "routing/Admin";
 
 class Admin extends UserComponent {
     /**
@@ -55,6 +56,7 @@ class Admin extends UserComponent {
             <div className="main-content" ref={this.mainContent} onClick={this.closeSidenav}>
                 <AdminNavbar {...this.props} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
                 <Switch>
+                    {routes.map(({ path, component }, key) => <Route path={`/dashboard/${path}`} component={component} key={key} />)}
                     <Redirect from="*" to="/dashboard" />
                 </Switch>
             </div>

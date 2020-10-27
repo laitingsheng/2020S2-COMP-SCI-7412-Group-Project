@@ -8,6 +8,7 @@
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
 
 * Coded by Creative Tim
+* Edited by Tinson Lai
 
 =========================================================
 
@@ -51,8 +52,8 @@ class AuthNavbar extends React.Component {
                             </Row>
                         </div>
                         <Nav className="mr-auto" navbar>
-                            {routes.map(({ path, name }) => <NavItem>
-                                <NavLink to={`/auth/${path}`} tag={Link}>
+                            {routes.map(({ path, name }, key) => <NavItem>
+                                <NavLink to={`/auth/${path}`} tag={Link} key={key}>
                                     <span className="nav-link-inner--text">{name}</span>
                                 </NavLink>
                             </NavItem>)}

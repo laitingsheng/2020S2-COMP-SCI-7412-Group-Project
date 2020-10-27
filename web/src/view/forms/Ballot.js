@@ -8,17 +8,16 @@
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
 
 * Coded by Creative Tim
+* Edited by Hongyi Zheng, Tinson Lai
 
 =========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-// nodejs library that concatenates classes
-import classnames from "classnames";
-// reactstrap components
 
+import firebase from "firebase";
+import React from "react";
 import {
   Button,
   Card,
@@ -34,12 +33,9 @@ import {
   Col,
   CardHeader
 } from "reactstrap";
-// core components
-import AuthHeader from "components/Headers/AuthHeader.js";
-// Firebase App (the core Firebase SDK) is always required and must be listed first
-import * as firebase from "firebase";
 
-const db = firebase.firestore();
+import { firestore as db } from "FirebaseClient";
+import AuthHeader from "view/component/header/AuthHeader";
 
 class Lock extends React.Component {
 
@@ -55,10 +51,10 @@ class Lock extends React.Component {
       above:true
     }
 
-    
+
     validate = this.validate.bind(this);
     toggleChange = this.toggleChange.bind(this);
-    
+
     toggleChange() {
       this.setState({
           above: ! this.state.above
@@ -69,7 +65,7 @@ class Lock extends React.Component {
       let parties = this.state.parties;
       let party = parties[partyIndex];
       party.preference =  e.target.value;
-      this.state.parties = parties; 
+      this.state.parties = parties;
     }
 
     candidateChange(candidateName,e){
@@ -82,25 +78,25 @@ class Lock extends React.Component {
 
     createPartySelectItems() {
       let items = [];
-      items.push(<option value={0} selected>&nbsp;</option>)         
-      for (let i = 1; i <= this.state.parties.length; i++) {             
-           items.push(<option key={i} value={i}>{i}</option>);   
+      items.push(<option value={0} selected>&nbsp;</option>)
+      for (let i = 1; i <= this.state.parties.length; i++) {
+           items.push(<option key={i} value={i}>{i}</option>);
       }
       return items;
-  }  
+  }
 
   createCandidateSelectItems(i) {
     let items = [];
-    items.push(<option value={0} selected>&nbsp;</option>) 
+    items.push(<option value={0} selected>&nbsp;</option>)
     var candidateNumber = 0;
     this.state.parties.map(party=>
       candidateNumber += party.members.length
     )
-    
 
 
-    for (let i = 1; i <= candidateNumber; i++) {             
-         items.push(<option key={i} value={i}>{i}</option>);   
+
+    for (let i = 1; i <= candidateNumber; i++) {
+         items.push(<option key={i} value={i}>{i}</option>);
     }
     return items;
    }
@@ -138,12 +134,12 @@ class Lock extends React.Component {
             success = false;
             break;
         }
-          
+
         else{
           preferTemp.push(this.state.parties[i].preference);
         }
         }
-      
+
       if( success == true){
         this.state.parties.sort(this.dynamicsort("preference"));
         var counter = 1;
@@ -160,27 +156,27 @@ class Lock extends React.Component {
         }
 
         var uid = db.collection("elections").doc("2019").collection("ballots").doc("UCpPMWT7pENY7j0kuTJn5WLLP4N2");
-        
+
         uid.set({preferences:[]});
         let i = 0;
         while (i < this.state.preferences.length){
-          for(let h = 0;h < this.state.preferences.length;h++){  
+          for(let h = 0;h < this.state.preferences.length;h++){
             if(this.state.preferences[h] == i+1 ){
               i++;
               uid.update({
                 preferences: firebase.firestore.FieldValue.arrayUnion(this.state.candidateNames[h])
             });
             }
-            
-            
+
+
           }
         }
-        
+
         alert("Above:submit form successfully");
-        
+
 
     }
-    } 
+    }
     else{
       let preferTemp = [];
       var success = true;
@@ -196,38 +192,38 @@ class Lock extends React.Component {
             success = false;
             break;
         }
-          
+
         else{
           preferTemp.push(this.state.preferences[i]);
         }
         }
         if( success == true){
           var uid = db.collection("elections").doc("2019").collection("ballots").doc("UCpPMWT7pENY7j0kuTJn5WLLP4N2");
-        
+
         uid.set({preferences:[]});
         let i = 0;
         while (i < this.state.preferences.length){
-          for(let h = 0;h < this.state.preferences.length;h++){  
+          for(let h = 0;h < this.state.preferences.length;h++){
             if(this.state.preferences[h] == i+1 ){
               i++;
               uid.update({
                 preferences: firebase.firestore.FieldValue.arrayUnion(this.state.candidateNames[h])
             });
             }
-            
-            
+
+
           }
           }
           alert("Bellow:submit form successfully");
-          
+
         }
     }
 
 
    }
 
-   
-	
+
+
   render() {
     return (
       <>
@@ -248,8 +244,8 @@ class Lock extends React.Component {
             </CardHeader>
             <CardBody>
               <Row>
-                  {this.state.above ? 
-                    this.state.parties.map((party, i) => 
+                  {this.state.above ?
+                    this.state.parties.map((party, i) =>
                     <Col>
                       <div class="ballot-position">
                         <div class="ballot-number"> {i+1}
@@ -262,21 +258,21 @@ class Lock extends React.Component {
                       </div>
                     </Col>
                     )
-                   
+
                     :
-                    this.state.parties.map((party, i) => 
+                    this.state.parties.map((party, i) =>
                   <Col>
                     <div class="below-ballot-position">
                       <p class="party-title">{party.name}</p>
                       {party.members.map((member,j) =>
-                        <div class="ballot-candidate-group">                
-                          <div class="ballot-number">                  
+                        <div class="ballot-candidate-group">
+                          <div class="ballot-number">
                               <label htmlFor="candidate-aa-below">{member}</label>
                               <select id={member} class="below"  onChange = {(e) => this.candidateChange(member,e)}>
                                     {this.createCandidateSelectItems()}
                               </select>
                           </div>
-                          <div class="ballot-candidate"> 
+                          <div class="ballot-candidate">
                             <span>{party.name}</span>
                           </div>
                         </div>

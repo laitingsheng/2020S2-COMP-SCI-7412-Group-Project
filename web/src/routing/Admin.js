@@ -17,13 +17,20 @@
 */
 
 import Profile from "view/component/Profile"
+import Ballot from "view/forms/Ballot"
 
 const routes = [
     {
-        path: "/profile",
+        path: "profile",
         name: "Profile",
         icon: "ni ni-archive-2 text-info",
         component: Profile
+    },
+    {
+        path: "ballot",
+        name: "Ballot",
+        icon: "ni ni-archive-2 text-primary",
+        component: Ballot
     }
 ];
 
