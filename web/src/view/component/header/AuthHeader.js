@@ -15,13 +15,17 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-// nodejs library to set properties for components
-import PropTypes from "prop-types";
-// reactstrap components
-import { Container, Row, Col } from "reactstrap";
 
-class AuthHeader extends React.Component {
+import React from "react";
+import PropTypes from "prop-types";
+import { Col, Container, Row } from "reactstrap";
+
+export default class AuthHeader extends React.Component {
+    static propTypes = {
+        title: PropTypes.string,
+        lead: PropTypes.string
+    };
+
     render() {
         return <>
             <div className="header bg-gradient-info py-7 py-lg-8 pt-lg-9">
@@ -44,10 +48,3 @@ class AuthHeader extends React.Component {
         </>;
     }
 }
-
-AuthHeader.propTypes = {
-    title: PropTypes.string,
-    lead: PropTypes.string
-};
-
-export default AuthHeader;

@@ -32,10 +32,22 @@ import {
     Row,
     UncontrolledDropdown
 } from "reactstrap";
+import { auth, UserContext } from "FirebaseClient";
 
-import UserComponent from "../../../UserComponent";
+export default class AdminNavbar extends React.Component {
+    static propTypes = {
+        toggleSidenav: PropTypes.func,
+        sidenavOpen: PropTypes.bool
+    };
 
-class AdminNavbar extends UserComponent {
+    state = {};
+
+    logout = e => {
+        e.preventDefault();
+
+        auth.signOut().catch(console.log);
+    }
+
     render() {
         return <>
             <Navbar className="navbar-top navbar-expand border-bottom navbar-dark bg-info">
@@ -82,15 +94,15 @@ class AdminNavbar extends UserComponent {
                                 <DropdownToggle className="nav-link pr-0" color="" tag="a">
                                     <Media className="align-items-center">
                                         <span className="avatar avatar-sm rounded-circle">
-                                            <img src={this.state.user?.photoURL}/>
+                                            <UserContext.Consumer>{user => <img src={user?.photoURL}/>}</UserContext.Consumer>
                                         </span>
                                         <Media className="ml-2 d-none d-lg-block">
-                                            <span className="mb-0 text-sm font-weight-bold">{this.state.user?.displayName}</span>
+                                            <UserContext.Consumer>{user => <span className="mb-0 text-sm font-weight-bold">{user?.displayName}</span>}</UserContext.Consumer>
                                         </Media>
                                     </Media>
                                 </DropdownToggle>
                                 <DropdownMenu right>
-                                    <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
+                                    <DropdownItem href="#pablo" onClick={this.logout}>
                                         <i className="ni ni-user-run" />
                                         <span>Logout</span>
                                     </DropdownItem>
@@ -103,10 +115,3 @@ class AdminNavbar extends UserComponent {
         </>;
     }
 }
-
-AdminNavbar.propTypes = {
-    toggleSidenav: PropTypes.func,
-    sidenavOpen: PropTypes.bool
-};
-
-export default AdminNavbar;
