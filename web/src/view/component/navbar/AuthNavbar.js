@@ -29,6 +29,8 @@ import {
     Col
 } from "reactstrap";
 
+import routes from "routing/Auth";
+
 class AuthNavbar extends React.Component {
     render() {
         return <>
@@ -49,16 +51,11 @@ class AuthNavbar extends React.Component {
                             </Row>
                         </div>
                         <Nav className="mr-auto" navbar>
-                            <NavItem>
-                                <NavLink to="/login" tag={Link}>
-                                    <span className="nav-link-inner--text">Login</span>
+                            {routes.map(({ path, name }) => <NavItem>
+                                <NavLink to={`/auth/${path}`} tag={Link}>
+                                    <span className="nav-link-inner--text">{name}</span>
                                 </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink to="/register" tag={Link}>
-                                    <span className="nav-link-inner--text">Register</span>
-                                </NavLink>
-                            </NavItem>
+                            </NavItem>)}
                         </Nav>
                     </UncontrolledCollapse>
                 </Container>

@@ -16,14 +16,19 @@
 
 */
 
-import Profile from "../view/component/Profile"
+import Login from "view/component/Login";
+import Register from "view/component/Register";
 
 const routes = [
     {
-        path: "/profile",
-        name: "Profile",
-        icon: "ni ni-archive-2 text-info",
-        component: Profile
+        path: "login",
+        name: "Login",
+        component: Login
+    },
+    {
+        path: "register",
+        name: "Register",
+        component: Register
     }
 ];
 

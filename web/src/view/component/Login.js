@@ -36,9 +36,9 @@ import {
     Row
 } from "reactstrap";
 
-import { ReCAPTCHA_key } from "../../constants"
-import { auth } from "../../firebase";
-import AuthHeader from "./header/AuthHeader";
+import { auth } from "FirebaseClient";
+import { ReCAPTCHA_key } from "Keys"
+import AuthHeader from "view/component/header/AuthHeader";
 
 export default class Login extends React.Component {
     state = {};
