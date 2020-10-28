@@ -86,12 +86,12 @@ export default class Register extends React.Component {
      */
     renderStrength() {
         switch (this.state.strength) {
-            default:
-                return <span className={classnames("text-danger", "font-weight-700")}>Weak</span>;
             case 1:
                 return <span className={classnames("text-warning", "font-weight-700")}>Medium</span>;
             case 2:
                 return <span className={classnames("text-success", "font-weight-700")}>Strong</span>;
+            default:
+                return <span className={classnames("text-danger", "font-weight-700")}>Weak</span>;
         }
     }
 

@@ -23,6 +23,8 @@ import { NavLink as NavLinkRDD } from "react-router-dom";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Collapse, Nav, Navbar, NavItem, NavLink } from "reactstrap";
 
+import routes from "routing/Admin";
+
 class Sidebar extends React.Component {
     state = { active: 0 };
 
@@ -57,6 +59,12 @@ class Sidebar extends React.Component {
             <div className="navbar-inner">
                 <Collapse navbar isOpen={true}>
                     <Nav navbar>
+                        {routes.map(({ path, icon, name }, key) => <NavItem className={classnames({ active: this.state.active === key })} key={key}>
+                            <NavLink to={`/dashboard/${path}`} activeClassName="" onClick={this.closeSidenav} tag={NavLinkRDD}>
+                                <i className={icon} />
+                                <span className={"nav-link-text"}>{name}</span>
+                            </NavLink>
+                        </NavItem>)}
                     </Nav>
                 </Collapse>
             </div>

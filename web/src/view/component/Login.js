@@ -107,14 +107,6 @@ export default class Login extends React.Component {
                                 </Form>
                             </CardBody>
                         </Card>
-                        <Row className="mt-3">
-                            <Col xs="6" />
-                            <Col className="text-right" xs="6">
-                                <NavLink className="text-light" to="/register" tag={Link}>
-                                    <small>Create new account</small>
-                                </NavLink>
-                            </Col>
-                        </Row>
                     </Col>
                 </Row>
             </Container>
