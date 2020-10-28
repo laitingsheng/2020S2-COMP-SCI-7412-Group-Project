@@ -49,7 +49,7 @@ export default class AdminNavbar extends React.Component {
     }
 
     render() {
-        return <>
+        return <UserContext.Consumer>{user => <>
             <Navbar className="navbar-top navbar-expand border-bottom navbar-dark bg-info">
                 <Container fluid>
                     <Collapse navbar isOpen={true}>
@@ -61,8 +61,7 @@ export default class AdminNavbar extends React.Component {
                                 <DropdownMenu className="dropdown-menu-xl py-0 overflow-hidden" right>
                                     <div className="px-3 py-3">
                                         <h6 className="text-sm text-muted m-0">
-                                            You have <strong className="text-info">0</strong>{" "}
-                                            notifications.
+                                            You have <strong className="text-info">0</strong> notifications.
                                         </h6>
                                     </div>
                                     <ListGroup flush/>
@@ -94,10 +93,10 @@ export default class AdminNavbar extends React.Component {
                                 <DropdownToggle className="nav-link pr-0" color="" tag="a">
                                     <Media className="align-items-center">
                                         <span className="avatar avatar-sm rounded-circle">
-                                            <UserContext.Consumer>{user => <img src={user?.photoURL}/>}</UserContext.Consumer>
+                                            <img src={user?.photoURL}/>
                                         </span>
                                         <Media className="ml-2 d-none d-lg-block">
-                                            <UserContext.Consumer>{user => <span className="mb-0 text-sm font-weight-bold">{user?.displayName}</span>}</UserContext.Consumer>
+                                            <span className="mb-0 text-sm font-weight-bold">{user?.displayName}</span>
                                         </Media>
                                     </Media>
                                 </DropdownToggle>
@@ -112,6 +111,6 @@ export default class AdminNavbar extends React.Component {
                     </Collapse>
                 </Container>
             </Navbar>
-        </>;
+        </>}</UserContext.Consumer>;
     }
 }

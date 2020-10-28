@@ -21,27 +21,28 @@ import React from "react";
 import {
     Button,
     Card,
-    CardHeader,
     CardBody,
+    CardHeader,
     CardImg,
     CardTitle,
-    FormGroup,
-    Form,
-    Input,
-    ListGroupItem,
-    ListGroup,
-    Progress,
+    Col,
     Container,
-    Row,
-    Col
+    Form,
+    FormGroup,
+    Input,
+    ListGroup,
+    ListGroupItem,
+    Progress,
+    Row
 } from "reactstrap";
-// core components
+
+import { UserContext } from "FirebaseClient";
 import ProfileHeader from "view/component/header/ProfileHeader";
 
 class Profile extends React.Component {
     render() {
-        return (
-            <>
+        return <UserContext.Consumer>{user => {
+            return <>
                 <ProfileHeader />
                 <Container className="mt--6" fluid>
                     <Row>
@@ -516,7 +517,7 @@ class Profile extends React.Component {
                     </Row>
                 </Container>
             </>
-        );
+        }}</UserContext.Consumer>;
     }
 }
 

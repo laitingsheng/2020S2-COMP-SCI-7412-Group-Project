@@ -32,9 +32,8 @@ export default class Admin extends React.Component {
     mainContent = React.createRef();
 
     closeSidenav = () => {
-        if (window.innerWidth < 1200) {
+        if (window.innerWidth < 1200)
             this.toggleSidenav();
-        }
     };
 
     // toggles collapse between mini sidenav and normal

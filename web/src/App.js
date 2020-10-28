@@ -26,7 +26,6 @@ export default class App extends React.Component {
     state = { user: auth.currentUser };
 
     componentDidMount() {
-        console.log(`mounted: ${this.state.user}`);
         this.unsub = auth.onAuthStateChanged(user => this.setState({ user }))
     }
 
@@ -45,7 +44,6 @@ export default class App extends React.Component {
     }
 
     render() {
-        console.log(`render: ${this.state.user} ${auth.currentUser}`);
         return <UserContext.Provider value={this.state.user}>
             <BrowserRouter>
                 <Switch>{this.route()}</Switch>
