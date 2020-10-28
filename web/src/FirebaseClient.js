@@ -16,6 +16,8 @@
 */
 
 import firebase from "firebase/app";
+import React from "react";
+
 import "firebase/auth";
 import "firebase/firestore";
 
@@ -35,3 +37,10 @@ export const auth = firebase.auth();
 auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).catch(console.log);
 
 export const firestore = firebase.firestore();
+
+firestore.enablePersistence().catch(console.log);
+
+/**
+ * @type {React.Context<firebase.User>}
+ */
+export const UserContext = React.createContext(null);

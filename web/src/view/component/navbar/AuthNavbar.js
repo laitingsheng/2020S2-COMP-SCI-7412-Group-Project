@@ -19,20 +19,11 @@ import React from "react";
 // react library for routing
 import { Link } from "react-router-dom";
 // reactstrap components
-import {
-    UncontrolledCollapse,
-    Navbar,
-    NavItem,
-    NavLink,
-    Nav,
-    Container,
-    Row,
-    Col
-} from "reactstrap";
+import { Col, Container, Nav, Navbar, NavItem, NavLink, Row, UncontrolledCollapse } from "reactstrap";
 
 import routes from "routing/Auth";
 
-class AuthNavbar extends React.Component {
+export default class AuthNavbar extends React.Component {
     render() {
         return <>
             <Navbar className="navbar-horizontal navbar-main navbar-dark navbar-transparent" expand="lg" id="navbar-main">
@@ -52,8 +43,8 @@ class AuthNavbar extends React.Component {
                             </Row>
                         </div>
                         <Nav className="mr-auto" navbar>
-                            {routes.map(({ path, name }, key) => <NavItem>
-                                <NavLink to={`/auth/${path}`} tag={Link} key={key}>
+                            {routes.map(({ path, name }, key) => <NavItem key={key}>
+                                <NavLink to={`/auth/${path}`} tag={Link}>
                                     <span className="nav-link-inner--text">{name}</span>
                                 </NavLink>
                             </NavItem>)}
@@ -64,5 +55,3 @@ class AuthNavbar extends React.Component {
         </>;
     }
 }
-
-export default AuthNavbar;

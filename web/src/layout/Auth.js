@@ -19,52 +19,35 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-<<<<<<<<< Temporary merge branch 1
-import AuthNavbar from "./component/navbar/AuthNavbar";
-=========
->>>>>>>>> Temporary merge branch 2
-import Login from "./component/Login";
-import Register from "./component/Register";
-import AuthNavbar from "./component/navbar/AuthNavbar";
+import UserComponent from "UserComponent";
+import routes from "routing/Auth"
+import AuthNavbar from "view/component/navbar/AuthNavbar";
 
-export default class Auth extends React.Component {
+export default class Auth extends UserComponent {
     /**
      * @type {React.RefObject<HTMLDivElement>}
      */
     mainContent = React.createRef();
 
     componentDidMount() {
-        this.resetScroll();
+        super.componentDidMount();
+
         document.body.classList.add("bg-default");
     }
 
     componentWillUnmount() {
+        super.componentWillUnmount();
+
         document.body.classList.remove("bg-default");
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.history.pathname !== prevProps.location.pathname)
-<<<<<<<<< Temporary merge branch 1
-            this.resetScroll()
-=========
-            this.resetScroll();
->>>>>>>>> Temporary merge branch 2
-    }
-
-    resetScroll() {
-        document.documentElement.scrollTop = 0;
-        document.scrollingElement.scrollTop = 0;
-        this.mainContent.current.scrollTop = 0;
-    }
-
     render() {
-        return <>
+        return this.state.user ? <Redirect to="/dashboard" /> : <>
             <div className="main-content" ref={this.mainContent}>
                 <AuthNavbar />
                 <Switch>
-                    <Route path="/login" component={Login} key={0} />
-                    <Route path="/register" component={Register} key={1} />
-                    <Redirect from="/" to="/login" />
+                    {routes.map(({ path, component }, key) => <Route path={`/auth/${path}`} component={component} key={key} />)}
+                    <Redirect from="*" to="/auth/login" />
                 </Switch>
             </div>
         </>;

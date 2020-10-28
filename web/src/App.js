@@ -16,6 +16,7 @@
 */
 
 import React from "react";
+<<<<<<< HEAD
 <<<<<<<<< Temporary merge branch 1
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
@@ -44,5 +45,42 @@ export default class App extends UserComponent {
 >>>>>>>>> Temporary merge branch 2
             </Switch>
         </BrowserRouter>;
+=======
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+
+import { auth, UserContext } from "FirebaseClient";
+import AdminLayout from "layout/Admin";
+import AuthLayout from "layout/Auth";
+
+export default class App extends React.Component {
+    state = { user: auth.currentUser };
+
+    componentDidMount() {
+        console.log(`mounted: ${this.state.user}`);
+        this.unsub = auth.onAuthStateChanged(user => this.setState({ user }))
+    }
+
+    componentWillUnmount() {
+        this.unsub();
+    }
+
+    route() {
+        const { path, component } = this.state.user
+            ? { path: "/dashboard", component: AdminLayout }
+            : { path: "/auth", component: AuthLayout };
+        return <>
+            <Route path={path} component={component} />
+            <Redirect from="*" to={path} />
+        </>;
+    }
+
+    render() {
+        console.log(`render: ${this.state.user} ${auth.currentUser}`);
+        return <UserContext.Provider value={this.state.user}>
+            <BrowserRouter>
+                <Switch>{this.route()}</Switch>
+            </BrowserRouter>
+        </UserContext.Provider>;
+>>>>>>> origin/dev/refactor
     }
 }

@@ -19,12 +19,13 @@
 import React from "react";
 import { Switch, Redirect, Route } from "react-router-dom";
 
-import UserComponent from "UserComponent";
 import AdminNavbar from "view/component/navbar/AdminNavbar.js";
 import Sidebar from "view/component/Sidebar.js";
 import routes from "routing/Admin";
 
-class Admin extends UserComponent {
+export default class Admin extends React.Component {
+    state = {};
+
     /**
      * @type {React.RefObject<HTMLDivElement>}
      */
@@ -51,18 +52,16 @@ class Admin extends UserComponent {
     };
 
     render() {
-        return this.state.user ? <>
+        return <>
             <Sidebar {...this.props} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
             <div className="main-content" ref={this.mainContent} onClick={this.closeSidenav}>
                 <AdminNavbar {...this.props} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
                 <Switch>
-                    {routes.map(({ path, component }, key) => <Route path={`/dashboard/${path}`} component={component} key={key} />)}
-                    <Redirect from="*" to="/dashboard" />
+                    {routes.map(({ path, component }, key) => <Route exact path={`/dashboard/${path}`} component={component} key={key} />)}
+                    <Redirect from="*" to="/dashboard/profile" />
                 </Switch>
             </div>
             {this.state.sidenavOpen ? <div className="backdrop d-xl-none" onClick={this.toggleSidenav} /> : null}
-        </> : <Redirect to="/" />;
+        </>;
     }
 }
-
-export default Admin;
