@@ -36,32 +36,23 @@ import {
     Row
 } from "reactstrap";
 
-import { ReCAPTCHA_key } from "../../constants"
-import { auth } from "../../firebase";
-import { ReCAPTCHA_key } from "../../constants"
-import UserComponent from "../../UserComponent";
-import AuthHeader from "./header/AuthHeader";
+import { auth } from "FirebaseClient";
+import { ReCAPTCHA_key } from "Keys"
+import AuthHeader from "view/component/header/AuthHeader";
 
-<<<<<<<<< Temporary merge branch 1
-export default class Login extends UserComponent {
-=========
 export default class Login extends React.Component {
     state = {};
 
->>>>>>>>> Temporary merge branch 2
     /**
-     * @type {React.RefObject<ReCAPTCHA>>}
+     * @type {React.RefObject<ReCAPTCHA>}
      */
     recaptcha = React.createRef();
 
-<<<<<<<<< Temporary merge branch 1
-=========
     /**
      * @param {ChangeEvent} e
      */
     onchange = e => this.setState({ [e.target.name]: e.target.value })
 
->>>>>>>>> Temporary merge branch 2
     /**
      * @param {FormEvent} e
      */
@@ -69,12 +60,14 @@ export default class Login extends React.Component {
         e.preventDefault();
 
         auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(
-            () => this.recaptcha.current.reset(),
-<<<<<<<<< Temporary merge branch 1
-            console.log
-=========
-            e => this.recaptcha.current.reset()
->>>>>>>>> Temporary merge branch 2
+            () => {
+                this.recaptcha.current.reset();
+                this.setState({ checked: false });
+            },
+            () => {
+                this.recaptcha.current.reset();
+                this.setState({ checked: false });
+            }
         );
     }
 
@@ -107,25 +100,13 @@ export default class Login extends React.Component {
                                             <Input placeholder="Password" type="password" name="password" required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } onChange={this.onchange} />
                                         </InputGroup>
                                     </FormGroup>
-                                    <ReCAPTCHA className="text-center" sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
+                                    <ReCAPTCHA sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
                                     <div className="text-center">
-<<<<<<<<< Temporary merge branch 1
-                                        <Button className="my-4" color="info" type="submit" disabled={!this.state.checked}>Sign in</Button>
-=========
                                         <Button className="my-4" color="info" type="submit" disabled={!this.state.checked}>Sign In</Button>
->>>>>>>>> Temporary merge branch 2
                                     </div>
                                 </Form>
                             </CardBody>
                         </Card>
-                        <Row className="mt-3">
-                            <Col xs="6" />
-                            <Col className="text-right" xs="6">
-                                <NavLink className="text-light" to="/register" tag={Link}>
-                                    <small>Create new account</small>
-                                </NavLink>
-                            </Col>
-                        </Row>
                     </Col>
                 </Row>
             </Container>

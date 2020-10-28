@@ -19,25 +19,14 @@
 import classnames from "classnames";
 import owasp from "owasp-password-strength-test";
 import React from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import {
-    Button,
-    Card,
-    CardBody,
-    FormGroup,
-    Form,
-    Input,
-    InputGroupAddon,
-    InputGroupText,
-    InputGroup,
-    Container,
-    Row,
-    Col
+    Button, Card, CardBody, Col, Container, Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText, Row
 } from "reactstrap";
 
-import { ReCAPTCHA_key } from "../../constants"
-import { auth, firestore } from "../../firebase.js";
-import AuthHeader from "./header/AuthHeader";
-import ReCAPTCHA from "react-google-recaptcha";
+import { ReCAPTCHA_key } from "Keys";
+import { auth, firestore } from "FirebaseClient.js";
+import AuthHeader from "view/component/header/AuthHeader";
 
 export default class Register extends React.Component {
     state = {};
@@ -47,10 +36,6 @@ export default class Register extends React.Component {
      */
     recaptcha = React.createRef();
 
-<<<<<<<<< Temporary merge branch 1
-export default class Register extends React.Component {
-    state = {};
-=========
     /**
      * @param {ChangeEvent} e
      */
@@ -74,6 +59,7 @@ export default class Register extends React.Component {
      */
     postRegister = ({ user }) => {
         this.recaptcha.current.reset();
+        this.setState({ checked: false });
 
         user.updateProfile({ displayName: this.state.name }).catch(console.log);
 
@@ -88,7 +74,10 @@ export default class Register extends React.Component {
 
         auth.createUserWithEmailAndPassword(this.state.email, this.state.password).then(
             this.postRegister,
-            () => this.recaptcha.current.reset()
+            () => {
+                this.recaptcha.current.reset();
+                this.setState({ checked: false });
+            }
         )
     }
 
@@ -105,7 +94,6 @@ export default class Register extends React.Component {
                 return <span className={classnames("text-danger", "font-weight-700")}>Weak</span>;
         }
     }
->>>>>>>>> Temporary merge branch 2
 
     render() {
         return <>
@@ -151,9 +139,9 @@ export default class Register extends React.Component {
                                             Password Strength: {this.renderStrength()}
                                         </small>
                                     </div>
-                                    <ReCAPTCHA className="text-center" sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
+                                    <ReCAPTCHA sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
                                     <div className="text-center">
-                                        <Button className="mt-4" color="info" type="submit" disabled={!this.state.strength || !this.state.checked}>Create Account</Button>
+                                        <Button className="mt-4" color="info" type="submit" disabled={this.state.strength < 2 || !this.state.checked}>Create Account</Button>
                                     </div>
                                 </Form>
                             </CardBody>
