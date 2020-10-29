@@ -20,9 +20,9 @@ import React from "react";
 import { Switch, Redirect, Route } from "react-router-dom";
 
 import { FirebaseContext } from "FirebaseClient";
+import routes from "routing/Admin";
 import AdminNavbar from "view/component/navbar/AdminNavbar.js";
 import Sidebar from "view/component/Sidebar.js";
-import routes from "routing/Admin";
 
 export default class Admin extends React.Component {
     state = { sidenavOpen: true };
@@ -37,7 +37,6 @@ export default class Admin extends React.Component {
             this.toggleSidenav();
     };
 
-    // toggles collapse between mini sidenav and normal
     toggleSidenav = () => {
         if (document.body.classList.contains("g-sidenav-pinned")) {
             document.body.classList.remove("g-sidenav-pinned");

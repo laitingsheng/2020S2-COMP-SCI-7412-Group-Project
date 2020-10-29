@@ -112,7 +112,7 @@ export default class Register extends React.Component {
                                                     <i className="ni ni-hat-3" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Name" type="text" name="firstName" required onFocus={() => this.setState({ focusedFirstName: true })} onBlur={() => this.setState({ focusedFirstName: false })} onChange={this.onchange} />
+                                            <Input placeholder="First Name" type="text" name="firstName" required onFocus={() => this.setState({ focusedFirstName: true })} onBlur={() => this.setState({ focusedFirstName: false })} onChange={this.onchange} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className={classnames({ focused: this.state.focusedLastName })}>
@@ -122,7 +122,7 @@ export default class Register extends React.Component {
                                                     <i className="ni ni-hat-3" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Name" type="text" name="lastName" required onFocus={() => this.setState({ focusedLastName: true })} onBlur={() => this.setState({ focusedLastName: false })} onChange={this.onchange} />
+                                            <Input placeholder="Last Name" type="text" name="lastName" required onFocus={() => this.setState({ focusedLastName: true })} onBlur={() => this.setState({ focusedLastName: false })} onChange={this.onchange} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className={classnames({ focused: this.state.focusedEmail })}>

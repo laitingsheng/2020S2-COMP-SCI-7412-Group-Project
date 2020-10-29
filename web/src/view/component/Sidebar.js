@@ -68,7 +68,7 @@ export default class Sidebar extends React.Component {
                         <Collapse navbar isOpen={true}>
                             <Nav navbar>
                                 {routes.map(({ path, icon, name, guard }, key) => guard(this.props.level)
-                                    ? <NavItem className={classnames({ active: this.state.active === key })} key={key}>
+                                    ? <NavItem className={classnames({ active: this.state.active === key })} onClick={() => this.setState({ active: key })} key={key}>
                                         <NavLink to={`/dashboard/${path}`} activeClassName="" onClick={this.closeSidenav} tag={NavLinkRRD}>
                                             <i className={icon} />
                                             <span className="nav-link-text">{name}</span>

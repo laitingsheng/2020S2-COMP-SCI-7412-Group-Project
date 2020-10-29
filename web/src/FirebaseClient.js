@@ -39,6 +39,12 @@ auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).catch(console.log);
 export const firestore = app.firestore();
 
 /**
- * @type {React.Context<{ user?: firebase.User, doc?: firebase.firestore.DocumentSnapshot, admin?: firebase.firestore.DocumentSnapshot }>}
+ * @type {React.Context<{
+ *     user?: firebase.User,
+ *     doc?: firebase.firestore.DocumentSnapshot,
+ *     admin?: firebase.firestore.DocumentSnapshot,
+ *     userRef?: firebase.firestore.DocumentReference,
+ *     adminRef?: firebase.firestore.DocumentReference
+ * }>}
  */
 export const FirebaseContext = React.createContext({});

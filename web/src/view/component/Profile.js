@@ -24,104 +24,51 @@ import {
     Card,
     CardHeader,
     CardBody,
+    CustomInput,
     FormGroup,
     Form,
     Input,
-    InputGroupAddon,
-    InputGroupText,
-    InputGroup,
     Container,
     Row,
     Col
 } from "reactstrap";
 
-import SimpleHeader from "view/component/header/SimpleHeader.js";
 import { FirebaseContext } from "FirebaseClient";
+import SimpleHeader from "view/component/header/SimpleHeader.js";
 
 export default class Profile extends React.Component {
-    state = {
-        customStyles: {
-            firstName: "Mark",
-            firstNameState: null,
-            lastName: "Otto",
-            lastNameState: null,
-            username: "",
-            usernameState: null,
-            city: "",
-            cityState: null,
-            state: "",
-            stateState: null,
-            zip: "",
-            zipState: null,
-            checkbox: false,
-            checkboxState: null
+    genders = [
+        {
+            id: 1,
+            text: "Female"
         },
-        validity: {}
-    };
-    validateCustomStylesForm = () => {
-        let newState = this.state.customStyles;
-        if (newState.firstName === "") {
-            newState.firstNameState = "invalid";
-        } else {
-            newState.firstNameState = "valid";
+        {
+            id: 2,
+            text: "Male"
         }
-        if (newState.lastName === "") {
-            newState.lastNameState = "invalid";
-        } else {
-            newState.lastNameState = "valid";
-        }
-        if (newState.username === "") {
-            newState.usernameState = "invalid";
-        } else {
-            newState.usernameState = "valid";
-        }
-        if (newState.city === "") {
-            newState.cityState = "invalid";
-        } else {
-            newState.cityState = "valid";
-        }
-        if (newState.state === "") {
-            newState.stateState = "invalid";
-        } else {
-            newState.stateState = "valid";
-        }
-        if (newState.zip === "") {
-            newState.zipState = "invalid";
-        } else {
-            newState.zipState = "valid";
-        }
-        if (newState.checkbox === false) {
-            newState.checkboxState = "invalid";
-        } else {
-            newState.checkboxState = "valid";
-        }
-        this.setState({
-                          customStyles: newState
-                      });
-    };
-    customStylesForm = (e, stateName) => {
-        let newState = this.state.customStyles;
-        newState[stateName] = e.target.value;
-        if (stateName === "checkbox") {
-            if (e.target.value) {
-                newState.checkboxState = "valid";
-            } else {
-                newState.checkboxState = "invalid";
-            }
-        } else {
-            if (e.target.value === "") {
-                newState[stateName + "State"] = "invalid";
-            } else {
-                newState[stateName + "State"] = "valid";
-            }
-        }
-        this.setState({
-                          customStyles: newState
-                      });
-    };
+    ];
+    state = {};
+
+    onchange = e => this.setState({ [e.target.name]: e.target.value })
+
+    /**
+     * @param {FormEvent} e
+     * @param {firebase.firestore.DocumentReference} userRef
+     */
+    modify(e, userRef) {
+        e.preventDefault();
+
+        const {
+            checked,
+            ...data
+        } = this.state;
+        userRef.update(data).catch(console.log);
+        this.setState({ checked: false });
+    }
+
     render() {
         return <FirebaseContext.Consumer>
-            {({ user, doc }) => user && doc ? <>
+            {({ user, admin, doc, userRef }) => user && doc && userRef ? <>
                 <SimpleHeader name="Profile" />
                     <Container className="mt--6" fluid>
                         <Row>
@@ -129,130 +76,71 @@ export default class Profile extends React.Component {
                                 <div className="card-wrapper">
                                     <Card>
                                         <CardHeader>
-                                            <h3 className="mb-0">Personal Information</h3>
+                                            <h3 className="mb-0">
+                                                Personal Information
+                                            </h3>
                                         </CardHeader>
                                         <CardBody>
                                             <Row>
-                                                {user.email ? <Col lg="8">
-                                                    <p className="mb-0">
-                                                        Email Verified: {user.emailVerified ? <Badge color="success">Verified</Badge> : <Badge color="danger">Unverified</Badge>}
-                                                    </p>
-                                                </Col> : null}
+                                                <Col lg="8">
+                                                    <Badge color="info">
+                                                        {
+                                                            admin && admin.exists
+                                                                ? `Staff (ID: ${admin.get("staffid")}, Level: ${admin.get("level")})`
+                                                                : "Electoral Roll Enrolled"
+                                                        }
+                                                    </Badge>
+                                                    {user.email ? user.emailVerified ? <Badge color="success">Email Verified</Badge> : <Badge color="danger">Email Unverified</Badge> : null}
+                                                    {user.phoneNumber ? <Badge color="success">Phone Number Provided</Badge> : <Badge color="danger">Lacking Phone Number</Badge>}
+                                                </Col>
                                             </Row>
                                             <hr />
-                                            <Form>
+                                            <Form onSubmit={e => this.modify(e, userRef)}>
                                                 <div className="form-row">
-                                                    <Col className="mb-3" md="4">
-                                                        <FormGroup className="has-success">
+                                                    <Col className="mb-3" md="6">
+                                                        <FormGroup>
                                                             <label className="form-control-label" htmlFor="validationServer01">
                                                                 First name
                                                             </label>
-                                                            <Input className="is-valid" type="text" defaultValue={doc.get("firstName")} id="validationServer01" placeholder="First Name" required />
+                                                            <Input type="text" defaultValue={doc.get("firstName")} id="firstName" name="firstName" placeholder="First Name" required onChange={this.onchange} />
                                                         </FormGroup>
                                                     </Col>
-                                                    <Col className="mb-3" md="4">
-                                                        <FormGroup className="has-success">
+                                                    <Col className="mb-3" md="6">
+                                                        <FormGroup>
                                                             <label className="form-control-label" htmlFor="validationServer02">
                                                                 Last Name
                                                             </label>
-                                                            <Input className="is-valid" defaultValue={doc.get("lastName")} id="validationServer02" placeholder="Last name" required type="text" />
-                                                        </FormGroup>
-                                                    </Col>
-                                                    <Col className="mb-3" md="4">
-                                                        <FormGroup className="has-danger">
-                                                            <label
-                                                                className="form-control-label"
-                                                                htmlFor="validationServerUsername"
-                                                            >
-                                                                Username
-                                                            </label>
-                                                            <Input
-                                                                aria-describedby="inputGroupPrepend3"
-                                                                className="is-invalid"
-                                                                id="validationServerUsername"
-                                                                placeholder="Username"
-                                                                required
-                                                                type="text"
-                                                            />
+                                                            <Input type="text" defaultValue={doc.get("lastName")} id="lastName" name="lastName" placeholder="Last Name" required onChange={this.onchange} />
                                                         </FormGroup>
                                                     </Col>
                                                 </div>
                                                 <div className="form-row">
                                                     <Col className="mb-3" md="6">
-                                                        <FormGroup className="has-danger">
-                                                            <label
-                                                                className="form-control-label"
-                                                                htmlFor="validationServer03"
-                                                            >
-                                                                City
+                                                        <FormGroup>
+                                                            <label className="form-control-label" htmlFor="gender">
+                                                                Gender
                                                             </label>
-                                                            <Input
-                                                                className="is-invalid"
-                                                                id="validationServer03"
-                                                                placeholder="City"
-                                                                required
-                                                                type="text"
-                                                            />
-                                                            <div className="invalid-feedback">
-                                                                Please provide a valid city.
-                                                            </div>
+                                                            <CustomInput type="select" defaultValue={doc.get("gender")} id="gender" name="gender" placeholder="Gender" required onChange={this.onchange}>
+                                                                <option disabled value="">Gender</option>
+                                                                <option>Female</option>
+                                                                <option>Male</option>
+                                                            </CustomInput>
                                                         </FormGroup>
                                                     </Col>
-                                                    <Col className="mb-3" md="3">
+                                                    <Col className="mb-3" md="6">
                                                         <FormGroup className="has-danger">
-                                                            <label
-                                                                className="form-control-label"
-                                                                htmlFor="validationServer04"
-                                                            >
-                                                                State
+                                                            <label className="form-control-label" htmlFor="birthday">
+                                                                Date of Birth
                                                             </label>
-                                                            <Input
-                                                                className="is-invalid"
-                                                                id="validationServer04"
-                                                                placeholder="State"
-                                                                required
-                                                                type="text"
-                                                            />
-                                                            <div className="invalid-feedback">
-                                                                Please provide a valid state.
-                                                            </div>
-                                                        </FormGroup>
-                                                    </Col>
-                                                    <Col className="mb-3" md="3">
-                                                        <FormGroup className="has-danger">
-                                                            <label
-                                                                className="form-control-label"
-                                                                htmlFor="validationServer05"
-                                                            >
-                                                                Zip
-                                                            </label>
-                                                            <Input
-                                                                className="is-invalid"
-                                                                id="validationServer05"
-                                                                placeholder="Zip"
-                                                                required
-                                                                type="text"
-                                                            />
-                                                            <div className="invalid-feedback">
-                                                                Please provide a valid zip.
-                                                            </div>
+                                                            <Input type="date" defaultValue={doc.get("birthday")} id="birthday" name="birthday" required onChange={this.onchange} />
                                                         </FormGroup>
                                                     </Col>
                                                 </div>
                                                 <FormGroup className="has-danger">
                                                     <div className="custom-control custom-checkbox mb-3">
-                                                        <input
-                                                            className="custom-control-input is-invalid"
-                                                            defaultValue=""
-                                                            id="invalidCheck3"
-                                                            required
-                                                            type="checkbox"
-                                                        />
-                                                        <label
-                                                            className="custom-control-label"
-                                                            htmlFor="invalidCheck3"
-                                                        >
-                                                            Agree to terms and conditions
+                                                        <Input type="checkbox" className={classnames("custom-control-input", { "is-invalid": !this.state.checked })} id="agreement" required onChange={() => this.setState(prev => ({ checked: !prev.checked }))} />
+                                                        <label className="custom-control-label" htmlFor="agreement">
+                                                            Agree to modify the personal information.
                                                         </label>
                                                         <div className="invalid-feedback">
                                                             You must agree before submitting.
@@ -260,7 +148,7 @@ export default class Profile extends React.Component {
                                                     </div>
                                                 </FormGroup>
                                                 <Button color="primary" type="submit">
-                                                    Submit form
+                                                    Modify
                                                 </Button>
                                             </Form>
                                         </CardBody>
