@@ -61,9 +61,10 @@ export default class Register extends React.Component {
         this.recaptcha.current.reset();
         this.setState({ checked: false });
 
-        user.updateProfile({ displayName: this.state.name }).catch(console.log);
+        const { firstName, lastName } = this.state;
+        user.updateProfile({ displayName: `${firstName} ${lastName}` }).catch(console.log);
 
-        firestore.collection("users").doc(user.uid).set({ name: this.state.name }).catch(console.log);
+        firestore.collection("users").doc(user.uid).set({ firstName, lastName }).catch(console.log);
     }
 
     /**
@@ -104,14 +105,24 @@ export default class Register extends React.Component {
                         <Card className="bg-secondary border-0">
                             <CardBody className="px-lg-5 py-lg-5">
                                 <Form role="form" onSubmit={this.register}>
-                                    <FormGroup className={classnames({ focused: this.state.focusedName })}>
+                                    <FormGroup className={classnames({ focused: this.state.focusedFirstName })}>
                                         <InputGroup className="input-group-merge input-group-alternative mb-3">
                                             <InputGroupAddon addonType="prepend">
                                                 <InputGroupText>
                                                     <i className="ni ni-hat-3" />
                                                 </InputGroupText>
                                             </InputGroupAddon>
-                                            <Input placeholder="Name" type="text" name="name" required onFocus={() => this.setState({ focusedName: true })} onBlur={() => this.setState({ focusedName: false })} onChange={this.onchange} />
+                                            <Input placeholder="Name" type="text" name="firstName" required onFocus={() => this.setState({ focusedFirstName: true })} onBlur={() => this.setState({ focusedFirstName: false })} onChange={this.onchange} />
+                                        </InputGroup>
+                                    </FormGroup>
+                                    <FormGroup className={classnames({ focused: this.state.focusedLastName })}>
+                                        <InputGroup className="input-group-merge input-group-alternative mb-3">
+                                            <InputGroupAddon addonType="prepend">
+                                                <InputGroupText>
+                                                    <i className="ni ni-hat-3" />
+                                                </InputGroupText>
+                                            </InputGroupAddon>
+                                            <Input placeholder="Name" type="text" name="lastName" required onFocus={() => this.setState({ focusedLastName: true })} onBlur={() => this.setState({ focusedLastName: false })} onChange={this.onchange} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup className={classnames({ focused: this.state.focusedEmail })}>
@@ -141,7 +152,9 @@ export default class Register extends React.Component {
                                     </div>
                                     <ReCAPTCHA sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
                                     <div className="text-center">
-                                        <Button className="mt-4" color="info" type="submit" disabled={this.state.strength < 2 || !this.state.checked}>Create Account</Button>
+                                        <Button className="mt-4" color="info" type="submit" disabled={this.state.strength < 2 || !this.state.checked}>
+                                            Create Account
+                                        </Button>
                                     </div>
                                 </Form>
                             </CardBody>

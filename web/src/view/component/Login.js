@@ -19,7 +19,6 @@
 import classnames from "classnames";
 import React from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Link } from "react-router-dom";
 import {
     Button,
     Card,
@@ -32,7 +31,6 @@ import {
     InputGroup,
     InputGroupAddon,
     InputGroupText,
-    NavLink,
     Row
 } from "reactstrap";
 
@@ -102,7 +100,9 @@ export default class Login extends React.Component {
                                     </FormGroup>
                                     <ReCAPTCHA sitekey={ReCAPTCHA_key} ref={this.recaptcha} onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
                                     <div className="text-center">
-                                        <Button className="my-4" color="info" type="submit" disabled={!this.state.checked}>Sign In</Button>
+                                        <Button className="my-4" color="info" type="submit" disabled={!this.state.checked}>
+                                            Sign In
+                                        </Button>
                                     </div>
                                 </Form>
                             </CardBody>

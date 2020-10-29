@@ -60,7 +60,7 @@ export default class Admin extends React.Component {
                     <div className="main-content" ref={this.mainContent} onClick={this.closeSidenav}>
                         <AdminNavbar {...this.props} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
                         <Switch>
-                            {routes.map(({ path, component, least }, key) => !least || level < least
+                            {routes.map(({ path, component, guard }, key) => guard(level)
                                 ? <Route exact path={`/dashboard/${path}`} component={component} key={key} />
                                 : null)}
                             <Redirect from="*" to="/dashboard/profile" />

@@ -19,24 +19,38 @@ import CandidateProfile from "view/examples/CandidateProfile"
 import Profile from "view/component/Profile"
 import Ballot from "view/forms/Ballot"
 
+/**
+ * @returns {boolean}
+ */
+const guard_trivial = () => true;
+
+/**
+ * @param {number} least
+ * @returns {function(number | null): boolean}
+ */
+const guard_level = least => (level => !level || level < least)
+
 const routes = [
     {
         path: "profile",
         name: "Profile",
         icon: "ni ni-archive-2 text-info",
-        component: Profile
+        component: Profile,
+        guard: guard_trivial
     },
     {
-        path: "CandidateProfile",
-        name: "CandidateProfile",
-        icon: "ni ni-archive-2 text-info",
-        component: CandidateProfile
+        path: "candidates",
+        name: "Candidates",
+        icon: "ni ni-circle-08 text-info",
+        component: CandidateProfile,
+        guard: guard_level(1)
     },
     {
         path: "ballot",
         name: "Ballot",
         icon: "ni ni-archive-2 text-primary",
-        component: Ballot
+        component: Ballot,
+        guard: guard_trivial
     }
 ];
 

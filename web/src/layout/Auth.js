@@ -37,14 +37,12 @@ export default class Auth extends React.Component {
     }
 
     render() {
-        return <>
-            <div className="main-content" ref={this.mainContent}>
-                <AuthNavbar />
-                <Switch>
-                    {routes.map(({ path, component }, key) => <Route exact path={`/auth/${path}`} component={component} key={key} />)}
-                    <Redirect from="*" to="/auth/login" />
-                </Switch>
-            </div>
-        </>;
+        return <div className="main-content" ref={this.mainContent}>
+            <AuthNavbar />
+            <Switch>
+                {routes.map(({ path, component }, key) => <Route exact path={`/auth/${path}`} component={component} key={key} />)}
+                <Redirect from="*" to="/auth/login" />
+            </Switch>
+        </div>;
     }
 }

@@ -57,9 +57,9 @@ export default class Sidebar extends React.Component {
                         <div className="ml-auto">
                             <div className={classnames("sidenav-toggler d-none d-xl-block", { active: this.props.sidenavOpen })} onClick={this.props.toggleSidenav}>
                                 <div className="sidenav-toggler-inner">
-                                    <i className="sidenav-toggler-line"/>
-                                    <i className="sidenav-toggler-line"/>
-                                    <i className="sidenav-toggler-line"/>
+                                    <i className="sidenav-toggler-line" />
+                                    <i className="sidenav-toggler-line" />
+                                    <i className="sidenav-toggler-line" />
                                 </div>
                             </div>
                         </div>
@@ -67,15 +67,14 @@ export default class Sidebar extends React.Component {
                     <div className="navbar-inner">
                         <Collapse navbar isOpen={true}>
                             <Nav navbar>
-                                {routes.map(({ path, icon, name, least }, key) => !least || this.props.level < least
+                                {routes.map(({ path, icon, name, guard }, key) => guard(this.props.level)
                                     ? <NavItem className={classnames({ active: this.state.active === key })} key={key}>
                                         <NavLink to={`/dashboard/${path}`} activeClassName="" onClick={this.closeSidenav} tag={NavLinkRRD}>
                                             <i className={icon} />
                                             <span className="nav-link-text">{name}</span>
                                         </NavLink>
                                     </NavItem>
-                                    : null
-                                )}
+                                    : null)}
                             </Nav>
                         </Collapse>
                     </div>
