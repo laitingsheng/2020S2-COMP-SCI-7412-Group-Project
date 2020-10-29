@@ -19,13 +19,19 @@
 import classnames from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
-import { NavLink as NavLinkRDD } from "react-router-dom";
+import { NavLink as NavLinkRRD } from "react-router-dom";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Collapse, Nav, Navbar, NavItem, NavLink } from "reactstrap";
 
 import routes from "routing/Admin";
 
-class Sidebar extends React.Component {
+export default class Sidebar extends React.Component {
+    static propTypes = {
+        level: PropTypes.number.isRequired,
+        toggleSidenav: PropTypes.func.isRequired,
+        sidenavOpen: PropTypes.bool.isRequired
+    };
+
     state = { active: 0 };
 
     onMouseEnterSidenav = () => {
@@ -44,41 +50,37 @@ class Sidebar extends React.Component {
     };
 
     render() {
-        const scrollBarInner = <div className="scrollbar-inner">
-            <div className="sidenav-header d-flex align-items-center">
-                <div className="ml-auto">
-                    <div className={classnames("sidenav-toggler d-none d-xl-block", { active: this.props.sidenavOpen })} onClick={this.props.toggleSidenav}>
-                        <div className="sidenav-toggler-inner">
-                            <i className="sidenav-toggler-line"/>
-                            <i className="sidenav-toggler-line"/>
-                            <i className="sidenav-toggler-line"/>
+        return <Navbar className="sidenav navbar-vertical navbar-expand-xs navbar-light bg-white fixed-left" onMouseEnter={this.onMouseEnterSidenav} onMouseLeave={this.onMouseLeaveSidenav}>
+            <PerfectScrollbar>
+                <div className="scrollbar-inner">
+                    <div className="sidenav-header d-flex align-items-center">
+                        <div className="ml-auto">
+                            <div className={classnames("sidenav-toggler d-none d-xl-block", { active: this.props.sidenavOpen })} onClick={this.props.toggleSidenav}>
+                                <div className="sidenav-toggler-inner">
+                                    <i className="sidenav-toggler-line"/>
+                                    <i className="sidenav-toggler-line"/>
+                                    <i className="sidenav-toggler-line"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div className="navbar-inner">
+                        <Collapse navbar isOpen={true}>
+                            <Nav navbar>
+                                {routes.map(({ path, icon, name, least }, key) => !least || this.props.level < least
+                                    ? <NavItem className={classnames({ active: this.state.active === key })} key={key}>
+                                        <NavLink to={`/dashboard/${path}`} activeClassName="" onClick={this.closeSidenav} tag={NavLinkRRD}>
+                                            <i className={icon} />
+                                            <span className="nav-link-text">{name}</span>
+                                        </NavLink>
+                                    </NavItem>
+                                    : null
+                                )}
+                            </Nav>
+                        </Collapse>
+                    </div>
                 </div>
-            </div>
-            <div className="navbar-inner">
-                <Collapse navbar isOpen={true}>
-                    <Nav navbar>
-                        {routes.map(({ path, icon, name }, key) => <NavItem className={classnames({ active: this.state.active === key })} key={key}>
-                            <NavLink to={`/dashboard/${path}`} activeClassName="" onClick={this.closeSidenav} tag={NavLinkRDD}>
-                                <i className={icon} />
-                                <span className={"nav-link-text"}>{name}</span>
-                            </NavLink>
-                        </NavItem>)}
-                    </Nav>
-                </Collapse>
-            </div>
-        </div>;
-        return <Navbar className="sidenav navbar-vertical navbar-expand-xs navbar-light bg-white fixed-left" onMouseEnter={this.onMouseEnterSidenav} onMouseLeave={this.onMouseLeaveSidenav}>
-            {navigator.platform.indexOf("Win") > -1 ? <PerfectScrollbar>{scrollBarInner}</PerfectScrollbar> : scrollBarInner}
+            </PerfectScrollbar>
         </Navbar>;
     }
 }
-
-Sidebar.propTypes = {
-    // function used to make sidenav mini or normal
-    toggleSidenav: PropTypes.func, // prop to know if the sidenav is mini or normal
-    sidenavOpen: PropTypes.bool
-};
-
-export default Sidebar;

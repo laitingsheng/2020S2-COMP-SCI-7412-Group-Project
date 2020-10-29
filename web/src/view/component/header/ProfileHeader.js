@@ -16,14 +16,21 @@
 
 */
 
+import firebase from "firebase";
+import PropTypes from "prop-types";
 import React from "react";
+import { Button, Col, Container, Row } from "reactstrap";
 
 import background from "assets/img/theme/profile-cover.jpg";
 
-// reactstrap components
-import { Button, Col, Container, Row } from "reactstrap";
+export default class ProfileHeader extends React.Component {
+    static propTypes = {
+        /**
+         * @type {firebase.User}
+         */
+        user: PropTypes.instanceOf(firebase.User).isRequired
+    };
 
-class ProfileHeader extends React.Component {
     render() {
         return <>
             <div className="header pb-6 d-flex align-items-center" style={{ minHeight: "500px", backgroundImage: `url(${background})`, backgroundSize: "cover", backgroundPosition: "center top" }}>
@@ -31,19 +38,11 @@ class ProfileHeader extends React.Component {
                 <Container className="d-flex align-items-center" fluid>
                     <Row>
                         <Col lg="7" md="10">
-                            <h1 className="display-2 text-white">Hello Jesse</h1>
+                            <h1 className="display-2 text-white">Hello {this.props.user.displayName}</h1>
                             <p className="text-white mt-0 mb-5">
-                                This is your profile page. You can see the progress you've
-                                made with your work and manage your projects or assigned tasks
+                                This is your profile page. You can edit your personal information here. You might, however, need to contact the support team to edit some of the information.
                             </p>
-                            <Button
-                                className="btn-neutral"
-                                color="default"
-                                href="#pablo"
-                                onClick={e => e.preventDefault()}
-                            >
-                                Edit profile
-                            </Button>
+                            <Button className="btn-neutral" color="default" href="#pablo" onClick={e => e.preventDefault()}>Edit profile</Button>
                         </Col>
                     </Row>
                 </Container>
@@ -51,5 +50,3 @@ class ProfileHeader extends React.Component {
         </>;
     }
 }
-
-export default ProfileHeader;

@@ -21,7 +21,7 @@ import React from "react";
 import "firebase/auth";
 import "firebase/firestore";
 
-firebase.initializeApp({
+const app = firebase.apps.length > 0 ? firebase.apps[0] : firebase.initializeApp({
     apiKey: "AIzaSyBRn5Nf1_4JZggwEgF5ttKTePsAJg8qKe8",
     authDomain: "comp-sci-7412-group-project.firebaseapp.com",
     databaseURL: "https://comp-sci-7412-group-project.firebaseio.com",
@@ -32,15 +32,13 @@ firebase.initializeApp({
     measurementId: "G-D9QL9W718S"
 });
 
-export const auth = firebase.auth();
+export const auth = app.auth();
 
 auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).catch(console.log);
 
-export const firestore = firebase.firestore();
-
-firestore.enablePersistence().catch(console.log);
+export const firestore = app.firestore();
 
 /**
- * @type {React.Context<firebase.User>}
+ * @type {React.Context<{ user?: firebase.User, doc?: firebase.firestore.DocumentSnapshot, admin?: firebase.firestore.DocumentSnapshot }>}
  */
-export const UserContext = React.createContext(null);
+export const FirebaseContext = React.createContext({});

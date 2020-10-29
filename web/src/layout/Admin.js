@@ -19,12 +19,13 @@
 import React from "react";
 import { Switch, Redirect, Route } from "react-router-dom";
 
+import { FirebaseContext } from "FirebaseClient";
 import AdminNavbar from "view/component/navbar/AdminNavbar.js";
 import Sidebar from "view/component/Sidebar.js";
 import routes from "routing/Admin";
 
 export default class Admin extends React.Component {
-    state = {};
+    state = { sidenavOpen: true };
 
     /**
      * @type {React.RefObject<HTMLDivElement>}
@@ -51,16 +52,23 @@ export default class Admin extends React.Component {
     };
 
     render() {
-        return <>
-            <Sidebar {...this.props} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
-            <div className="main-content" ref={this.mainContent} onClick={this.closeSidenav}>
-                <AdminNavbar {...this.props} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
-                <Switch>
-                    {routes.map(({ path, component }, key) => <Route exact path={`/dashboard/${path}`} component={component} key={key} />)}
-                    <Redirect from="*" to="/dashboard/profile" />
-                </Switch>
-            </div>
-            {this.state.sidenavOpen ? <div className="backdrop d-xl-none" onClick={this.toggleSidenav} /> : null}
-        </>;
+        return <FirebaseContext.Consumer>
+            {({ admin }) => {
+                const level = admin && admin.exists ? admin.get("level") : Number.POSITIVE_INFINITY
+                return <>
+                    <Sidebar {...this.props} level={level} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
+                    <div className="main-content" ref={this.mainContent} onClick={this.closeSidenav}>
+                        <AdminNavbar {...this.props} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
+                        <Switch>
+                            {routes.map(({ path, component, least }, key) => !least || level < least
+                                ? <Route exact path={`/dashboard/${path}`} component={component} key={key} />
+                                : null)}
+                            <Redirect from="*" to="/dashboard/profile" />
+                        </Switch>
+                    </div>
+                    {this.state.sidenavOpen ? <div className="backdrop d-xl-none" onClick={this.toggleSidenav} /> : null}
+                </>
+            }}
+        </FirebaseContext.Consumer>;
     }
 }

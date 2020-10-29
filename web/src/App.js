@@ -18,19 +18,35 @@
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 
-import { auth, UserContext } from "FirebaseClient";
+import { auth, firestore, FirebaseContext } from "FirebaseClient";
 import AdminLayout from "layout/Admin";
 import AuthLayout from "layout/Auth";
 
 export default class App extends React.Component {
-    state = { user: auth.currentUser };
+    state = {};
 
     componentDidMount() {
-        this.unsub = auth.onAuthStateChanged(user => this.setState({ user }))
+        this.user_unsub = auth.onAuthStateChanged(user => {
+            if (user) {
+                this.doc_unsub = firestore.collection("user").doc(user.uid).onSnapshot(doc => this.setState({ doc }), console.log);
+                this.admin_unsub = firestore.collection("admin").doc(user.uid).onSnapshot(admin => this.setState( admin ), console.log)
+            } else {
+                if (this.doc_unsub) {
+                    this.doc_unsub();
+                    delete this.doc_unsub;
+                }
+                if (this.admin_unsub) {
+                    this.admin_unsub();
+                    delete this.admin_unsub();
+                }
+            }
+            this.setState({ user });
+        });
     }
 
     componentWillUnmount() {
-        this.unsub();
+        this.user_unsub();
+        delete this.user_unsub;
     }
 
     route() {
@@ -44,10 +60,10 @@ export default class App extends React.Component {
     }
 
     render() {
-        return <UserContext.Provider value={this.state.user}>
+        return <FirebaseContext.Provider value={Object.assign({}, this.state)}>
             <BrowserRouter>
                 <Switch>{this.route()}</Switch>
             </BrowserRouter>
-        </UserContext.Provider>;
+        </FirebaseContext.Provider>;
     }
 }

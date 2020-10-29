@@ -15,9 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
 
-// reactstrap components
+import React from "react";
 import {
     Button,
     Card,
@@ -36,14 +35,14 @@ import {
     Row
 } from "reactstrap";
 
-import { UserContext } from "FirebaseClient";
+import { FirebaseContext } from "FirebaseClient";
 import ProfileHeader from "view/component/header/ProfileHeader";
 
 class Profile extends React.Component {
     render() {
-        return <UserContext.Consumer>{user => {
-            return <>
-                <ProfileHeader />
+        return <FirebaseContext.Consumer>{({ user }) => {
+            return user ? <>
+                <ProfileHeader user={user} />
                 <Container className="mt--6" fluid>
                     <Row>
                         <Col className="order-xl-2" xl="4">
@@ -516,8 +515,8 @@ class Profile extends React.Component {
                         </Col>
                     </Row>
                 </Container>
-            </>
-        }}</UserContext.Consumer>;
+            </> : null
+        }}</FirebaseContext.Consumer>;
     }
 }
 
