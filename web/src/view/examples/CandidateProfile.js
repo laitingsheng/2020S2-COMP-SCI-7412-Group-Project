@@ -35,7 +35,7 @@ import {
     Col
 } from "reactstrap";
 // core components
-import CandidateProfileHeader from "components/Headers/CandidateProfileHeader";
+import CandidateProfileHeader from "view/component/header/CandidateProfileHeader";
 
 class CandidateProfile extends React.Component {
     render() {

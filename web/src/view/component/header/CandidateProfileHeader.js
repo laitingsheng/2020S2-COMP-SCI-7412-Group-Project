@@ -15,9 +15,11 @@
 
 */
 import React from "react";
+import aec_background from "assets/img/theme/aec-background.jpg";
 
 // reactstrap components
 import {Button, Container, Row, Col, Card} from "reactstrap";
+
 
 class CandidateProfileHeader extends React.Component {
     render() {
@@ -28,7 +30,7 @@ class CandidateProfileHeader extends React.Component {
                     style={{
                         minHeight: "500px",
                         backgroundImage:
-                            'url("' + require("assets/img/theme/aec-background.jpg") + '")',
+                            `url(${aec_background})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center top"
                     }}

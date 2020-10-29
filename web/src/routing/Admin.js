@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-
+import CandidateProfile from "view/examples/CandidateProfile"
 import Profile from "view/component/Profile"
 import Ballot from "view/forms/Ballot"
 
@@ -25,6 +25,12 @@ const routes = [
         name: "Profile",
         icon: "ni ni-archive-2 text-info",
         component: Profile
+    },
+    {
+        path: "CandidateProfile",
+        name: "CandidateProfile",
+        icon: "ni ni-archive-2 text-info",
+        component: CandidateProfile
     },
     {
         path: "ballot",
