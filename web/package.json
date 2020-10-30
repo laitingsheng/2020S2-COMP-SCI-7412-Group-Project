@@ -44,7 +44,7 @@
     "react-tagsinput": "^3.19.0",
     "react-to-print": "^2.10.3",
     "reactstrap": "^8.6.0",
-    "sass": "^1.27.1",
+    "sass": "^1.28.0",
     "select2": "^4.0.13",
     "sweetalert2": "^10.8.1"
   },
