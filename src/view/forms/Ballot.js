@@ -21,7 +21,7 @@ import React from "react";
 import { Button, Card, CardBody, CardHeader, Col, Row } from "reactstrap";
 
 import { firestore as db } from "FirebaseClient";
-import AuthHeader from "view/component/header/AuthHeader";
+import Header from "auth/Header";
 
 class Lock extends React.Component {
 
@@ -194,7 +194,7 @@ class Lock extends React.Component {
 
     render() {
         return (<>
-                <AuthHeader title="Lock screen" lead="Better to be safe than sorry."/>
+                <Header title="Lock screen" lead="Better to be safe than sorry."/>
                 <Card className="mb-4">
                     <CardHeader class="d-flex flex-row">
                         <div class="p-2">Voting Ballot</div>

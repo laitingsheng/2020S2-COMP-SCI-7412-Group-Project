@@ -29,7 +29,7 @@ import {
   Col
 } from "reactstrap";
 // core components
-import SimpleHeader from "components/Headers/SimpleHeader.js";
+import SimpleHeader from "components/Headers/Header.js";
 
 class Elements extends React.Component {
   render() {

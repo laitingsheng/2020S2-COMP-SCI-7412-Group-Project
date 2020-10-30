@@ -1,7 +1,6 @@
 version: 1
 update_configs:
   - package_manager: javascript
-    directory: web
     update_schedule: daily
     default_assignees:
       - laitingsheng
@@ -11,7 +10,6 @@ update_configs:
       - dependabot
       - enhancement
   - package_manager: docker
-    directory: web
     update_schedule: daily
     default_assignees:
       - laitingsheng

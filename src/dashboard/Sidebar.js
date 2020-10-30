@@ -23,11 +23,10 @@ import { NavLink as NavLinkRRD } from "react-router-dom";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Collapse, Nav, Navbar, NavItem, NavLink } from "reactstrap";
 
-import routes from "routing/Admin";
+import routes from "dashboard/routes";
 
 export default class Sidebar extends React.Component {
     static propTypes = {
-        level: PropTypes.number.isRequired,
         toggleSidenav: PropTypes.func.isRequired,
         sidenavOpen: PropTypes.bool.isRequired
     };

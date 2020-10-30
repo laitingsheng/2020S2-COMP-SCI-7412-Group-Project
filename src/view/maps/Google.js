@@ -25,7 +25,7 @@ import {
 // reactstrap components
 import { Card, Container, Row } from "reactstrap";
 // core components
-import SimpleHeader from "components/Headers/SimpleHeader.js";
+import SimpleHeader from "components/Headers/Header.js";
 
 const MapCustom = withScriptjs(
   withGoogleMap(props => (

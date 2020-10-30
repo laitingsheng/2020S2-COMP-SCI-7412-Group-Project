@@ -21,7 +21,7 @@ import { VectorMap } from "react-jvectormap";
 // reactstrap components
 import { Card, CardBody, Container, Row } from "reactstrap";
 // core components
-import SimpleHeader from "components/Headers/SimpleHeader.js";
+import SimpleHeader from "components/Headers/Header.js";
 
 let mapData = {
   AU: 760,

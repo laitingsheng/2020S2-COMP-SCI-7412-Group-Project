@@ -20,7 +20,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Breadcrumb, BreadcrumbItem, Button, Col, Container, Row } from "reactstrap";
 
-export default class TimelineHeader extends React.Component {
+export default class Header extends React.Component {
     static propTypes = {
         name: PropTypes.string.isRequired,
     };

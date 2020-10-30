@@ -19,20 +19,16 @@
 import React from "react";
 import { Switch, Redirect, Route } from "react-router-dom";
 
-import { contextPropTypes, wrapWithContext } from "FirebaseClient";
-import routes from "routing/Admin";
-import AdminNavbar from "view/component/navbar/AdminNavbar.js";
-import Sidebar from "view/component/Sidebar.js";
+import FirebaseContext from "../context/FirebaseContext";
 
-class AdminImpl extends React.Component {
-    static propTypes = Object.assign({}, contextPropTypes);
+import DashboardNavbar from "./DashboardNavbar.js";
+import routes from "./routes";
+import Sidebar from "./Sidebar.js";
+
+export default class DashboardLayout extends React.Component {
+    static contextType = FirebaseContext;
 
     state = { sidenavOpen: true };
-
-    /**
-     * @type {React.RefObject<HTMLDivElement>}
-     */
-    mainContent = React.createRef();
 
     closeSidenav = () => {
         if (window.innerWidth < 1200)
@@ -53,11 +49,11 @@ class AdminImpl extends React.Component {
     };
 
     render() {
-        const { admin } = this.props, level = admin && admin.exists ? admin.get("level") : Number.POSITIVE_INFINITY
-        return <>
-            <Sidebar {...this.props} level={level} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
-            <div className="main-content" ref={this.mainContent} onClick={this.closeSidenav}>
-                <AdminNavbar {...this.props} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
+        const { user, adminSnapshot } = this.context, level = adminSnapshot && adminSnapshot.exists ? adminSnapshot.get("level") : Number.POSITIVE_INFINITY
+        return user ? <>
+            <Sidebar level={level} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
+            <div className="main-content" onClick={this.closeSidenav}>
+                <DashboardNavbar toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
                 <Switch>
                     {routes.map(({ path, component, guard }, key) => guard(level)
                         ? <Route exact path={`/dashboard/${path}`} component={component} key={key} />
@@ -66,10 +62,6 @@ class AdminImpl extends React.Component {
                 </Switch>
             </div>
             {this.state.sidenavOpen ? <div className="backdrop d-xl-none" onClick={this.toggleSidenav} /> : null}
-        </>;
+        </> : <Redirect to="/auth" />;
     }
 }
-
-const Admin = wrapWithContext(AdminImpl);
-
-export default Admin;

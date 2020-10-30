@@ -36,7 +36,7 @@ import {
 } from "reactstrap";
 
 import { firestore } from "FirebaseClient";
-import SimpleHeader from "view/component/header/SimpleHeader";
+import SimpleHeader from "dashboard/component/Header";
 
 export default class Candidates extends React.Component {
     state = {};

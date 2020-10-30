@@ -33,11 +33,11 @@ import {
     Col
 } from "reactstrap";
 
-import { contextPropTypes, wrapWithContext } from "FirebaseClient";
-import SimpleHeader from "view/component/header/SimpleHeader.js";
+import Header from "./Header";
+import FirebaseContext from "../../context/FirebaseContext";
 
-class ProfileImpl extends React.Component {
-    static propTypes = Object.assign({}, contextPropTypes);
+export default class Profile extends React.Component {
+    static contextType = FirebaseContext;
 
     genders = [
         {
@@ -64,14 +64,14 @@ class ProfileImpl extends React.Component {
             checked,
             ...data
         } = this.state;
-        this.props.userRef.set(data, { merge: true }).catch(console.log);
+        this.context.userRef.set(data, { merge: true }).catch(console.log);
         this.setState({ checked: false });
     }
 
     render() {
-        const { user, doc, admin, userRef } = this.props;
-        return user && doc && admin && userRef ? <>
-            <SimpleHeader name="Profile" />
+        const { user, docSnapshot, adminSnapshot, userRef } = this.context;
+        return user && docSnapshot && adminSnapshot && userRef ? <>
+            <Header name="Profile" />
             <Container className="mt--6" fluid>
                 <Row>
                     <div className="col">
@@ -87,8 +87,8 @@ class ProfileImpl extends React.Component {
                                         <Col lg="8">
                                             <Badge color="info">
                                                 {
-                                                    admin && admin.exists
-                                                        ? `Staff (ID: ${admin.get("staffid")}, Level: ${admin.get("level")})`
+                                                    adminSnapshot && adminSnapshot.exists
+                                                        ? `Staff (ID: ${adminSnapshot.get("staffid")}, Level: ${adminSnapshot.get("level")})`
                                                         : "Electoral Roll Enrolled"
                                                 }
                                             </Badge>
@@ -104,7 +104,7 @@ class ProfileImpl extends React.Component {
                                                     <label className="form-control-label" htmlFor="firstName">
                                                         First Name
                                                     </label>
-                                                    <Input type="text" defaultValue={doc.get("firstName")} id="firstName" name="firstName" placeholder="First Name" required onChange={this.onchange} />
+                                                    <Input type="text" defaultValue={docSnapshot.get("firstName")} id="firstName" name="firstName" placeholder="First Name" required onChange={this.onchange} />
                                                 </FormGroup>
                                             </Col>
                                             <Col className="mb-3" md="6">
@@ -112,7 +112,7 @@ class ProfileImpl extends React.Component {
                                                     <label className="form-control-label" htmlFor="lastName">
                                                         Last Name
                                                     </label>
-                                                    <Input type="text" defaultValue={doc.get("lastName")} id="lastName" name="lastName" placeholder="Last Name" required onChange={this.onchange} />
+                                                    <Input type="text" defaultValue={docSnapshot.get("lastName")} id="lastName" name="lastName" placeholder="Last Name" required onChange={this.onchange} />
                                                 </FormGroup>
                                             </Col>
                                         </div>
@@ -122,7 +122,7 @@ class ProfileImpl extends React.Component {
                                                     <label className="form-control-label" htmlFor="gender">
                                                         Gender
                                                     </label>
-                                                    <CustomInput type="select" defaultValue={doc.get("gender") ?? ""} id="gender" name="gender" placeholder="Gender" required onChange={this.onchange}>
+                                                    <CustomInput type="select" defaultValue={docSnapshot.get("gender") ?? ""} id="gender" name="gender" placeholder="Gender" required onChange={this.onchange}>
                                                         <option disabled value="">Gender</option>
                                                         <option>Female</option>
                                                         <option>Male</option>
@@ -134,7 +134,7 @@ class ProfileImpl extends React.Component {
                                                     <label className="form-control-label" htmlFor="birthday">
                                                         Date of Birth
                                                     </label>
-                                                    <Input type="date" defaultValue={doc.get("birthday")} id="birthday" name="birthday" required onChange={this.onchange} />
+                                                    <Input type="date" defaultValue={docSnapshot.get("birthday")} id="birthday" name="birthday" required onChange={this.onchange} />
                                                 </FormGroup>
                                             </Col>
                                         </div>
@@ -162,7 +162,3 @@ class ProfileImpl extends React.Component {
         </> : null;
     }
 }
-
-const Profile = wrapWithContext(ProfileImpl);
-
-export default Profile;

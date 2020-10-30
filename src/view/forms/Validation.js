@@ -34,7 +34,7 @@ import {
   Col
 } from "reactstrap";
 // core components
-import SimpleHeader from "components/Headers/SimpleHeader.js";
+import SimpleHeader from "components/Headers/Header.js";
 
 class Validation extends React.Component {
   state = {

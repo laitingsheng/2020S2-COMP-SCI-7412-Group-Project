@@ -33,7 +33,7 @@ import {
   Col
 } from "reactstrap";
 // core components
-import AuthHeader from "components/Headers/AuthHeader.js";
+import AuthHeader from "components/Headers/Header.js";
 
 class Lock extends React.Component {
   state = {};

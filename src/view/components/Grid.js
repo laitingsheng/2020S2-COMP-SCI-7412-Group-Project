@@ -19,7 +19,7 @@ import React from "react";
 // reactstrap components
 import { Card, CardHeader, CardBody, Container, Row, Col } from "reactstrap";
 // core components
-import SimpleHeader from "components/Headers/SimpleHeader.js";
+import SimpleHeader from "components/Headers/Header.js";
 
 class Grid extends React.Component {
   render() {

@@ -21,7 +21,7 @@ import { Link } from "react-router-dom";
 // reactstrap components
 import { Col, Container, Nav, Navbar, NavItem, NavLink, Row, UncontrolledCollapse } from "reactstrap";
 
-import routes from "routing/Auth";
+import routes from "view/routing/Auth";
 
 export default class AuthNavbar extends React.Component {
     render() {

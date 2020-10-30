@@ -39,7 +39,7 @@ import {
   UncontrolledTooltip
 } from "reactstrap";
 // core components
-import SimpleHeader from "components/Headers/SimpleHeader.js";
+import SimpleHeader from "components/Headers/Header.js";
 
 class Tables extends React.Component {
   render() {

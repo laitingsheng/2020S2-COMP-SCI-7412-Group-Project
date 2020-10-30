@@ -18,18 +18,14 @@
 
 import React from "react";
 
-import { contextPropTypes, FirebaseContext, wrapWithContext } from "FirebaseClient";
-import SimpleHeader from "view/component/header/SimpleHeader";
-import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap";
+import SimpleHeader from "dashboard/component/Header";
+import { Card, CardBody, CardHeader, Col, Collapse, Container, Row } from "reactstrap";
 
-class BallotImpl extends React.Component {
-    static propTypes = Object.assign({}, contextPropTypes);
-
+export default class Ballot extends React.Component {
     state = {};
 
     render() {
-        const { user } = this.props;
-        return user ? <>
+        return <>
             <SimpleHeader name="Ballot" />
             <Container className="mt--6" fluid>
                 <Row>
@@ -49,16 +45,14 @@ class BallotImpl extends React.Component {
                                     <p id="above-switch">
                                         Use this switch to change the way you want to vote (<em>below</em> vs <em>above</em>).
                                     </p>
+                                    <Collapse isOpen={!this.state.above}>
+                                    </Collapse>
                                 </CardBody>
                             </Card>
                         </div>
                     </Col>
                 </Row>
             </Container>
-        </> : null;
+        </>;
     }
 }
-
-const Ballot = wrapWithContext(BallotImpl);
-
-export default Ballot;
