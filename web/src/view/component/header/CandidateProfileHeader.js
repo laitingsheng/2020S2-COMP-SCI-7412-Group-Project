@@ -19,11 +19,11 @@ import aec_background from "assets/img/theme/aec-background.jpg";
 
 // reactstrap components
 import {Button, Container, Row, Col, Card} from "reactstrap";
-
+import {UserContext} from "../../../FirebaseClient";
 
 class CandidateProfileHeader extends React.Component {
     render() {
-        return (
+        return <UserContext.Consumer>{user =>(
             <>
                 <div
                     className="header pb-6 d-flex align-items-center"
@@ -39,8 +39,8 @@ class CandidateProfileHeader extends React.Component {
                     <Container className="d-flex align-items-center" fluid>
                         <Row>
                             <Col lg="7" md="10">
-                                <h1 className="display-2 text-white">Hello AEC Orgniser</h1>
-                                <p className="text-white mt-0 mb-5">
+                                <h1 className="display-2 text-white">Hello {user?.displayName}</h1>
+                                <p className="text-white mt-5 mb-15">
                                     This is the Information entry interface page. You can see the progress you've
                                     made with your work and manage
                                 </p>
@@ -49,7 +49,7 @@ class CandidateProfileHeader extends React.Component {
                     </Container>
                 </div>
             </>
-        );
+        )}</UserContext.Consumer>;
     }
 }
 
