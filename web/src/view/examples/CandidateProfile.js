@@ -41,21 +41,6 @@ import CandidateProfileHeader from "view/component/header/CandidateProfileHeader
 import {string} from "prop-types";
 
 class CandidateProfile extends React.Component {
-    state = {};
-
-    // var db = firebase.firestore();
-    // var ref = db.collection("elections").doc("2019");
-
-
-    analyse(e){
-        // var e = document.getElementById('input-party').innerText;
-        if(e.includes('a')){
-            alert('aaaa');
-        }
-
-    }
-
-
 
     render() {
         return (
