@@ -72,3 +72,17 @@ export const contextPropTypes = {
      */
     adminRef: PropTypes.instanceOf(firebase.firestore.DocumentReference),
 };
+
+/**
+ * @param {typeof React.Component} component
+ * @returns {typeof React.Component}
+ */
+export function wrapWithContext(component) {
+    return class extends React.Component {
+        render() {
+            return <FirebaseContext.Consumer>
+                {context => React.createElement(component, { ...this.props, ...context })}
+            </FirebaseContext.Consumer>
+        }
+    }
+}

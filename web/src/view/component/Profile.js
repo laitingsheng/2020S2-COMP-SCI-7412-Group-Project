@@ -33,7 +33,7 @@ import {
     Col
 } from "reactstrap";
 
-import { contextPropTypes, FirebaseContext } from "FirebaseClient";
+import { contextPropTypes, wrapWithContext } from "FirebaseClient";
 import SimpleHeader from "view/component/header/SimpleHeader.js";
 
 class ProfileImpl extends React.Component {
@@ -64,7 +64,7 @@ class ProfileImpl extends React.Component {
             checked,
             ...data
         } = this.state;
-        this.props.userRef.update(data).catch(console.log);
+        this.props.userRef.set(data, { merge: true }).catch(console.log);
         this.setState({ checked: false });
     }
 
@@ -101,15 +101,15 @@ class ProfileImpl extends React.Component {
                                         <div className="form-row">
                                             <Col className="mb-3" md="6">
                                                 <FormGroup>
-                                                    <label className="form-control-label" htmlFor="validationServer01">
-                                                        First name
+                                                    <label className="form-control-label" htmlFor="firstName">
+                                                        First Name
                                                     </label>
                                                     <Input type="text" defaultValue={doc.get("firstName")} id="firstName" name="firstName" placeholder="First Name" required onChange={this.onchange} />
                                                 </FormGroup>
                                             </Col>
                                             <Col className="mb-3" md="6">
                                                 <FormGroup>
-                                                    <label className="form-control-label" htmlFor="validationServer02">
+                                                    <label className="form-control-label" htmlFor="lastName">
                                                         Last Name
                                                     </label>
                                                     <Input type="text" defaultValue={doc.get("lastName")} id="lastName" name="lastName" placeholder="Last Name" required onChange={this.onchange} />
@@ -122,7 +122,7 @@ class ProfileImpl extends React.Component {
                                                     <label className="form-control-label" htmlFor="gender">
                                                         Gender
                                                     </label>
-                                                    <CustomInput type="select" defaultValue={doc.get("gender")} id="gender" name="gender" placeholder="Gender" required onChange={this.onchange}>
+                                                    <CustomInput type="select" defaultValue={doc.get("gender") ?? ""} id="gender" name="gender" placeholder="Gender" required onChange={this.onchange}>
                                                         <option disabled value="">Gender</option>
                                                         <option>Female</option>
                                                         <option>Male</option>
@@ -163,10 +163,6 @@ class ProfileImpl extends React.Component {
     }
 }
 
-export default class Profile extends React.Component {
-    render() {
-        return <FirebaseContext.Consumer>
-            {context => <ProfileImpl {...this.props} {...context} />}
-        </FirebaseContext.Consumer>
-    }
-}
+const Profile = wrapWithContext(ProfileImpl);
+
+export default Profile;

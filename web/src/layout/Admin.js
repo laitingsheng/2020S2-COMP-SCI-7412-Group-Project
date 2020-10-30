@@ -19,12 +19,14 @@
 import React from "react";
 import { Switch, Redirect, Route } from "react-router-dom";
 
-import { FirebaseContext } from "FirebaseClient";
+import { contextPropTypes, wrapWithContext } from "FirebaseClient";
 import routes from "routing/Admin";
 import AdminNavbar from "view/component/navbar/AdminNavbar.js";
 import Sidebar from "view/component/Sidebar.js";
 
-export default class Admin extends React.Component {
+class AdminImpl extends React.Component {
+    static propTypes = Object.assign({}, contextPropTypes);
+
     state = { sidenavOpen: true };
 
     /**
@@ -51,23 +53,23 @@ export default class Admin extends React.Component {
     };
 
     render() {
-        return <FirebaseContext.Consumer>
-            {({ admin }) => {
-                const level = admin && admin.exists ? admin.get("level") : Number.POSITIVE_INFINITY
-                return <>
-                    <Sidebar {...this.props} level={level} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
-                    <div className="main-content" ref={this.mainContent} onClick={this.closeSidenav}>
-                        <AdminNavbar {...this.props} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
-                        <Switch>
-                            {routes.map(({ path, component, guard }, key) => guard(level)
-                                ? <Route exact path={`/dashboard/${path}`} component={component} key={key} />
-                                : null)}
-                            <Redirect from="*" to="/dashboard/profile" />
-                        </Switch>
-                    </div>
-                    {this.state.sidenavOpen ? <div className="backdrop d-xl-none" onClick={this.toggleSidenav} /> : null}
-                </>
-            }}
-        </FirebaseContext.Consumer>;
+        const { admin } = this.props, level = admin && admin.exists ? admin.get("level") : Number.POSITIVE_INFINITY
+        return <>
+            <Sidebar {...this.props} level={level} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
+            <div className="main-content" ref={this.mainContent} onClick={this.closeSidenav}>
+                <AdminNavbar {...this.props} toggleSidenav={this.toggleSidenav} sidenavOpen={this.state.sidenavOpen} />
+                <Switch>
+                    {routes.map(({ path, component, guard }, key) => guard(level)
+                        ? <Route exact path={`/dashboard/${path}`} component={component} key={key} />
+                        : null)}
+                    <Redirect from="*" to="/dashboard/profile" />
+                </Switch>
+            </div>
+            {this.state.sidenavOpen ? <div className="backdrop d-xl-none" onClick={this.toggleSidenav} /> : null}
+        </>;
     }
 }
+
+const Admin = wrapWithContext(AdminImpl);
+
+export default Admin;

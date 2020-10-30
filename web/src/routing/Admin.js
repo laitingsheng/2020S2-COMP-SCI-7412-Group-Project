@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import CandidateProfile from "view/examples/CandidateProfile"
+
 import Ballot from "view/component/Ballot";
 import Candidates from "view/component/Candidates";
 import Profile from "view/component/Profile";
@@ -45,13 +45,6 @@ const routes = [
         name: "Candidates",
         icon: "ni ni-circle-08 text-info",
         component: Candidates,
-        guard: guard_level(1)
-    },
-    {
-        path: "candidates-old",
-        name: "Candidates (Old)",
-        icon: "ni ni-circle-08 text-info",
-        component: CandidateProfile,
         guard: guard_level(1)
     },
     {

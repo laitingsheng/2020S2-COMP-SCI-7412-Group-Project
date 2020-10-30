@@ -23,11 +23,6 @@ import routes from "routing/Auth"
 import AuthNavbar from "view/component/navbar/AuthNavbar";
 
 export default class Auth extends React.Component {
-    /**
-     * @type {React.RefObject<HTMLDivElement>}
-     */
-    mainContent = React.createRef();
-
     componentDidMount() {
         document.body.classList.add("bg-default");
     }
@@ -37,7 +32,7 @@ export default class Auth extends React.Component {
     }
 
     render() {
-        return <div className="main-content" ref={this.mainContent}>
+        return <div className="main-content">
             <AuthNavbar />
             <Switch>
                 {routes.map(({ path, component }, key) => <Route exact path={`/auth/${path}`} component={component} key={key} />)}
