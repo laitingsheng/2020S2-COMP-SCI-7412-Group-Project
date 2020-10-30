@@ -8,7 +8,7 @@
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
 
 * Coded by Creative Tim
-* Edited by Tinson Lai
+* Edited by Jiawei Zhu, Tinson Lai
 
 =========================================================
 
@@ -147,9 +147,14 @@ export default class Candidates extends React.Component {
     addParty = e => {
         e.preventDefault();
 
-        const parties = this.state.config.get("parties") ?? [];
-        parties.push(this.state.party);
-        this.state.ref.set({ parties }, { merge: true }).catch(console.log);
+        const parties = this.state.config.get("parties") ?? {};
+        let partiesCount = this.state.config.get("partiesCount") ?? 0;
+        const { party } = this.state;
+        if (!(party in parties)) {
+            parties[party] = partiesCount;
+            ++partiesCount;
+        }
+        this.state.ref.set({ parties, partiesCount }, { merge: true }).catch(console.log);
     }
 
     render() {
@@ -170,14 +175,14 @@ export default class Candidates extends React.Component {
                                     </CardHeader>
                                     <CardBody>
                                         <ListGroup>
-                                            {config.get("parties")?.map((party, key) => <ListGroupItem key={key}>{party}</ListGroupItem>)}
+                                            {_.map(config.get("parties"), (key, party) => <ListGroupItem key={key}>{party}</ListGroupItem>)}
                                         </ListGroup>
                                         <hr />
                                         <Form onSubmit={this.addParty}>
                                             <div className="form-row">
                                                 <Col className="mb-3" md="12">
                                                     <InputGroup>
-                                                        <Input type="text" name="party" placeholder="Enter new party name here..." required onChange={e => this.setState({ [e.target.name]: e.target.value })} />
+                                                        <Input type="text" placeholder="Enter new party name here..." required onChange={e => this.setState({ party: e.target.value })} />
                                                         <InputGroupAddon addonType="append"><Button color="primary" type="submit">Add Party</Button></InputGroupAddon>
                                                     </InputGroup>
                                                 </Col>

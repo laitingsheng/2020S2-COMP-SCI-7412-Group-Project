@@ -18,38 +18,47 @@
 
 import React from "react";
 
-import { FirebaseContext } from "FirebaseClient";
+import { contextPropTypes, FirebaseContext, wrapWithContext } from "FirebaseClient";
 import SimpleHeader from "view/component/header/SimpleHeader";
-import { Card, CardBody, CardHeader, Container, Row } from "reactstrap";
+import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap";
 
-export default class Ballot extends React.Component {
+class BallotImpl extends React.Component {
+    static propTypes = Object.assign({}, contextPropTypes);
+
     state = {};
 
     render() {
-        return <FirebaseContext.Consumer>
-            {({ user }) => user ? <>
-                <SimpleHeader name="Ballot" />
-                <Container className="mt--6" fluid>
-                    <Row>
-                        <div className="col">
-                            <div className="card-wrapper">
-                                <Card>
-                                    <CardHeader>
-                                        <h3 className="mb-0">
-                                            Ballot
-                                        </h3>
-                                        <label className="custom-toggle mr-1">
-                                            <input type="checkbox" />
-                                            <span className="custom-toggle-slider rounded-circle" />
-                                        </label>
-                                    </CardHeader>
-                                    <CardBody></CardBody>
-                                </Card>
-                            </div>
+        const { user } = this.props;
+        return user ? <>
+            <SimpleHeader name="Ballot" />
+            <Container className="mt--6" fluid>
+                <Row>
+                    <Col>
+                        <div className="card-wrapper">
+                            <Card>
+                                <CardHeader>
+                                    <h3 className="mb-0">
+                                        Ballot
+                                    </h3>
+                                </CardHeader>
+                                <CardBody>
+                                    <label className="custom-toggle mr-1" htmlFor="above-switch">
+                                        <input type="checkbox" onChange={() => this.setState(prev => ({ above: !prev.above }))} />
+                                        <span className="custom-toggle-slider rounded-circle" />
+                                    </label>
+                                    <p id="above-switch">
+                                        Use this switch to change the way you want to vote (<em>below</em> vs <em>above</em>).
+                                    </p>
+                                </CardBody>
+                            </Card>
                         </div>
-                    </Row>
-                </Container>
-            </> : null}
-        </FirebaseContext.Consumer>;
+                    </Col>
+                </Row>
+            </Container>
+        </> : null;
     }
 }
+
+const Ballot = wrapWithContext(BallotImpl);
+
+export default Ballot;
