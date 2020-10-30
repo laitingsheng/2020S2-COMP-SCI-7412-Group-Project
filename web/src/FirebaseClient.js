@@ -16,6 +16,7 @@
 */
 
 import firebase from "firebase/app";
+import PropTypes from "prop-types";
 import React from "react";
 
 import "firebase/auth";
@@ -48,3 +49,26 @@ export const firestore = app.firestore();
  * }>}
  */
 export const FirebaseContext = React.createContext({});
+
+export const contextPropTypes = {
+    /**
+     * @type {PropTypes.Requireable<firebase.User>}
+     */
+    user: PropTypes.instanceOf(firebase.User),
+    /**
+     * @type {PropTypes.Requireable<firebase.firestore.DocumentSnapshot>}
+     */
+    doc: PropTypes.instanceOf(firebase.firestore.DocumentSnapshot),
+    /**
+     * @type {PropTypes.Requireable<firebase.firestore.DocumentSnapshot>}
+     */
+    admin: PropTypes.instanceOf(firebase.firestore.DocumentSnapshot),
+    /**
+     * @type {PropTypes.Requireable<firebase.firestore.DocumentReference>}
+     */
+    userRef: PropTypes.instanceOf(firebase.firestore.DocumentReference),
+    /**
+     * @type {PropTypes.Requireable<firebase.firestore.DocumentReference>}
+     */
+    adminRef: PropTypes.instanceOf(firebase.firestore.DocumentReference),
+};

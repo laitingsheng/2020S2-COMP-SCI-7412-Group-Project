@@ -27,23 +27,19 @@ export default class App extends React.Component {
 
     componentDidMount() {
         this.user_unsub = auth.onAuthStateChanged(user => {
+            if (this.doc_unsub)
+                this.doc_unsub();
+            if (this.admin_unsub)
+                this.admin_unsub();
+
             if (user) {
                 const userRef = firestore.collection("users").doc(user.uid);
                 this.doc_unsub = userRef.onSnapshot(doc => this.setState({ doc }), console.log);
                 const adminRef = firestore.collection("admins").doc(user.uid);
                 this.admin_unsub = adminRef.onSnapshot(admin => this.setState( { admin } ), console.log);
                 this.setState({ user, userRef, adminRef });
-            } else {
-                if (this.doc_unsub) {
-                    this.doc_unsub();
-                    delete this.doc_unsub;
-                }
-                if (this.admin_unsub) {
-                    this.admin_unsub();
-                    delete this.admin_unsub();
-                }
-                this.setState({ user })
-            }
+            } else
+                this.setState({ user });
         });
     }
 
