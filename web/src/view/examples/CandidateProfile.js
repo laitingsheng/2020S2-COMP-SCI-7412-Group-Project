@@ -35,9 +35,28 @@ import {
     Col
 } from "reactstrap";
 // core components
+import { firestore as db } from "FirebaseClient";
+import AuthHeader from "view/component/header/AuthHeader";
 import CandidateProfileHeader from "view/component/header/CandidateProfileHeader";
+import {string} from "prop-types";
 
 class CandidateProfile extends React.Component {
+    state = {};
+
+    // var db = firebase.firestore();
+    // var ref = db.collection("elections").doc("2019");
+
+
+    analyse(e){
+        // var e = document.getElementById('input-party').innerText;
+        if(e.includes('a')){
+            alert('aaaa');
+        }
+
+    }
+
+
+
     render() {
         return (
             <>
@@ -68,21 +87,22 @@ class CandidateProfile extends React.Component {
                                         <h6 className="heading-small text-muted mb-4">
                                             Candidate information
                                         </h6>
-                                        <div className="pl-lg-4">
+                                        <div className="pl-lg-4" id={1}>
                                             <Row>
                                                 <Col lg="6">
                                                     <FormGroup>
                                                         <label
                                                             className="form-control-label"
-                                                            htmlFor="input-username"
+                                                            htmlFor="input-party"
                                                         >
-                                                            Username
+                                                            Party
                                                         </label>
                                                         <Input
-                                                            defaultValue="Username"
-                                                            id="input-username"
-                                                            placeholder="Username"
+                                                            defaultValue="Party"
+                                                            id="input-party"
+                                                            placeholder="party"
                                                             type="text"
+                                                            onBlur={this.analyse}
                                                         />
                                                     </FormGroup>
                                                 </Col>
