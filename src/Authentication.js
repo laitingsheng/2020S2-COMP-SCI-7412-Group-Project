@@ -19,6 +19,7 @@
 import classnames from "classnames";
 import owasp from "owasp-password-strength-test";
 import React from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import {
     Button,
     Card,
@@ -42,7 +43,7 @@ import md5 from "md5";
  */
 function checkPassword(password) {
     const result = owasp.test(password);
-    return result.strong ? 2 : result.requiredTestErrors.length <= result.optionalTestsPassed ? 1 : 0;
+    return result.strong ? 2 : result.requiredTestErrors.length < result.optionalTestsPassed ? 1 : 0;
 }
 
 export default class Authentication extends React.Component {
@@ -93,15 +94,18 @@ export default class Authentication extends React.Component {
      * @returns {JSX.Element}
      */
     Strength = () => {
-        if (this.state.state === 1)
-            switch (this.state.strength) {
-                case 1:
-                    return <span className="text-warning font-weight-700">Medium</span>;
-                case 2:
-                    return <span className="text-success font-weight-700">Strong</span>;
-                default:
-                    return <span className="text-danger font-weight-700">Weak</span>;
-            }
+        if (this.state.state === 1) {
+            const text = this.state.strength === 1
+                ? <span className="text-warning font-weight-700">Medium</span>
+                : this.state.strength === 2
+                    ? <span className="text-success font-weight-700">Strong</span>
+                    : <span className="text-danger font-weight-700">Weak</span>;
+            return <div className="text-muted font-italic">
+                <small>
+                    Password Strength: {text}
+                </small>
+            </div>
+        }
         return null;
     };
 
@@ -142,7 +146,7 @@ export default class Authentication extends React.Component {
      */
     check = e => {
         const password = e.target.value;
-        this.setState({ password, strength: this.checkPassword(password) });
+        this.setState({ password, strength: checkPassword(password) });
     };
 
     /**
@@ -171,8 +175,9 @@ export default class Authentication extends React.Component {
             </InputGroup>
         </FormGroup>
         <this.Strength />
+        <ReCAPTCHA sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" onChange={() => this.setState({ checked: true })} onExpired={() => this.setState({ checked: false })} />
         <div className="text-center">
-            <Button className="my-4" color="info" type="submit">
+            <Button className="my-4" color="info" type="submit" disabled={!this.state.checked || this.state.state === 1 && this.state.strength < 2}>
                 {this.state.state === 1 ? "Create Account" : "Proceed"}
             </Button>
         </div>
