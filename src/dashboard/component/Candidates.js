@@ -35,14 +35,16 @@ import {
     Row
 } from "reactstrap";
 
-import { firestore } from "FirebaseClient";
-import SimpleHeader from "dashboard/component/Header";
+import Header from "./Header";
+import FirebaseContext from "../../context/FirebaseContext";
 
 export default class Candidates extends React.Component {
+    static contextType = FirebaseContext;
+
     state = {};
 
     componentDidMount() {
-        this.unsub_curr = firestore.collection("elections").doc("current").onSnapshot(
+        this.unsub_curr = this.unsub_curr = this.context.firestore.collection("elections").doc("current").onSnapshot(
             current => {
                 /**
                  * @type {firebase.firestore.DocumentReference}
@@ -52,7 +54,7 @@ export default class Candidates extends React.Component {
                 if (this.unsub_ref)
                     this.unsub_ref();
                 this.unsub_ref = ref.onSnapshot(
-                    config => this.setState({ config }),
+                    config => this.setState({ year: config.id, parties: config.get("parties"), partiesCount: config.get("partiesCount"), seats: config.get("seats") }),
                     console.log
                 );
                 if (this.unsub_cands)
@@ -80,18 +82,19 @@ export default class Candidates extends React.Component {
     }
 
     /**
-     * @param {number} key
-     * @param {firebase.firestore.QueryDocumentSnapshot?} doc
+     * @param {{ id: number, doc?: firebase.firestore.DocumentSnapshot }} props
      */
-    generate(key, doc) {
+    CandidateCard = props => {
+        const { id, doc } = props;
+
         /**
          * @param {ChangeEvent} e
          */
         const onchange = e => {
             this.setState(prev => {
-                const record = prev[key] ?? {};
+                const record = prev[id] ?? {};
                 record[e.target.name] = e.target.value;
-                return { [key]: record };
+                return { [id]: record };
             });
         };
         /**
@@ -100,13 +103,13 @@ export default class Candidates extends React.Component {
         const submit = e => {
             e.preventDefault();
 
-            this.state.ref.collection("candidates").doc(key.toString()).set(this.state[key], { merge: true }).catch(console.log);
+            this.state.ref.collection("candidates").doc(id.toString()).set(this.state[id], { merge: true }).catch(console.log);
         };
 
-        return <Card key={key}>
+        return <Card>
             <CardHeader>
                 <h3 className="mb-0">
-                    Candidate {key + 1}
+                    Candidate {id + 1}
                 </h3>
             </CardHeader>
             <CardBody>
@@ -114,21 +117,20 @@ export default class Candidates extends React.Component {
                     <div className="form-row">
                         <Col className="mb-3" md="6">
                             <FormGroup>
-                                <label className="form-control-label" htmlFor={`${key}-name`}>
+                                <label className="form-control-label" htmlFor={`${id}-name`}>
                                     Name
                                 </label>
-                                <Input type="text" defaultValue={doc?.get("name")} id={`${key}-name`} name="name" placeholder="Name" required onChange={onchange} />
+                                <Input type="text" defaultValue={doc?.get("name")} id={`${id}-name`} name="name" placeholder="Name" required onChange={onchange} />
                             </FormGroup>
                         </Col>
                         <Col className="mb-3" md="6">
                             <FormGroup>
-                                <label className="form-control-label" htmlFor={`${key}-gender`}>
-                                    Gender
+                                <label className="form-control-label" htmlFor={`${id}-party`}>
+                                    Party
                                 </label>
-                                <CustomInput type="select" defaultValue={doc?.get("gender") ?? ""} id={`${key}-gender`} name="gender" placeholder="Gender" required onChange={onchange}>
-                                    <option disabled value="">Gender</option>
-                                    <option>Female</option>
-                                    <option>Male</option>
+                                <CustomInput type="select" defaultValue={doc?.get("party") ?? ""} id={`${id}-party`} name="party" required onChange={onchange}>
+                                    <option disabled value="">Party</option>
+                                    {_.map(this.state.parties, (key, value) => <option key={key}>{value}</option>)}
                                 </CustomInput>
                             </FormGroup>
                         </Col>
@@ -139,7 +141,7 @@ export default class Candidates extends React.Component {
                 </Form>
             </CardBody>
         </Card>;
-    }
+    };
 
     /**
      * @param {FormEvent} e
@@ -147,8 +149,8 @@ export default class Candidates extends React.Component {
     addParty = e => {
         e.preventDefault();
 
-        const parties = this.state.config.get("parties") ?? {};
-        let partiesCount = this.state.config.get("partiesCount") ?? 0;
+        const parties = this.state.parties ?? {};
+        let partiesCount = this.state.partiesCount ?? 0;
         const { party } = this.state;
         if (!(party in parties)) {
             parties[party] = partiesCount;
@@ -158,11 +160,11 @@ export default class Candidates extends React.Component {
     }
 
     render() {
-        const { candidatesSnapshot, config, ref } = this.state;
-        if (ref && candidatesSnapshot && config) {
+        const { candidatesSnapshot, year, parties, seats } = this.state;
+        if (candidatesSnapshot && year) {
             const exists = _.keyBy(candidatesSnapshot.docs, doc => doc.id);
             return <>
-                <SimpleHeader name={`Candidates (Current: ${config.id})`}/>
+                <Header name={`Candidates (Current: ${year})`}/>
                 <Container className="mt--6" fluid>
                     <Row>
                         <div className="col">
@@ -175,7 +177,7 @@ export default class Candidates extends React.Component {
                                     </CardHeader>
                                     <CardBody>
                                         <ListGroup>
-                                            {_.map(config.get("parties"), (key, party) => <ListGroupItem key={key}>{party}</ListGroupItem>)}
+                                            {_.map(parties, (key, party) => <ListGroupItem key={key}>{party}</ListGroupItem>)}
                                         </ListGroup>
                                         <hr />
                                         <Form onSubmit={this.addParty}>
@@ -190,7 +192,7 @@ export default class Candidates extends React.Component {
                                         </Form>
                                     </CardBody>
                                 </Card>
-                                {_.range(0, config.get("seats")).map(key => key in exists ? this.generate(key, exists[key]) : this.generate(key))}
+                                {_.range(seats).map(id => <this.CandidateCard id={id} doc={exists[id]} key={id} />)}
                             </div>
                         </div>
                     </Row>

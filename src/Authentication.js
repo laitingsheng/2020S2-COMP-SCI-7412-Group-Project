@@ -19,7 +19,6 @@
 import classnames from "classnames";
 import owasp from "owasp-password-strength-test";
 import React from "react";
-import { Redirect } from "react-router-dom";
 import {
     Button,
     Card,
@@ -36,19 +35,20 @@ import {
 } from "reactstrap";
 
 import FirebaseContext from "./context/FirebaseContext";
+import md5 from "md5";
+
+/**
+ * @param {string} password
+ */
+function checkPassword(password) {
+    const result = owasp.test(password);
+    return result.strong ? 2 : result.requiredTestErrors.length <= result.optionalTestsPassed ? 1 : 0;
+}
 
 export default class Authentication extends React.Component {
     static contextType = FirebaseContext;
 
     state = {};
-
-    /**
-     * @param {string} password
-     */
-    checkPassword(password) {
-        const result = owasp.test(password);
-        return result.strong ? 2 : result.requiredTestErrors.length <= result.optionalTestsPassed ? 1 : 0;
-    };
 
     componentDidMount() {
         document.body.classList.add("bg-default");
@@ -64,14 +64,45 @@ export default class Authentication extends React.Component {
     onchange = e => this.setState({ [e.target.name]: e.target.value });
 
     /**
-     * @param {ChangeEvent} e
+     * @returns {JSX.Element}
      */
-    check = e => {
-        const password = e.target.value;
-        this.setState({
-            password,
-            strength: this.checkPassword(password)
-        });
+    MoreInfo = () => this.state.state === 1 ? <>
+        <FormGroup className={classnames({ focused: this.state.focusedFirstName })}>
+            <InputGroup className="input-group-merge input-group-alternative mb-3">
+                <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                        <i className="ni ni-hat-3" />
+                    </InputGroupText>
+                </InputGroupAddon>
+                <Input placeholder="First Name" type="text" name="firstName" required onFocus={() => this.setState({ focusedFirstName: true })} onBlur={() => this.setState({ focusedFirstName: false })} onChange={this.onchange} />
+            </InputGroup>
+        </FormGroup>
+        <FormGroup className={classnames({ focused: this.state.focusedLastName })}>
+            <InputGroup className="input-group-merge input-group-alternative mb-3">
+                <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                        <i className="ni ni-hat-3" />
+                    </InputGroupText>
+                </InputGroupAddon>
+                <Input placeholder="Last Name" type="text" name="lastName" required onFocus={() => this.setState({ focusedLastName: true })} onBlur={() => this.setState({ focusedLastName: false })} onChange={this.onchange} />
+            </InputGroup>
+        </FormGroup>
+    </> : null;
+
+    /**
+     * @returns {JSX.Element}
+     */
+    Strength = () => {
+        if (this.state.state === 1)
+            switch (this.state.strength) {
+                case 1:
+                    return <span className="text-warning font-weight-700">Medium</span>;
+                case 2:
+                    return <span className="text-success font-weight-700">Strong</span>;
+                default:
+                    return <span className="text-danger font-weight-700">Weak</span>;
+            }
+        return null;
     };
 
     /**
@@ -80,11 +111,10 @@ export default class Authentication extends React.Component {
     tryLogin = e => {
         e.preventDefault();
 
-        this.context.auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(
-            () => this.setState({ state: 2 }),
+        this.context.auth.signInWithEmailAndPassword(this.state.email, this.state.password).catch(
             e => {
                 if (e.code === "auth/user-not-found")
-                    this.setState(prev => ({ state: 1, strength: this.checkPassword(prev.password) }));
+                    this.setState(prev => ({ state: 1, strength: checkPassword(prev.password) }));
                 console.log(e);
             }
         );
@@ -99,7 +129,7 @@ export default class Authentication extends React.Component {
         this.context.auth.createUserWithEmailAndPassword(this.state.email, this.state.password).then(
             ({ user }) => {
                 const { firstName, lastName } = this.state;
-                user.updateProfile({ displayName: `${firstName} ${lastName}` }).catch(console.log);
+                user.updateProfile({ displayName: `${firstName} ${lastName}`, photoURL: `https://www.gravatar.com/avatar/${md5(user.email)}?d=mp` }).catch(console.log);
 
                 this.context.firestore.collection("users").doc(user.uid).set({ firstName, lastName }).catch(console.log);
             },
@@ -108,113 +138,48 @@ export default class Authentication extends React.Component {
     };
 
     /**
-     * @returns {JSX.Element}
+     * @param {ChangeEvent} e
      */
-    renderStrength() {
-        switch (this.state.strength) {
-            case 1:
-                return <span className="text-warning font-weight-700">Medium</span>;
-            case 2:
-                return <span className="text-success font-weight-700">Strong</span>;
-            default:
-                return <span className="text-danger font-weight-700">Weak</span>;
-        }
-    }
-
-    /**
-     * @returns {JSX.Element}
-     */
-    SignupForm = () => {
-        return <Form role="form" onSubmit={this.register}>
-            <FormGroup className={classnames({ focused: this.state.focusedEmail })}>
-                <InputGroup className="input-group-merge input-group-alternative mb-3">
-                    <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                            <i className="ni ni-email-83" />
-                        </InputGroupText>
-                    </InputGroupAddon>
-                    <Input placeholder="Email" type="email" name="email" defaultValue={this.state.email} required onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} onChange={this.onchange} />
-                </InputGroup>
-            </FormGroup>
-            <FormGroup className={classnames({ focused: this.state.focusedPassword })}>
-                <InputGroup className="input-group-merge input-group-alternative">
-                    <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                            <i className="ni ni-lock-circle-open" />
-                        </InputGroupText>
-                    </InputGroupAddon>
-                    <Input placeholder="Password" type="password" name="password" defaultValue={this.state.password} required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } onChange={this.check} />
-                </InputGroup>
-            </FormGroup>
-            <FormGroup className={classnames({ focused: this.state.focusedFirstName })}>
-                <InputGroup className="input-group-merge input-group-alternative mb-3">
-                    <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                            <i className="ni ni-hat-3" />
-                        </InputGroupText>
-                    </InputGroupAddon>
-                    <Input placeholder="First Name" type="text" name="firstName" required onFocus={() => this.setState({ focusedFirstName: true })} onBlur={() => this.setState({ focusedFirstName: false })} onChange={this.onchange} />
-                </InputGroup>
-            </FormGroup>
-            <FormGroup className={classnames({ focused: this.state.focusedLastName })}>
-                <InputGroup className="input-group-merge input-group-alternative mb-3">
-                    <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                            <i className="ni ni-hat-3" />
-                        </InputGroupText>
-                    </InputGroupAddon>
-                    <Input placeholder="Last Name" type="text" name="lastName" required onFocus={() => this.setState({ focusedLastName: true })} onBlur={() => this.setState({ focusedLastName: false })} onChange={this.onchange} />
-                </InputGroup>
-            </FormGroup>
-            <div className="text-muted font-italic">
-                <small>
-                    Password Strength: {this.renderStrength()}
-                </small>
-            </div>
-            <div className="text-center">
-                <Button className="mt-4" color="info" type="submit" disabled={this.state.strength < 2 || !this.state.checked}>
-                    Create Account
-                </Button>
-            </div>
-        </Form>;
+    check = e => {
+        const password = e.target.value;
+        this.setState({ password, strength: this.checkPassword(password) });
     };
 
     /**
      * @returns {JSX.Element}
      */
-    LoginForm = () => {
-        return <Form role="form" onSubmit={this.tryLogin}>
-            <FormGroup className={classnames("mb-3", { focused: this.state.focusedEmail })}>
-                <InputGroup className="input-group-merge input-group-alternative">
-                    <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                            <i className="ni ni-email-83" />
-                        </InputGroupText>
-                    </InputGroupAddon>
-                    <Input placeholder="Email" type="email" name="email" required onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} onChange={this.onchange} />
-                </InputGroup>
-            </FormGroup>
-            <FormGroup className={classnames({ focused: this.state.focusedPassword })}>
-                <InputGroup className="input-group-merge input-group-alternative">
-                    <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                            <i className="ni ni-lock-circle-open" />
-                        </InputGroupText>
-                    </InputGroupAddon>
-                    <Input placeholder="Password" type="password" name="password" required onFocus={() => this.setState({ focusedPassword: true }) } onBlur={() => this.setState({ focusedPassword: false }) } onChange={this.onchange} />
-                </InputGroup>
-            </FormGroup>
-            <div className="text-center">
-                <Button className="my-4" color="info" type="submit">
-                    Proceed
-                </Button>
-            </div>
-        </Form>;
-    };
+    Form = () => <Form role="form" onSubmit={this.state.state === 1 ? this.register : this.tryLogin}>
+        <this.MoreInfo />
+        <FormGroup className={classnames("mb-3", { focused: this.state.focusedEmail })}>
+            <InputGroup className="input-group-merge input-group-alternative">
+                <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                        <i className="ni ni-email-83" />
+                    </InputGroupText>
+                </InputGroupAddon>
+                <Input placeholder="Email" type="email" name="email" required onFocus={() => this.setState({ focusedEmail: true })} onBlur={() => this.setState({ focusedEmail: false })} onChange={this.onchange} />
+            </InputGroup>
+        </FormGroup>
+        <FormGroup className={classnames({ focused: this.state.focusedPassword })}>
+            <InputGroup className="input-group-merge input-group-alternative">
+                <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                        <i className="ni ni-lock-circle-open" />
+                    </InputGroupText>
+                </InputGroupAddon>
+                <Input placeholder="Password" type="password" name="password" required onFocus={() => this.setState({ focusedPassword: true })} onBlur={() => this.setState({ focusedPassword: false })} onChange={this.state.state === 1 ? this.check : this.onchange} />
+            </InputGroup>
+        </FormGroup>
+        <this.Strength />
+        <div className="text-center">
+            <Button className="my-4" color="info" type="submit">
+                {this.state.state === 1 ? "Create Account" : "Proceed"}
+            </Button>
+        </div>
+    </Form>;
 
     render() {
-        const { LoginForm, SignupForm } = this;
-        return this.state.state === 2 || this.context.user ? <Redirect to="/dashboard" /> : <>
+        return <div className="main-content">
             <div className="header bg-gradient-info py-7 py-lg-8 pt-lg-9">
                 <Container>
                     <div className="header-body text-center mb-7">
@@ -241,12 +206,12 @@ export default class Authentication extends React.Component {
                     <Col lg="5" md="7">
                         <Card className="bg-secondary border-0 mb-0">
                             <CardBody className="px-lg-5 py-lg-5">
-                                {this.state.state === 1 ? <SignupForm /> : <LoginForm />}
+                                <this.Form />
                             </CardBody>
                         </Card>
                     </Col>
                 </Row>
             </Container>
-        </>;
+        </div>;
     }
 }

@@ -17,7 +17,6 @@
 */
 
 import firebase from "firebase/app";
-import _ from "lodash";
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
@@ -59,20 +58,14 @@ auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).catch(console.log);
 const firestore = app.firestore();
 
 class App extends React.Component {
-    state = { auth, firestore };
+    state = {};
 
-    constructor(props) {
-        super(props);
-
-        auth.onAuthStateChanged(user => {
-            if (this.doc_unsub) {
+    componentDidMount() {
+        this.user_sub = auth.onAuthStateChanged(user => {
+            if (this.doc_unsub)
                 this.doc_unsub();
-                delete this.doc_unsub;
-            }
-            if (this.admin_unsub) {
+            if (this.admin_unsub)
                 this.admin_unsub();
-                delete this.admin_unsub;
-            }
 
             if (user) {
                 const userRef = firestore.collection("users").doc(user.uid);
@@ -80,18 +73,42 @@ class App extends React.Component {
                 const adminRef = firestore.collection("admins").doc(user.uid);
                 this.admin_unsub = adminRef.onSnapshot(adminSnapshot => this.setState({ adminSnapshot } ), console.log);
                 this.setState({ user, userRef, adminRef });
-            } else
+            } else {
+                delete this.doc_unsub;
+                delete this.admin_unsub;
                 this.setState({ user, docSnapshot: undefined, adminSnapshot: undefined, userRef: undefined, adminRef: undefined });
+            }
         });
     }
 
+    componentWillUnmount() {
+        this.user_sub();
+        delete this.user_sub;
+        if (this.doc_unsub) {
+            this.doc_unsub();
+            delete this.doc_unsub;
+        }
+        if (this.admin_unsub) {
+            this.admin_unsub();
+            delete this.admin_unsub;
+        }
+    }
+
+    Routing = () => {
+        const { path, component } = this.state.user
+            ? { path: "/dashboard", component: DashboardLayout }
+            : { path: "/auth", component: Authentication };
+        return <>
+            <Route path={path} component={component} />
+            <Redirect from="*" to={path} />
+        </>;
+    };
+
     render() {
-        return <FirebaseContext.Provider value={_.assign({}, this.state)}>
+        return <FirebaseContext.Provider value={{ auth, firestore, ...this.state }}>
             <BrowserRouter>
                 <Switch>
-                    <Route path="/dashboard" component={DashboardLayout} />
-                    <Route exact path="/auth" component={Authentication} />
-                    <Redirect from="*" to="/auth" />
+                    <this.Routing />
                 </Switch>
             </BrowserRouter>
         </FirebaseContext.Provider>;
